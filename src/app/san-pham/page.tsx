@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import Link from 'next/link';
+import AddToCartButton from '@/components/AddToCartButton';
 
 export const metadata = {
   title: 'Sản Phẩm - Thượng Yến',
@@ -41,11 +43,15 @@ export default function ProductsPage() {
 
       <div style={gridStyle}>
         {products.map((p: any) => (
-          <div key={p.id} className="glass-card" style={{ textAlign: 'center', transition: 'transform 0.3s' }}>
-            <div style={{ height: '200px', background: p.imageUrl ? `url(${p.imageUrl}) center/cover` : 'rgba(255,255,255,0.1)', borderRadius: '4px', marginBottom: '15px' }}></div>
-            <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'var(--text-color)' }}>{p.name}</h3>
+          <div key={p.id} className="glass-card" style={{ textAlign: 'center', transition: 'transform 0.3s', display: 'flex', flexDirection: 'column' }}>
+            <Link href={`/san-pham/${p.id}`}>
+              <div style={{ height: '200px', background: p.imageUrl ? `url(${p.imageUrl}) center/cover` : 'rgba(255,255,255,0.1)', borderRadius: '4px', marginBottom: '15px', cursor: 'pointer' }}></div>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'var(--text-color)', cursor: 'pointer' }}>{p.name}</h3>
+            </Link>
             <p style={{ color: 'var(--primary-color)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '15px' }}>{p.price.toLocaleString('vi-VN')} đ</p>
-            <button className="btn-primary" style={{ width: '100%' }}>Thêm Vào Giỏ</button>
+            <div style={{ marginTop: 'auto' }}>
+              <AddToCartButton product={p} />
+            </div>
           </div>
         ))}
         {products.length === 0 && <p style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.5 }}>Chưa có sản phẩm nào. Vui lòng thêm trong Admin.</p>}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import fs from 'fs';
 import path from 'path';
+import CartCounter from '@/components/CartCounter';
 
 export const metadata: Metadata = {
   title: 'Thượng Yến - Yến Sào Cao Cấp HCM',
@@ -49,7 +50,10 @@ export default function RootLayout({
                 <li><a href="/">Trang chủ</a></li>
                 <li><a href="/san-pham">Sản phẩm</a></li>
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/admin">Quản lý (Admin)</a></li>
+                <li><a href="/admin">Admin</a></li>
+                <li className="cart-link">
+                  <CartCounter />
+                </li>
               </ul>
             </nav>
           </div>

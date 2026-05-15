@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "p1",
+    "name": "Yến Sào Tinh Chế Loại 1 (100g)",
+    "price": 4290000,
+    "imageUrl": "https://thuongyen.com/wp-content/uploads/2019/12/to-yen-lam-sach-tieu-chuan.jpg",
+    "description": "Yến sào tinh chế là loại tổ yến đã được làm sạch lông và tạp chất từ tổ yến thô. Sản phẩm giữ trọn vẹn giá trị dinh dưỡng, màu trắng ngà, sợi yến dài và dai. Rất tiện lợi cho việc chưng nấu ngay mà không mất thời gian nhặt lông."
+  },
+  {
+    "id": "p2",
+    "name": "Tổ Yến Thô Còn Lông Cao Cấp (100g)",
+    "price": 2940000,
+    "imageUrl": "https://nestvui.com/wp-content/uploads/2022/09/hop-yen-huyet-tho-100g.jpg",
+    "description": "Tổ yến thô là loại tổ yến nguyên bản nhất, còn nguyên lông và tạp chất sau khi thu hoạch. Yến thô có mùi tanh đặc trưng mạnh hơn yến tinh chế, sợi yến khi chưng sẽ dai và giòn hơn. Đây là sự lựa chọn của những khách hàng có thời gian và muốn đảm bảo độ nguyên chất 100%."
+  },
+  {
+    "id": "p3",
+    "name": "Nước Yến Sào Khánh Hòa Sanest (70ml)",
+    "price": 45000,
+    "imageUrl": "https://yensaokhanhhoa.com.vn/wp-content/uploads/2023/12/nuoc-yen-sanest-khong-duong.jpg",
+    "description": "Sản phẩm nước yến chưng sẵn đóng hũ tiện lợi. Thành phần chứa yến sào đảo thiên nhiên kết hợp với đường phèn (hoặc không đường). Phù hợp để bồi bổ sức khỏe hàng ngày, làm quà biếu tặng ý nghĩa."
+  },
+  {
+    "id": "p4",
+    "name": "Hồng Yến Tinh Chế Thượng Hạng (100g)",
+    "price": 6500000,
+    "imageUrl": "https://images.unsplash.com/photo-1611077544199-6e93237190b2?q=80&w=800&auto=format&fit=crop",
+    "description": "Hồng yến là loại tổ yến quý hiếm có màu cam hoặc nâu hồng tự nhiên. Giá trị dinh dưỡng của hồng yến thường cao hơn bạch yến thông thường do quá trình lên men tự nhiên trong hang đá. Sản phẩm đã được tinh chế sạch lông."
+  }
+]
