@@ -3,6 +3,9 @@ import './globals.css';
 import fs from 'fs';
 import path from 'path';
 import CartCounter from '@/components/CartCounter';
+import Link from 'next/link';
+import { cookies } from 'next/headers';
+import SearchBar from '@/components/SearchBar';
 
 export const metadata: Metadata = {
   title: 'Thượng Yến - Yến Sào Cao Cấp HCM',
@@ -24,12 +27,14 @@ function getSettings() {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const settings = getSettings();
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.has('admin_session');
 
   return (
     <html lang="vi">
@@ -45,12 +50,16 @@ export default function RootLayout({
             <div className="logo">
               <a href="/">Thượng Yến</a>
             </div>
+            <SearchBar />
             <nav>
               <ul className="nav-links">
                 <li><a href="/">Trang chủ</a></li>
+                <li><a href="/gioi-thieu">Giới thiệu</a></li>
                 <li><a href="/san-pham">Sản phẩm</a></li>
                 <li><a href="/blog">Blog</a></li>
-                <li><a href="/admin">Admin</a></li>
+                <li><a href="/chung-nhan">Chứng nhận</a></li>
+                <li><a href="/lien-he">Liên hệ</a></li>
+                {isAdmin && <li><a href="/admin">Admin</a></li>}
                 <li className="cart-link">
                   <CartCounter />
                 </li>
@@ -87,11 +96,37 @@ export default function RootLayout({
                 <li><strong>Địa chỉ:</strong> <a href="https://maps.app.goo.gl/U7FJXdqjwmtLBhR38" target="_blank" rel="noopener noreferrer">Xem trên bản đồ</a></li>
               </ul>
             </div>
+            <div className="footer-newsletter">
+              <h4>Nhận bản tin</h4>
+              <p>Đăng ký để nhận ưu đãi mới nhất từ Thượng Yến</p>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                <input type="email" placeholder="Email của bạn" style={{ 
+                  padding: '10px', 
+                  borderRadius: '4px', 
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'rgba(255,255,255,0.05)',
+                  color: 'white',
+                  flex: 1
+                }} />
+                <button className="btn-primary" style={{ padding: '10px 20px' }}>Gửi</button>
+              </div>
+            </div>
           </div>
           <div className="container footer-bottom">
             <p>&copy; {new Date().getFullYear()} Thượng Yến. Tất cả quyền được bảo lưu.</p>
           </div>
         </footer>
+        <div className="floating-contacts">
+          <a href="https://zalo.me/0375266538" target="_blank" rel="noopener noreferrer" className="floating-btn btn-zalo" title="Chat Zalo">
+            <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Zalo</span>
+          </a>
+          <a href="https://m.me/nkhanhvan185" target="_blank" rel="noopener noreferrer" className="floating-btn btn-messenger" title="Chat Messenger">
+            <span style={{ fontSize: '1.5rem' }}>💬</span>
+          </a>
+          <a href="tel:0375266538" className="floating-btn btn-phone" title="Gọi Hotline">
+            <span style={{ fontSize: '1.5rem' }}>📞</span>
+          </a>
+        </div>
       </body>
     </html>
   );
