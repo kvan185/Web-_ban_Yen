@@ -10,6 +10,9 @@ import SearchBar from '@/components/SearchBar';
 export const metadata: Metadata = {
   title: 'Thượng Yến - Yến Sào Cao Cấp HCM',
   description: 'Chuyên cung cấp Yến Sào nguyên chất, chất lượng cao tại TP.HCM.',
+  verification: {
+    google: 'mCOuhXES7GHQRmVHNd64Hgyct74gyysAggOmqT4V1bg',
+  },
 };
 
 function getSettings() {
