@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Về Thượng Yến - Câu Chuyện Thương Hiệu',
-  description: 'Tìm hiểu về hành trình xây dựng thương hiệu Thượng Yến và sứ mệnh mang yến sào nguyên chất đến mọi nhà.',
+  title: 'Về Yến Thô - Câu Chuyện Thương Hiệu Tổ Yến Thô Tốt Nhất',
+  description: 'Tìm hiểu hành trình xây dựng thương hiệu Yến Thô và sứ mệnh mang những sản phẩm tổ yến thô nguyên chất, yến tốt thượng hạng đến sức khỏe gia đình bạn.',
 };
 
 export default function AboutPage() {
@@ -24,7 +24,7 @@ export default function AboutPage() {
             marginBottom: '20px',
             textShadow: '2px 2px 10px rgba(0,0,0,0.5)',
             fontWeight: '700'
-          }}>Câu Chuyện Thượng Yến</h1>
+          }}>Câu Chuyện Yến Thô</h1>
           <p style={{ 
             fontSize: '1.6rem', 
             opacity: 0.95,
@@ -32,7 +32,7 @@ export default function AboutPage() {
             margin: '0 auto',
             lineHeight: '1.6',
             fontWeight: '300'
-          }}>Hành trình mang tinh hoa yến sào nguyên chất đến sức khỏe người Việt</p>
+          }}>Hành trình mang tinh hoa tổ yến thô nguyên chất và các dòng yến tốt nhất đến sức khỏe người Việt</p>
         </div>
         <div style={{
           position: 'absolute',
@@ -51,10 +51,10 @@ export default function AboutPage() {
             <div>
               <h2 className="section-title" style={{ textAlign: 'left', fontSize: '2.5rem' }}>Khởi Nguồn Đam Mê</h2>
               <p style={{ marginBottom: '25px', fontSize: '1.15rem', lineHeight: '1.9', color: 'var(--text-secondary)' }}>
-                Thượng Yến bắt đầu từ những chuyến đi thực tế đến các vùng đảo yến xa xôi tại Khánh Hòa. Chúng tôi nhận thấy thị trường yến sào đang bị bão hòa bởi những sản phẩm pha trộn, kém chất lượng, làm mất đi niềm tin của người tiêu dùng.
+                Yến Thô bắt đầu từ những chuyến đi thực tế đến các vùng đảo yến xa xôi tại Khánh Hòa. Chúng tôi nhận thấy thị trường tổ yến đang bị bão hòa bởi những sản phẩm pha trộn, kém chất lượng, làm mất đi niềm tin của người tiêu dùng.
               </p>
               <p style={{ marginBottom: '25px', fontSize: '1.15rem', lineHeight: '1.9', color: 'var(--text-secondary)' }}>
-                Với mong muốn khôi phục giá trị thực của "vàng trắng", Thượng Yến đã được thành lập với tôn chỉ: <strong style={{ color: 'var(--primary-color)' }}>Chỉ bán yến sào nguyên chất 100%</strong>. Chúng tôi tin rằng, sức khỏe là vốn quý nhất và mỗi sản phẩm trao đi phải là một lời cam kết về sự tận tâm.
+                Với mong muốn khôi phục giá trị thực của sản phẩm yến tự nhiên, Yến Thô đã được thành lập với tôn chỉ: <strong style={{ color: 'var(--primary-color)' }}>Chỉ bán tổ yến thô nguyên chất 100%</strong>. Chúng tôi tin rằng dòng yến tốt nhất phải là yến thật, sạch và giữ nguyên bản các chất dinh dưỡng tự nhiên.
               </p>
               <div style={{ display: 'flex', gap: '30px', marginTop: '40px' }}>
                 <div style={{ textAlign: 'center' }}>
@@ -113,9 +113,9 @@ export default function AboutPage() {
               <h2 className="section-title" style={{ textAlign: 'left', fontSize: '2.5rem' }}>Cam Kết Chất Lượng</h2>
               <div style={{ marginTop: '30px' }}>
                 {[
-                  { title: 'Nguyên chất 100%', desc: 'Không pha trộn đường, mủ trôm hay bất kỳ chất độn nào.' },
-                  { title: 'Nguồn gốc rõ ràng', desc: 'Khai thác từ các hệ thống nhà yến hiện đại và đảo yến tự nhiên uy tín.' },
-                  { title: 'Làm sạch thủ công', desc: 'Quy trình nhặt lông bằng tay tỉ mỉ, giữ trọn vẹn 18 loại axit amin quý giá.' },
+                  { title: 'Nguyên chất 100%', desc: 'Tổ yến thô nguyên chất, nói không với pha trộn đường, mủ trôm hay hóa chất tẩy rửa.' },
+                  { title: 'Nguồn gốc rõ ràng', desc: 'Khai thác từ các hệ thống nhà yến tự nhiên uy tín và đảo yến lâu năm.' },
+                  { title: 'Làm sạch thủ công', desc: 'Quy trình nhặt lông bằng tay tỉ mỉ, giữ trọn vẹn các thành phần của dòng yến tốt nhất.' },
                   { title: 'Kiểm định khắt khe', desc: 'Mọi lô hàng đều được kiểm tra vệ sinh an toàn thực phẩm trước khi xuất xưởng.' }
                 ].map((item, index) => (
                   <div key={index} style={{ marginBottom: '20px', display: 'flex', gap: '20px' }}>
@@ -147,8 +147,8 @@ export default function AboutPage() {
       <section className="section-padding" style={{ textAlign: 'center' }}>
         <div className="container">
           <div className="glass-card" style={{ padding: '60px', background: 'linear-gradient(135deg, var(--primary-color), #d4af37)', color: '#fff' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Trải Nghiệm Tinh Hoa Yến Sào</h2>
-            <p style={{ fontSize: '1.2rem', marginBottom: '35px', opacity: 0.9 }}>Để Thượng Yến đồng hành cùng sức khỏe của bạn và những người thân yêu.</p>
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Trải Nghiệm Tổ Yến Thô Tốt Nhất</h2>
+            <p style={{ fontSize: '1.2rem', marginBottom: '35px', opacity: 0.9 }}>Để Yến Thô đồng hành cùng sức khỏe của bạn và những người thân yêu bằng những sản phẩm yến tốt nhất.</p>
             <a href="/san-pham" className="btn btn-primary" style={{ backgroundColor: '#fff', color: 'var(--primary-color)', padding: '15px 40px', fontSize: '1.1rem' }}>
               Khám Phá Sản Phẩm
             </a>

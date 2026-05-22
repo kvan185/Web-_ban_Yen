@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Liên Hệ Với Thượng Yến',
-  description: 'Liên hệ với Thượng Yến qua hotline, email hoặc ghé thăm cửa hàng của chúng tôi tại TP.HCM.',
+  title: 'Liên Hệ Với Yến Thô - Hỗ Trợ Mua Tổ Yến Thô Giá Tốt',
+  description: 'Liên hệ với Yến Thô qua hotline, Zalo, email hoặc ghé thăm cửa hàng của chúng tôi tại TP.HCM để chọn những sản phẩm tổ yến thô, yến tốt chất lượng.',
 };
 
 export default function ContactPage() {
@@ -63,7 +63,7 @@ export default function ContactPage() {
 
             <div>
               <div className="glass-card">
-                <h3 style={{ color: 'var(--primary-color)', marginBottom: '25px' }}>Gửi Tin Nhắn Cho Thượng Yến</h3>
+                <h3 style={{ color: 'var(--primary-color)', marginBottom: '25px' }}>Gửi Tin Nhắn Cho Yến Thô</h3>
                 <form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', opacity: 0.8 }}>Họ và tên</label>

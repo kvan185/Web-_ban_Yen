@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Chứng Nhận Chất Lượng - Thượng Yến',
-  description: 'Cam kết chất lượng yến sào nguyên chất với đầy đủ chứng nhận ATVSTP, ISO và kiểm định định kỳ.',
+  title: 'Chứng Nhận Chất Lượng - Yến Thô',
+  description: 'Cam kết chất lượng tổ yến thô nguyên chất, yến tốt thượng hạng với đầy đủ chứng nhận ATVSTP, ISO và kiểm định chất lượng định kỳ tại Yến Thô.',
 };
 
 export default function CertificationsPage() {
@@ -34,7 +34,7 @@ export default function CertificationsPage() {
         <div className="container">
           <h1 style={{ fontSize: '3.5rem', color: 'var(--primary-color)', marginBottom: '20px' }}>Chất Lượng & Chứng Nhận</h1>
           <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', opacity: 0.9 }}>
-            Thượng Yến cam kết mang đến những sản phẩm tinh túy nhất với quy trình kiểm soát chất lượng nghiêm ngặt từ khâu thu hoạch đến tay người tiêu dùng.
+            Yến Thô cam kết mang đến những sản phẩm tổ yến thô và các dòng yến tốt nhất với quy trình kiểm soát chất lượng nghiêm ngặt từ khâu thu hoạch đến tay người tiêu dùng.
           </p>
         </div>
       </section>
@@ -63,7 +63,7 @@ export default function CertificationsPage() {
             <div>
               <h2 className="section-title" style={{ textAlign: 'left' }}>Kiểm Định Định Kỳ</h2>
               <p style={{ marginBottom: '25px', fontSize: '1.1rem' }}>
-                Tất cả các lô hàng của Thượng Yến đều được gửi mẫu kiểm nghiệm tại các trung tâm uy tín như <strong>Eurofins</strong> hoặc <strong>Quatest 3</strong>.
+                Tất cả các lô hàng của Yến Thô đều được gửi mẫu kiểm nghiệm tại các trung tâm uy tín như <strong>Eurofins</strong> hoặc <strong>Quatest 3</strong> để đảm bảo chất lượng yến tốt nhất.
               </p>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {[
@@ -135,7 +135,7 @@ export default function CertificationsPage() {
       {/* Final CTA */}
       <section className="section-padding" style={{ backgroundColor: 'var(--bg-secondary)', textAlign: 'center' }}>
         <div className="container">
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '30px' }}>Yên Tâm Mua Sắm Tại Thượng Yến</h2>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '30px' }}>Yên Tâm Mua Sắm Tại Yến Thô</h2>
           <Link href="/san-pham" className="btn-primary" style={{ padding: '15px 50px' }}>Xem Sản Phẩm</Link>
         </div>
       </section>

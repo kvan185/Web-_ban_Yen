@@ -39,7 +39,7 @@ export default function AdminLayout({
         height: '100vh'
       }}>
         <div style={{ marginBottom: '40px', padding: '0 10px' }}>
-          <h3 style={{ color: 'var(--primary-color)', fontSize: '1.5rem', fontWeight: '700' }}>👑 Thượng Yến</h3>
+          <h3 style={{ color: 'var(--primary-color)', fontSize: '1.5rem', fontWeight: '700' }}>👑 Yến Thô</h3>
           <p style={{ opacity: 0.5, fontSize: '0.8rem', marginTop: '5px' }}>Hệ thống Quản trị</p>
         </div>
 

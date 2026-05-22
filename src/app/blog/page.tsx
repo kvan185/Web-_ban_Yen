@@ -4,8 +4,8 @@ import Link from 'next/link';
 import SafeImage from '@/components/SafeImage';
 
 export const metadata = {
-  title: 'Blog Kiến Thức - Thượng Yến',
-  description: 'Tin tức, kiến thức và cách sử dụng yến sào hiệu quả.',
+  title: 'Blog Kiến Thức Tổ Yến - Yến Thô',
+  description: 'Tin tức, cẩm nang chưng yến thô, lựa chọn yến tốt và cách sử dụng tổ yến hiệu quả cho sức khỏe.',
 };
 
 export default function BlogListPage() {
@@ -25,7 +25,7 @@ export default function BlogListPage() {
   return (
     <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
       <h1 style={{ textAlign: 'center', fontSize: '3.5rem', marginBottom: '20px', color: 'var(--primary-color)', fontWeight: '700' }}>Blog & Kiến Thức</h1>
-      <p style={{ textAlign: 'center', opacity: 0.8, marginBottom: '50px', fontSize: '1.2rem' }}>Chia sẻ kinh nghiệm và bí quyết sử dụng yến sào mỗi ngày</p>
+      <p style={{ textAlign: 'center', opacity: 0.8, marginBottom: '50px', fontSize: '1.2rem' }}>Chia sẻ kinh nghiệm chưng yến thô, cách chọn yến tốt và bảo quản tổ yến nguyên chất</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '40px' }}>
         {posts.map(post => (

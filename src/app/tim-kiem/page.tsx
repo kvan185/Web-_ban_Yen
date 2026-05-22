@@ -7,7 +7,7 @@ import SafeImage from '@/components/SafeImage';
 export async function generateMetadata({ searchParams }: { searchParams: Promise<{ q: string }> }) {
   const { q } = await searchParams;
   return {
-    title: `Kết quả tìm kiếm cho "${q || ''}" - Thượng Yến`,
+    title: `Kết quả tìm kiếm cho "${q || ''}" - Yến Thô`,
   };
 }
 
