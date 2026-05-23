@@ -1,16 +1,12 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { verifyAdminCredentials } from '../../../../lib/adminAuth';
 
 export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
 
-    // Simple authentication logic (can be expanded to use a database or env variables)
-    // For now, using default credentials as requested for setup
-    const ADMIN_USERNAME = 'admin';
-    const ADMIN_PASSWORD = 'admin_password_123';
-
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    if (verifyAdminCredentials(username, password)) {
       const cookieStore = await cookies();
       
       // Set a secure cookie

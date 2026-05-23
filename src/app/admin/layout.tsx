@@ -47,6 +47,7 @@ export default function AdminLayout({
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', padding: 0 }}>
             {[
               { label: 'Bảng điều khiển', href: '/admin', icon: '📊' },
+              { label: 'Thông tin tài khoản', href: '/admin/profile', icon: '👤' },
               { label: 'Cài đặt Giao diện', href: '/admin/settings', icon: '🎨' },
               { label: 'Quản lý Sản phẩm', href: '/admin/products', icon: '📦' },
               { label: 'Quản lý Blog', href: '/admin/blog', icon: '📝' },
