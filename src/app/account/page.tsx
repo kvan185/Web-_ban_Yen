@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 
-export default function AccountPage() {
-  const cookieStore = cookies();
+export default async function AccountPage() {
+  const cookieStore = await cookies();
   const userName = cookieStore.get('user_session')?.value;
   const isAdmin = cookieStore.has('admin_session');
 
