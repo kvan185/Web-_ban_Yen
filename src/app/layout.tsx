@@ -39,6 +39,7 @@ export default async function RootLayout({
   const settings = getSettings();
   const cookieStore = await cookies();
   const isAdmin = cookieStore.has('admin_session');
+  const isUser = cookieStore.has('user_session');
 
   return (
     <html lang="vi">
@@ -52,7 +53,7 @@ export default async function RootLayout({
         <header className="site-header">
           <div className="container header-inner">
             <div className="logo">
-              <a href="/">Yến Tinh Hoa</a>
+              <a href="/">Yến Tinh Chế</a>
             </div>
             <SearchBar />
             <nav>
@@ -63,7 +64,13 @@ export default async function RootLayout({
                 <li><a href="/blog">Blog</a></li>
                 <li><a href="/chung-nhan">Chứng nhận</a></li>
                 <li><a href="/lien-he">Liên hệ</a></li>
-                {isAdmin && <li><a href="/admin">Admin</a></li>}
+                {isAdmin ? (
+                  <li><a href="/admin">Quản trị</a></li>
+                ) : isUser ? (
+                  <li><a href="/account">Tài khoản</a></li>
+                ) : (
+                  <li><a href="/login">Đăng nhập</a></li>
+                )}
                 <li className="cart-link">
                   <CartCounter />
                 </li>
@@ -77,12 +84,12 @@ export default async function RootLayout({
         <footer className="site-footer">
           <div className="container footer-grid">
             <div className="footer-info">
-              <h3>Yến Tinh Hoa</h3>
-              <p>Yến Tinh Hoa - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
+              <h3>Yến Tinh Chế</h3>
+              <p>Yến Tinh Chế - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
               <p style={{ marginTop: '15px', opacity: 0.85 }}>Giao hàng nhanh 2-4 giờ tại TP.HCM, ưu tiên Quận 1, Quận 3, Quận 7, Quận Phú Nhuận và Quận Bình Thạnh.</p>
               <div className="footer-map" style={{ marginTop: '20px' }}>
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3924.1375799631087!2d106.186295!3d10.410646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTDCsDI0JzM4LjMiTiAxMDbCsDExJzEwLjciRQ!5e0!3m2!1sen!2s!4v1778469651225!5m2!1sen!2s" 
+                  src="https://maps.google.com/maps?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                   width="100%" 
                   height="200" 
                   style={{ border: 0, borderRadius: '8px' }} 
@@ -98,7 +105,7 @@ export default async function RootLayout({
                 <li><strong>Zalo:</strong> <a href="https://zalo.me/0375266538">0375266538</a></li>
                 <li><strong>Facebook:</strong> <a href="https://www.facebook.com/nkhanhvan185" target="_blank" rel="noopener noreferrer">Khánh Văn</a></li>
                 <li><strong>Email:</strong> <a href="mailto:khanhvan18052004@gmail.com">khanhvan18052004@gmail.com</a></li>
-                <li><strong>Địa chỉ:</strong> <a href="https://maps.app.goo.gl/U7FJXdqjwmtLBhR38" target="_blank" rel="noopener noreferrer">Xem trên bản đồ</a></li>
+                <li><strong>Địa chỉ:</strong> 105 Ung Văn Khiêm, Bình Thạnh, Hồ Chí Minh <a href="https://maps.google.com/?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh" target="_blank" rel="noopener noreferrer">Xem trên bản đồ</a></li>
               </ul>
             </div>
             <div className="footer-newsletter">

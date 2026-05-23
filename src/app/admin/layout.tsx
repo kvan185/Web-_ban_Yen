@@ -29,7 +29,7 @@ export default function AdminLayout({
       color: 'var(--text-color)'
     }}>
       <aside style={{ 
-        width: '280px', 
+        width: '260px', 
         borderRight: '1px solid rgba(255,255,255,0.1)', 
         padding: '30px 20px',
         display: 'flex',
@@ -39,7 +39,7 @@ export default function AdminLayout({
         height: '100vh'
       }}>
         <div style={{ marginBottom: '40px', padding: '0 10px' }}>
-          <h3 style={{ color: 'var(--primary-color)', fontSize: '1.5rem', fontWeight: '700' }}>👑 Yến Tinh Hoa</h3>
+          <h3 style={{ color: 'var(--primary-color)', fontSize: '1.5rem', fontWeight: '700' }}>👑 Yến Tinh Chế</h3>
           <p style={{ opacity: 0.5, fontSize: '0.8rem', marginTop: '5px' }}>Hệ thống Quản trị</p>
         </div>
 
@@ -48,9 +48,10 @@ export default function AdminLayout({
             {[
               { label: 'Bảng điều khiển', href: '/admin', icon: '📊' },
               { label: 'Thông tin tài khoản', href: '/admin/profile', icon: '👤' },
-              { label: 'Cài đặt Giao diện', href: '/admin/settings', icon: '🎨' },
-              { label: 'Quản lý Sản phẩm', href: '/admin/products', icon: '📦' },
-              { label: 'Quản lý Blog', href: '/admin/blog', icon: '📝' },
+              { label: 'Cài đặt giao diện', href: '/admin/settings', icon: '🎨' },
+              { label: 'Quản lý sản phẩm', href: '/admin/products', icon: '📦' },
+              { label: 'Yêu thích', href: '/admin/favorite', icon: '❤️' },
+              { label: 'Lịch sử đơn hàng', href: '/admin/orders', icon: '🧾' },
             ].map((item) => (
               <li key={item.href}>
                 <a 
@@ -64,7 +65,7 @@ export default function AdminLayout({
                     textDecoration: 'none',
                     color: 'inherit',
                     opacity: 0.8,
-                    transition: 'all 0.2s',
+                    transition: 'background 0.2s, opacity 0.2s',
                     background: 'transparent'
                   }}
                   onMouseEnter={(e) => {
@@ -108,7 +109,7 @@ export default function AdminLayout({
           </button>
         </div>
       </aside>
-      <main style={{ flex: 1, padding: '40px', overflowY: 'auto' }}>
+      <main style={{ flex: 1, padding: '40px', overflowY: 'hidden', maxHeight: '100vh' }}>
         {children}
       </main>
     </div>

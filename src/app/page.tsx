@@ -1,10 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.has('admin_session');
+  const isUser = cookieStore.has('user_session');
+  const accountHref = isAdmin ? '/admin' : isUser ? '/account' : '/login';
+  const accountLabel = isAdmin ? 'Quản trị' : isUser ? 'Tài khoản' : 'Đăng nhập';
   const productsFilePath = path.join(process.cwd(), 'src', 'data', 'products.json');
   let products = [];
   try {
@@ -59,7 +65,7 @@ export default function Home() {
               color: 'var(--primary-color)',
               lineHeight: '1.1',
               fontFamily: 'var(--font-serif)'
-            }}>Yến Tinh Hoa</h1>
+            }}>Yến Tinh Chế</h1>
             <p style={{ 
               fontSize: '1.9rem', 
               marginBottom: '40px', 
@@ -67,7 +73,7 @@ export default function Home() {
               fontWeight: '300',
               letterSpacing: '0.04em'
             }}>Tổ yến thiên nhiên nguyên chất - Món quà vô giá cho sức khỏe gia đình</p>
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/san-pham" className="btn-primary" style={{ fontSize: '1.2rem', padding: '15px 40px' }}>
                 Mua Ngay
               </Link>
@@ -80,6 +86,9 @@ export default function Home() {
                 fontWeight: '600'
               }}>
                 Tìm Hiểu Thêm
+              </Link>
+              <Link href={accountHref} className="btn-primary" style={{ fontSize: '1.2rem', padding: '15px 40px', backgroundColor: 'transparent', color: 'var(--primary-color)', border: '2px solid var(--primary-color)' }}>
+                {accountLabel}
               </Link>
             </div>
           </div>

@@ -1,6 +1,6 @@
 export const ADMIN_USERNAME = 'admin';
-export const ADMIN_EMAIL = 'admin@yentinhhoa.com';
-export let adminPassword = 'admin_password_123';
+export const ADMIN_EMAIL = 'khanhvan18052004@gmail.com';
+export let adminPassword = 'Khanhvan12@@';
 
 export const verifyAdminCredentials = (username: string, password: string) => {
   return username === ADMIN_USERNAME && password === adminPassword;
