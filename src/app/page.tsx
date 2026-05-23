@@ -65,7 +65,7 @@ export default async function Home() {
               color: 'var(--primary-color)',
               lineHeight: '1.1',
               fontFamily: 'var(--font-serif)'
-            }}>Yến Tinh Chế</h1>
+            }}>Yến Tinh Hoa</h1>
             <p style={{ 
               fontSize: '1.9rem', 
               marginBottom: '40px', 
@@ -106,7 +106,7 @@ export default async function Home() {
             </div>
             <div className="trust-signal">
               <span className="trust-icon">🌿</span>
-              <h3 className="trust-title">Sơ Chế Thủ Công</h3>
+              <h3 className="trust-title">Sơ Hoa Thủ Công</h3>
               <p className="trust-desc">Quy trình nhặt lông hoàn toàn bằng tay, không sử dụng hóa chất tẩy rửa.</p>
             </div>
             <div className="trust-signal">
@@ -235,7 +235,7 @@ export default async function Home() {
                 Khởi nguồn từ niềm đam mê với tổ yến thô thiên nhiên quý giá, Yến Tinh Hoa ra đời với sứ mệnh mang đến các sản phẩm yến sào nguyên chất và dòng yến tốt nhất cho sức khỏe người Việt.
               </p>
               <p style={{ marginBottom: '30px', fontSize: '1.1rem', opacity: 0.9 }}>
-                Chúng tôi kiểm soát chặt chẽ từ khâu thu hoạch tại các đảo yến đến quy trình sơ chế thủ công tỉ mỉ. Toàn bộ dòng yến thô ít lông và yến tinh chế tại Yến Tinh Hoa cam kết giữ trọn vẹn 100% dưỡng chất tự nhiên.
+                Chúng tôi kiểm soát chặt chẽ từ khâu thu hoạch tại các đảo yến đến quy trình sơ Hoa thủ công tỉ mỉ. Toàn bộ dòng yến thô ít lông và yến tinh Hoa tại Yến Tinh Hoa cam kết giữ trọn vẹn 100% dưỡng chất tự nhiên.
               </p>
               <Link href="/blog/mua_yen_hcm" className="btn-primary">
                 Tìm Hiểu Câu Chuyện Của Chúng Tôi
@@ -254,8 +254,8 @@ export default async function Home() {
           </div>
           <div className="grid-3">
             {[
-              { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Mình thường mua yến tinh chế về cho gia đình chưng. Rất tiện lợi vì yến đã được làm sạch lông hoàn toàn, sợi yến nấu lên nở to, dai và đặc biệt rất thơm.', imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop' },
-              { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Công việc bận rộn nên tôi hay chọn yến tinh chế làm quà biếu đối tác. Bao bì sang trọng, tổ yến đều đẹp, đối tác nhận xong ai cũng khen nức nở.', imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop' },
+              { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Mình thường mua yến tinh Hoa về cho gia đình chưng. Rất tiện lợi vì yến đã được làm sạch lông hoàn toàn, sợi yến nấu lên nở to, dai và đặc biệt rất thơm.', imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop' },
+              { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Công việc bận rộn nên tôi hay chọn yến tinh Hoa làm quà biếu đối tác. Bao bì sang trọng, tổ yến đều đẹp, đối tác nhận xong ai cũng khen nức nở.', imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop' },
               { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở đây tổ to, dày và rất ít lông. Cô tự tay nhặt nên thấy cực kỳ an tâm. Cả nhà ăn vào ai cũng thấy ngủ ngon và da dẻ hồng hào hẳn ra.', imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop' }
             ].map((t, i) => (
               <div key={i} className="glass-card" style={{ fontStyle: 'italic', position: 'relative', overflow: 'hidden', padding: 0 }}>
@@ -339,8 +339,8 @@ export default async function Home() {
               },
               {
                 q: "Yến sào có thể bảo quản được bao lâu?",
-                a: "Yến thô và yến tinh chế có thể bảo quản từ 1 - 2 năm ở nơi khô thoáng. Yến tươi (đã ngâm) để được 7 ngày trong ngăn mát hoặc 3 tháng trong ngăn đông.",
-                cta: { text: 'Mua ngay Yến Tinh Chế để được hướng dẫn bảo quản chi tiết', href: '/san-pham?category=Yến Tinh Chế' }
+                a: "Yến thô và yến tinh Hoa có thể bảo quản từ 1 - 2 năm ở nơi khô thoáng. Yến tươi (đã ngâm) để được 7 ngày trong ngăn mát hoặc 3 tháng trong ngăn đông.",
+                cta: { text: 'Mua ngay Yến Tinh Hoa để được hướng dẫn bảo quản chi tiết', href: '/san-pham?category=Yến Tinh Hoa' }
               },
               {
                 q: "Trẻ em bao nhiêu tuổi có thể bắt đầu ăn yến?",

@@ -96,7 +96,7 @@ export default function AboutPage() {
             <div className="glass-card" style={{ textAlign: 'center', transition: 'transform 0.3s ease' }}>
               <div style={{ fontSize: '3.5rem', marginBottom: '25px' }}>💎</div>
               <h3 style={{ color: 'var(--primary-color)', marginBottom: '20px', fontSize: '1.5rem' }}>Giá Trị Cốt Lõi</h3>
-              <p style={{ lineHeight: '1.7' }}>Trung thực trong kinh doanh - Tận tâm trong phục vụ - Khắt khe trong từng công đoạn chế biến.</p>
+              <p style={{ lineHeight: '1.7' }}>Trung thực trong kinh doanh - Tận tâm trong phục vụ - Khắt khe trong từng công đoạn Hoa biến.</p>
             </div>
           </div>
         </div>

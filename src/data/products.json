@@ -1,7 +1,7 @@
 [
   {
     "id": "p1",
-    "name": "Yến Tinh Chế Sợi Dài Loại 1 (100g)",
+    "name": "Yến Tinh Hoa Sợi Dài Loại 1 (100g)",
     "price": 3800000,
     "imageUrl": "/images/products/1779509647552-no_pixel-_no_background-_unique_202605221333.jpeg",
     "description": "Tổ yến đã được nhặt sạch lông và tạp chất hoàn toàn, giữ lại nguyên vẹn những sợi yến dài dai ngon nhất. Chỉ cần ngâm và chưng ngay, rất tiện lợi mà vẫn đảm bảo 100% dinh dưỡng.",
@@ -10,7 +10,7 @@
     "origin": "Khánh Hòa",
     "shelfLife": "2 năm",
     "usage": "Ngâm nước 20 phút cho mềm, chưng cách thủy cùng đường phèn, táo đỏ, hạt sen khoảng 20-30 phút.",
-    "category": "Yến Tinh Chế"
+    "category": "Yến Tinh Hoa"
   },
   {
     "id": "p2",
@@ -27,7 +27,7 @@
   },
   {
     "id": "p3",
-    "name": "Chân Yến Tinh Chế (100g)",
+    "name": "Chân Yến Tinh Hoa (100g)",
     "price": 3200000,
     "imageUrl": "/images/products/product-3.jpg",
     "description": "Phần chân tổ yến chắc chắn nhất, đã được làm sạch hoàn toàn. Khi ăn có độ giòn dai cực kỳ ngon miệng và đặc biệt nở rất nhiều khi chưng. Một lựa chọn tuyệt vời để thưởng thức vị ngon độc đáo của yến.",
@@ -36,11 +36,11 @@
     "origin": "Khánh Hòa",
     "shelfLife": "2 năm",
     "usage": "Cần ngâm lâu hơn tổ yến (khoảng 40-60 phút) trước khi chưng.",
-    "category": "Yến Tinh Chế"
+    "category": "Yến Tinh Hoa"
   },
   {
     "id": "p4",
-    "name": "Yến Tinh Chế Sợi Vụn (100g)",
+    "name": "Yến Tinh Hoa Sợi Vụn (100g)",
     "price": 2500000,
     "imageUrl": "/images/products/product-4.jpg",
     "description": "Là những sợi yến bị vỡ hoặc ngắn trong quá trình thu hoạch và nhặt lông, nhưng đã được làm sạch sẽ. Dinh dưỡng không thay đổi, giá cả lại vô cùng kinh tế. Rất phù hợp để bồi bổ sức khỏe gia đình hàng ngày.",
@@ -49,6 +49,6 @@
     "origin": "Việt Nam",
     "shelfLife": "2 năm",
     "usage": "Thời gian ngâm và chưng ngắn hơn yến nguyên tổ.",
-    "category": "Yến Tinh Chế"
+    "category": "Yến Tinh Hoa"
   }
 ]

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Chứng Nhận Chất Lượng - Yến Tinh Hoa',
-  description: 'Yến Tinh Hoa cam kết tổ yến thô nguyên chất truy xuất được nguồn gốc, được kiểm định bởi phòng thí nghiệm độc lập và sơ chế thủ công chuẩn thượng hạng.',
+  description: 'Yến Tinh Hoa cam kết tổ yến thô nguyên chất truy xuất được nguồn gốc, được kiểm định bởi phòng thí nghiệm độc lập và sơ Hoa thủ công chuẩn thượng hạng.',
 };
 
 export default function CertificationsPage() {
@@ -106,7 +106,7 @@ export default function CertificationsPage() {
             {[
               { step: "01", title: "Khai Thác", desc: "Thu hoạch từ các đảo yến và nhà yến lâu năm." },
               { step: "02", title: "Phân Loại", desc: "Tuyển chọn những tổ yến to, già và sạch nhất." },
-              { step: "03", title: "Sơ Chế", desc: "Nhặt lông thủ công hoàn toàn bằng nước sạch." },
+              { step: "03", title: "Sơ Hoa", desc: "Nhặt lông thủ công hoàn toàn bằng nước sạch." },
               { step: "04", title: "Sấy Khô", desc: "Sấy lạnh hiện đại giúp giữ trọn dưỡng chất." },
               { step: "05", title: "Đóng Gói", desc: "Kiểm tra cuối cùng và niêm phong chống giả." }
             ].map((s, i) => (
