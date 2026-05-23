@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import CartCounter from '@/components/CartCounter';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import SearchBar from '@/components/SearchBar';
 
 export const metadata: Metadata = {
@@ -38,6 +38,9 @@ export default async function RootLayout({
 }) {
   const settings = getSettings();
   const cookieStore = await cookies();
+  const headersList = await headers();
+  const pathname = headersList.get('x-invoke-pathname') || headersList.get('x-pathname') || '';
+  const hideFooter = pathname.startsWith('/admin');
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
 
@@ -53,7 +56,7 @@ export default async function RootLayout({
         <header className="site-header">
           <div className="container header-inner">
             <div className="logo">
-              <a href="/">Yến Tinh Hoa</a>
+              <a href="/">Yến Tinh Chế</a>
             </div>
             <SearchBar />
             <nav>
@@ -81,11 +84,12 @@ export default async function RootLayout({
 
         <main>{children}</main>
 
-        <footer className="site-footer">
+        {!hideFooter && (
+          <footer className="site-footer">
           <div className="container footer-grid">
             <div className="footer-info">
-              <h3>Yến Tinh Hoa</h3>
-              <p>Yến Tinh Hoa - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
+              <h3>Yến Tinh Chế</h3>
+              <p>Yến Tinh Chế - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
               <p style={{ marginTop: '15px', opacity: 0.85 }}>Giao hàng nhanh 2-4 giờ tại TP.HCM, ưu tiên Quận 1, Quận 3, Quận 7, Quận Phú Nhuận và Quận Bình Thạnh.</p>
               <div className="footer-map" style={{ marginTop: '20px' }}>
                 <iframe 
@@ -127,8 +131,10 @@ export default async function RootLayout({
           <div className="container footer-bottom">
             <p>&copy; {new Date().getFullYear()} Yến Tinh Hoa. Tất cả quyền được bảo lưu.</p>
           </div>
-        </footer>
-        <div className="floating-contacts">
+          </footer>
+        )}
+        {!hideFooter && (
+          <div className="floating-contacts">
           <a href="https://zalo.me/0375266538" target="_blank" rel="noopener noreferrer" className="floating-btn btn-zalo" title="Chat Zalo">
             <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Zalo</span>
           </a>
@@ -139,6 +145,7 @@ export default async function RootLayout({
             <span style={{ fontSize: '1.5rem' }}>📞</span>
           </a>
         </div>
+        )}
       </body>
     </html>
   );

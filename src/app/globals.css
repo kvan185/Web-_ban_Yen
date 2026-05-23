@@ -190,11 +190,82 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .logo {
   font-family: var(--font-serif);
-  font-size: 2rem;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo a {
+  display: inline-block;
+}
+
+.header-search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.nav-links a {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-links a:hover {
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.header-search .search-input {
+  width: 240px;
+}
+
+@media (max-width: 992px) {
+  .header-search {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    justify-content: center;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .header-search .search-input {
+    width: 100%;
+    max-width: 100%;
+  }
+}
   font-weight: 700;
   color: var(--primary-color);
   letter-spacing: 1px;
