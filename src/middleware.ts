@@ -35,16 +35,23 @@ export function middleware(request: NextRequest) {
   }
 
   // Cho phép tiếp tục đối với các route khác (public)
-  return NextResponse.next();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
+  
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 // Cấu hình các route sẽ áp dụng middleware
 export const config = {
   matcher: [
     /*
-     * Khớp với tất cả các tuyến đường bắt đầu bằng /admin
-     * Ngoại trừ các file tĩnh (public, _next/static, _next/image, favicon.ico)
+     * Khớp với tất cả các tuyến đường
+     * Ngoại trừ các file tĩnh (public, _next/static, _next/image, favicon.ico) và api routes
      */
-    '/admin/:path*',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

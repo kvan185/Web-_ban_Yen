@@ -1,9 +1,9 @@
 [
   {
     "id": "p1",
-    "name": "Yến Tinh Hoa Sợi Dài Loại 1 (100g)",
+    "name": "Yến Tinh Hoa Sợi Dài Loại (100g)",
     "price": 3800000,
-    "imageUrl": "/images/products/1779509647552-no_pixel-_no_background-_unique_202605221333.jpeg",
+    "imageUrl": "/images/products/1779533164416-vi-t_l-i_to-n_b-_ch--_202605231229.jpeg",
     "description": "Tổ yến đã được nhặt sạch lông và tạp chất hoàn toàn, giữ lại nguyên vẹn những sợi yến dài dai ngon nhất. Chỉ cần ngâm và chưng ngay, rất tiện lợi mà vẫn đảm bảo 100% dinh dưỡng.",
     "badge": "Bán chạy",
     "weight": "100g",
@@ -16,7 +16,7 @@
     "id": "p2",
     "name": "Tổ Yến Thô Ít Lông Thượng Hạng (100g)",
     "price": 2800000,
-    "imageUrl": "/images/products/product-2.jpg",
+    "imageUrl": "/images/products/1779533219351-thay_--i_h-nh_-nh_t-_202605231730--2-.jpeg",
     "description": "Yến thô nguyên tổ tự nhiên, được tuyển chọn kỹ lưỡng, tổ to, dày và rất ít lông. Mùi vị đặc trưng, sợi yến sau khi chưng nở nhiều, dai giòn sần sật. Dành cho khách hàng có thời gian và thích tự tay nhặt lông.",
     "badge": "Yêu thích",
     "weight": "100g",
@@ -29,7 +29,7 @@
     "id": "p3",
     "name": "Chân Yến Tinh Hoa (100g)",
     "price": 3200000,
-    "imageUrl": "/images/products/product-3.jpg",
+    "imageUrl": "/images/products/1779533238348-thay_--i_h-nh_-nh_t-_202605231730.jpeg",
     "description": "Phần chân tổ yến chắc chắn nhất, đã được làm sạch hoàn toàn. Khi ăn có độ giòn dai cực kỳ ngon miệng và đặc biệt nở rất nhiều khi chưng. Một lựa chọn tuyệt vời để thưởng thức vị ngon độc đáo của yến.",
     "badge": "Siêu dai",
     "weight": "100g",
@@ -42,7 +42,7 @@
     "id": "p4",
     "name": "Yến Tinh Hoa Sợi Vụn (100g)",
     "price": 2500000,
-    "imageUrl": "/images/products/product-4.jpg",
+    "imageUrl": "/images/products/1779534523663-thay_--i_ph-ng_n-n_2K_202605231808.jpeg",
     "description": "Là những sợi yến bị vỡ hoặc ngắn trong quá trình thu hoạch và nhặt lông, nhưng đã được làm sạch sẽ. Dinh dưỡng không thay đổi, giá cả lại vô cùng kinh tế. Rất phù hợp để bồi bổ sức khỏe gia đình hàng ngày.",
     "badge": "Tiết kiệm",
     "weight": "100g",
@@ -50,5 +50,44 @@
     "shelfLife": "2 năm",
     "usage": "Thời gian ngâm và chưng ngắn hơn yến nguyên tổ.",
     "category": "Yến Tinh Hoa"
+  },
+  {
+    "id": "p_1779515709556",
+    "name": "Tổ Yến Thô Còn Nguyên Lông Thượng Hạng (100g)",
+    "price": 2300000,
+    "imageUrl": "/images/products/1779533276829-thay_--i_h-nh_-nh_t-_202605231730--1-.jpeg",
+    "description": "Chân yến là phần 2 đầu góc của tổ yến, rất ít lông, sợi ngắn dầy hoặc thành từng mảng/lớp",
+    "badge": "",
+    "weight": "100g",
+    "origin": "Việt Nam",
+    "shelfLife": "24 tháng",
+    "usage": "Ngâm nước 20-30 phút cho mềm, sau đó đem chưng cách thủy khoảng 20-30 phút.",
+    "category": "Yến Thô"
+  },
+  {
+    "id": "p_1779515714880",
+    "name": "Yến Thô Xô 100g",
+    "price": 2400000,
+    "imageUrl": "/images/products/1779534613758-thay_--i_ph-ng_n-n_2K_202605231808.jpeg",
+    "description": "Chân yến là phần 2 đầu góc của tổ yến, rất ít lông, sợi ngắn dầy hoặc thành từng mảng/lớp",
+    "badge": "Bán chạy",
+    "weight": "100g",
+    "origin": "Việt Nam",
+    "shelfLife": "2 năm",
+    "usage": "Ngâm nước 20-30 phút cho mềm, sau đó đem chưng cách thủy khoảng 20-30 phút.",
+    "category": "Yến Thô"
+  },
+  {
+    "id": "p_1779534955127",
+    "name": " Chân Yến Thô Hộp 100g",
+    "price": 2000000,
+    "imageUrl": "/images/products/1779534952000-thay_background_2K_202605231814.jpeg",
+    "description": "Chân yến là phần 2 đầu góc của tổ yến, rất ít lông, sợi ngắn dầy hoặc thành từng mảng/lớp",
+    "badge": "",
+    "weight": "100g",
+    "origin": "Việt Nam",
+    "shelfLife": "24 tháng",
+    "usage": "Ngâm nước 20-30 phút cho mềm, sau đó đem chưng cách thủy khoảng 20-30 phút.",
+    "category": "Yến Thô"
   }
 ]

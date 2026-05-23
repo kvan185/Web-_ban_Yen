@@ -34,6 +34,32 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     alert(`Đã thêm ${product.name} vào giỏ hàng!`);
   };
 
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  useEffect(() => {
+    if (product) {
+      const favs = JSON.parse(localStorage.getItem('favoriteProducts') || '[]');
+      setIsFavorited(favs.some((item: any) => item.id === product.id));
+    }
+  }, [product]);
+
+  const toggleFavorite = () => {
+    const favs = JSON.parse(localStorage.getItem('favoriteProducts') || '[]');
+    const isFav = favs.some((item: any) => item.id === product.id);
+    let updatedFavs;
+    if (isFav) {
+      updatedFavs = favs.filter((item: any) => item.id !== product.id);
+      setIsFavorited(false);
+      alert(`Đã xóa ${product.name} khỏi danh sách yêu thích!`);
+    } else {
+      updatedFavs = [...favs, product];
+      setIsFavorited(true);
+      alert(`Đã thêm ${product.name} vào danh sách yêu thích!`);
+    }
+    localStorage.setItem('favoriteProducts', JSON.stringify(updatedFavs));
+    window.dispatchEvent(new Event('favoritesUpdated'));
+  };
+
   if (loading) return <div className="container" style={{ padding: '100px', textAlign: 'center' }}>Đang tải thông tin sản phẩm...</div>;
   if (!product) return <div className="container" style={{ padding: '100px', textAlign: 'center' }}>Sản phẩm không tồn tại.</div>;
 
@@ -80,12 +106,33 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <p style={{ opacity: 0.9, lineHeight: '1.8', fontSize: '1.05rem' }}>{product.description}</p>
             </div>
 
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '40px' }}>
-              <button className="btn-primary" style={{ padding: '18px 50px', fontSize: '1.2rem', flex: 1 }} onClick={addToCart}>
+            <div style={{ display: 'flex', gap: '15px', marginBottom: '40px', alignItems: 'center' }}>
+              <button className="btn-primary" style={{ padding: '18px 30px', fontSize: '1.1rem', flex: 2 }} onClick={addToCart}>
                 Thêm Vào Giỏ Hàng
               </button>
-              <button className="btn-primary" style={{ background: 'transparent', border: '2px solid var(--primary-color)', color: 'var(--primary-color)', padding: '18px 50px', fontSize: '1.2rem' }}>
+              <button className="btn-primary" style={{ background: 'transparent', border: '2px solid var(--primary-color)', color: 'var(--primary-color)', padding: '18px 30px', fontSize: '1.1rem', flex: 1.5 }}>
                 Mua Ngay
+              </button>
+              <button 
+                onClick={toggleFavorite}
+                style={{
+                  background: isFavorited ? 'rgba(231, 76, 60, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                  border: isFavorited ? '2px solid #E74C3C' : '2px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '50px',
+                  width: '58px',
+                  height: '58px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.8rem',
+                  cursor: 'pointer',
+                  color: isFavorited ? '#E74C3C' : '#fff',
+                  transition: 'all 0.3s ease',
+                  boxShadow: isFavorited ? '0 0 15px rgba(231, 76, 60, 0.3)' : 'none'
+                }}
+                title={isFavorited ? 'Bỏ yêu thích' : 'Yêu thích sản phẩm'}
+              >
+                {isFavorited ? '❤️' : '🤍'}
               </button>
             </div>
 

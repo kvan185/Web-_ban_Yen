@@ -1,6 +1,7 @@
 {
   "primaryColor": "#D4AF37",
-  "backgroundColor": "#062621",
+  "backgroundColor": "#39897d",
   "textColor": "#F5F5F5",
-  "productsPerRow": 4
+  "productsPerRow": 4,
+  "adminProductsPerPage": 5
 }

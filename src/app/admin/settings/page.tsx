@@ -8,6 +8,7 @@ export default function SettingsPage() {
     backgroundColor: '#1A1A1A',
     textColor: '#F5F5F5',
     productsPerRow: 4,
+    adminProductsPerPage: 5,
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -16,7 +17,13 @@ export default function SettingsPage() {
     fetch('/api/settings')
       .then((res) => res.json())
       .then((data) => {
-        setSettings(data);
+        setSettings({
+          primaryColor: data.primaryColor || '#D4AF37',
+          backgroundColor: data.backgroundColor || '#1A1A1A',
+          textColor: data.textColor || '#F5F5F5',
+          productsPerRow: data.productsPerRow || 4,
+          adminProductsPerPage: data.adminProductsPerPage || 5,
+        });
         setLoading(false);
       });
   }, []);
@@ -25,7 +32,7 @@ export default function SettingsPage() {
     const { name, value } = e.target;
     setSettings((prev) => ({
       ...prev,
-      [name]: name === 'productsPerRow' ? parseInt(value) : value,
+      [name]: (name === 'productsPerRow' || name === 'adminProductsPerPage') ? parseInt(value) || 0 : value,
     }));
   };
 
@@ -95,7 +102,19 @@ export default function SettingsPage() {
             value={settings.productsPerRow} 
             onChange={handleChange} 
             min="2" max="6"
-            style={{ width: '100%', padding: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: 'white' }}
+            style={{ width: '100%', padding: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '8px' }}
+          />
+        </div>
+
+        <div>
+          <label style={{ display: 'block', marginBottom: '8px' }}>Số lượng sản phẩm hiển thị mỗi trang (Admin):</label>
+          <input 
+            type="number" 
+            name="adminProductsPerPage" 
+            value={settings.adminProductsPerPage} 
+            onChange={handleChange} 
+            min="2" max="50"
+            style={{ width: '100%', padding: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '8px' }}
           />
         </div>
 

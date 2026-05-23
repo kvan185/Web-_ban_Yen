@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import fs from 'fs';
 import path from 'path';
-import CartCounter from '@/components/CartCounter';
+import SiteHeader from '@/components/SiteHeader';
 import { cookies, headers } from 'next/headers';
-import SearchBar from '@/components/SearchBar';
 
 export const metadata: Metadata = {
   title: 'Yến Tinh Hoa - Tổ Yến Thô Nguyên Chất, Yến Thô Tốt Giá Rẻ',
@@ -38,9 +37,22 @@ export default async function RootLayout({
   const settings = getSettings();
   const cookieStore = await cookies();
   const headersList = await headers();
-  const pathname = headersList.get('x-invoke-pathname') || headersList.get('x-pathname') || '';
-  const isLoginPage = pathname === '/login';
-  const hideFooter = pathname.startsWith('/admin') || isLoginPage;
+  const rawPath =
+    headersList.get('x-invoke-pathname') ||
+    headersList.get('x-pathname') ||
+    headersList.get('x-nextjs-rewritten-path') ||
+    headersList.get('x-middleware-path') ||
+    headersList.get('x-nextjs-rewrite') ||
+    '';
+
+  const pathname = rawPath?.toString().startsWith('http')
+    ? new URL(rawPath.toString()).pathname
+    : rawPath?.toString() || '';
+
+  const isLoginPage = pathname.startsWith('/login');
+  const isAdminPage = pathname.startsWith('/admin');
+
+  const hideFooter = isAdminPage || isLoginPage;
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
 
@@ -54,51 +66,23 @@ export default async function RootLayout({
           overflow: isLoginPage ? 'hidden' : 'auto',
         } as React.CSSProperties}
       >
-        <header className="site-header">
-          <div className="header-top">
-            <div className="container header-top-inner">
-              <div className="logo">
-                <a href="/">Yến Tinh Chế</a>
-              </div>
-              <div className="header-search">
-                <SearchBar />
-              </div>
-              <div className="header-actions">
-                {isAdmin ? (
-                  <a href="/admin" className="auth-link">Quản trị</a>
-                ) : isUser ? (
-                  <a href="/account" className="auth-link">Tài khoản</a>
-                ) : (
-                  <a href="/login" className="auth-link">Đăng nhập</a>
-                )}
-                <CartCounter />
-              </div>
-            </div>
-          </div>
-          <div className="header-bottom">
-            <div className="container header-bottom-inner">
-              <nav>
-                <ul className="nav-links">
-                  <li><a href="/">Trang chủ</a></li>
-                  <li><a href="/san-pham">Sản phẩm</a></li>
-                  <li><a href="/gioi-thieu">Giới thiệu</a></li>
-                  <li><a href="/blog">Blog</a></li>
-                  <li><a href="/chung-nhan">Chứng nhận</a></li>
-                  <li><a href="/lien-he">Liên hệ</a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </header>
+        {!isLoginPage && (
+          <SiteHeader
+            isAdmin={isAdmin}
+            isUser={isUser}
+            showTopHeader={!isAdminPage}
+            enableAutoHide={!isAdminPage}
+          />
+        )}
 
-        <main>{children}</main>
+        <main style={{ paddingTop: isLoginPage ? 0 : undefined }}>{children}</main>
 
         {!hideFooter && (
           <footer className="site-footer">
           <div className="container footer-grid">
             <div className="footer-info">
-              <h3>Yến Tinh Chế</h3>
-              <p>Yến Tinh Chế - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
+              <h3>Yến Tinh Hoa</h3>
+              <p>Yến Tinh Hoa - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
               <p style={{ marginTop: '15px', opacity: 0.85 }}>Giao hàng nhanh 2-4 giờ tại TP.HCM, ưu tiên Quận 1, Quận 3, Quận 7, Quận Phú Nhuận và Quận Bình Thạnh.</p>
               <div className="footer-map" style={{ marginTop: '20px' }}>
                 <iframe 
@@ -138,22 +122,47 @@ export default async function RootLayout({
             </div>
           </div>
           <div className="container footer-bottom">
-            <p>&copy; {new Date().getFullYear()} Yến Tinh Hoa. Tất cả quyền được bảo lưu.</p>
           </div>
           </footer>
         )}
         {!hideFooter && (
-          <div className="floating-contacts">
-          <a href="https://zalo.me/0375266538" target="_blank" rel="noopener noreferrer" className="floating-btn btn-zalo" title="Chat Zalo">
-            <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Zalo</span>
-          </a>
-          <a href="https://m.me/nkhanhvan185" target="_blank" rel="noopener noreferrer" className="floating-btn btn-messenger" title="Chat Messenger">
-            <span style={{ fontSize: '1.5rem' }}>💬</span>
-          </a>
-          <a href="tel:0375266538" className="floating-btn btn-phone" title="Gọi Hotline">
-            <span style={{ fontSize: '1.5rem' }}>📞</span>
-          </a>
-        </div>
+          <>
+            <div className="fixed-footer-bar" style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              backgroundColor: 'rgba(6, 38, 33, 0.95)',
+              backdropFilter: 'blur(10px)',
+              borderTop: '1px solid rgba(212, 175, 55, 0.3)',
+              padding: '10px 20px',
+              zIndex: 9999,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '30px',
+              fontSize: '0.9rem',
+              color: '#fff',
+              flexWrap: 'wrap',
+              boxShadow: '0 -5px 20px rgba(0,0,0,0.5)',
+              transition: 'all 0.3s ease'
+            }}>
+              <span>📞 <strong>Zalo / Hotline:</strong> <a href="tel:0375266538" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>0375266538</a></span>
+              <span style={{ opacity: 0.5 }}>|</span>
+              <span>📍 <strong>Địa chỉ:</strong> <a href="https://maps.google.com/?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-color)' }}>105 Ung Văn Khiêm, Bình Thạnh, Hồ Chí Minh</a></span>
+            </div>
+            <div className="floating-contacts" style={{ bottom: '75px' }}>
+              <a href="https://zalo.me/0375266538" target="_blank" rel="noopener noreferrer" className="floating-btn btn-zalo" title="Chat Zalo">
+                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Zalo</span>
+              </a>
+              <a href="https://m.me/nkhanhvan185" target="_blank" rel="noopener noreferrer" className="floating-btn btn-messenger" title="Chat Messenger">
+                <span style={{ fontSize: '1.5rem' }}>💬</span>
+              </a>
+              <a href="tel:0375266538" className="floating-btn btn-phone" title="Gọi Hotline">
+                <span style={{ fontSize: '1.5rem' }}>📞</span>
+              </a>
+            </div>
+          </>
         )}
       </body>
     </html>

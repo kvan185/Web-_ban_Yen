@@ -174,16 +174,19 @@ button {
   color: var(--text-muted);
 }
 
-.site-header {
-  position: relative;
-  background-color: rgba(26, 26, 26, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+/* ===== COMBINED STICKY HEADER ===== */
+.site-header-sticky {
+  /* sticky + dynamic top is set via inline styles in the component */
+  width: 100%;
 }
 
+/* --- TIER 1: Logo, Search, Actions --- */
 .header-top {
-  padding: 18px 0 10px;
+  padding: 14px 0;
+  background: rgba(6, 38, 33, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
 }
 
 .header-top-inner {
@@ -205,6 +208,10 @@ button {
 
 .logo a {
   display: inline-block;
+  background: linear-gradient(135deg, var(--primary-color), #f5d76e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-actions {
@@ -225,22 +232,12 @@ button {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: all 0.3s ease;
 }
 
-.header-bottom {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background-color: rgba(26, 26, 26, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.header-bottom-inner {
-  display: flex;
-  justify-content: center;
-  padding: 12px 0;
+.auth-link:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--primary-color);
 }
 
 .header-search {
@@ -249,31 +246,48 @@ button {
   justify-content: center;
 }
 
+.header-search .search-input {
+  width: 240px;
+}
+
+/* --- TIER 2: Navigation --- */
+.header-bottom {
+  width: 100%;
+  background: rgba(6, 38, 33, 0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.header-bottom-inner {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
+
 .nav-links {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 6px;
   align-items: center;
   justify-content: center;
 }
 
 .nav-links a {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 600;
-  padding: 10px 12px;
+  padding: 10px 16px;
   border-radius: 999px;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .nav-links a:hover {
   background: rgba(212, 175, 55, 0.12);
-}
-
-.header-search .search-input {
-  width: 240px;
+  color: var(--primary-color);
 }
 
 @media (max-width: 992px) {
@@ -304,12 +318,6 @@ button {
   }
 }
 
-.nav-links a {
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
-}
 
 .site-footer {
   text-align: center;
@@ -354,6 +362,17 @@ button {
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 20px;
+}
+
+body.no-footer .site-footer,
+body.no-footer .floating-contacts,
+body.admin-no-footer .site-footer,
+body.admin-no-footer .floating-contacts {
+  display: none !important;
+}
+
+body.no-footer {
+  overflow: hidden !important;
 }
 
 /* Floating Contact Widgets */
