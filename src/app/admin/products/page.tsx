@@ -12,6 +12,7 @@ type Product = {
 export default function ProductsAdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [uploadingId, setUploadingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/products')
@@ -21,6 +22,29 @@ export default function ProductsAdminPage() {
         setLoading(false);
       });
   }, []);
+
+  const uploadImage = async (id: string, file: File | null) => {
+    if (!file) return;
+    setUploadingId(id);
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+    setUploadingId(null);
+
+    if (!response.ok || !result.imageUrl) {
+      alert('Tải hình ảnh thất bại. Vui lòng thử lại.');
+      return;
+    }
+
+    updateProduct(id, 'imageUrl', result.imageUrl);
+  };
 
   const addProduct = () => {
     const id = Date.now().toString();
@@ -56,27 +80,63 @@ export default function ProductsAdminPage() {
 
       <div style={{ display: 'grid', gap: '15px' }}>
         {products.map(product => (
-          <div key={product.id} style={{ display: 'flex', gap: '10px', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '4px' }}>
-            <input 
-              value={product.name} 
-              onChange={e => updateProduct(product.id, 'name', e.target.value)} 
-              placeholder="Tên sản phẩm"
-              style={{ flex: 1, padding: '8px' }}
-            />
-            <input 
-              type="number" 
-              value={product.price} 
-              onChange={e => updateProduct(product.id, 'price', parseInt(e.target.value))} 
-              placeholder="Giá"
-              style={{ width: '120px', padding: '8px' }}
-            />
-            <input 
-              value={product.imageUrl} 
-              onChange={e => updateProduct(product.id, 'imageUrl', e.target.value)} 
-              placeholder="URL Hình ảnh"
-              style={{ flex: 1, padding: '8px' }}
-            />
-            <button onClick={() => deleteProduct(product.id)} style={{ padding: '8px 12px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px' }}>Xóa</button>
+          <div key={product.id} style={{ display: 'grid', gridTemplateColumns: '1fr 200px 1fr auto', gap: '10px', alignItems: 'center', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '4px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ width: '80px', height: '80px', borderRadius: '10px', overflow: 'hidden', background: '#111' }}>
+                <img
+                  src={product.imageUrl || '/images/about-hero.png'}
+                  alt={product.name || 'Ảnh sản phẩm'}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
+                <span style={{ fontSize: '0.85rem', opacity: 0.8 }}>Tên sản phẩm</span>
+                <input 
+                  value={product.name} 
+                  onChange={e => updateProduct(product.id, 'name', e.target.value)} 
+                  placeholder="Tên sản phẩm"
+                  style={{ width: '100%', padding: '8px' }}
+                />
+              </label>
+            </div>
+            <div>
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '0.85rem', opacity: 0.8 }}>Giá</span>
+                <input 
+                  type="number" 
+                  value={product.price} 
+                  onChange={e => updateProduct(product.id, 'price', parseInt(e.target.value) || 0)} 
+                  placeholder="Giá"
+                  style={{ width: '100%', padding: '8px' }}
+                />
+              </label>
+            </div>
+            <div style={{ display: 'grid', gap: '10px' }}>
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '0.85rem', opacity: 0.8 }}>URL Ảnh</span>
+                <input 
+                  value={product.imageUrl} 
+                  onChange={e => updateProduct(product.id, 'imageUrl', e.target.value)} 
+                  placeholder="URL Hình ảnh"
+                  style={{ width: '100%', padding: '8px' }}
+                />
+              </label>
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '0.85rem', opacity: 0.8 }}>Hoặc tải ảnh</span>
+                <input 
+                  type="file"
+                  accept="image/*"
+                  onChange={e => uploadImage(product.id, e.target.files?.[0] ?? null)}
+                  style={{ width: '100%' }}
+                />
+              </label>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-end' }}>
+              <button onClick={() => deleteProduct(product.id)} style={{ padding: '8px 12px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px' }}>Xóa</button>
+              {uploadingId === product.id ? (
+                <span style={{ color: '#fff', fontSize: '0.9rem' }}>Đang tải ảnh...</span>
+              ) : null}
+            </div>
           </div>
         ))}
       </div>

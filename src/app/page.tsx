@@ -46,12 +46,12 @@ export default function Home() {
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2000&auto=format&fit=crop) center/cover'
+        background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.unsplash.com/photo-1583094896752-0c91ee0a6ca5?q=80&w=2000&auto=format&fit=crop) center/cover'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="glass-card" style={{ maxWidth: '800px', margin: '0 auto', padding: '60px' }}>
             <div className="trust-badge-hero">
-              <span>🛡️</span> Cam kết bồi thường 1000% nếu phát hiện hàng giả
+              <span>🛡️</span> Cam kết bồi thường 1000% nếu phát hiện hàng giả hay pha trộn
             </div>
             <h1 style={{ 
               fontSize: '4.5rem', 
@@ -66,7 +66,7 @@ export default function Home() {
               color: 'var(--text-color)',
               fontWeight: '300',
               letterSpacing: '0.04em'
-            }}>Tinh hoa tổ yến thô nguyên chất - Lựa chọn yến tốt nhất cho sức khỏe vàng</p>
+            }}>Tổ yến thiên nhiên nguyên chất - Món quà vô giá cho sức khỏe gia đình</p>
             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
               <Link href="/san-pham" className="btn-primary" style={{ fontSize: '1.2rem', padding: '15px 40px' }}>
                 Mua Ngay
@@ -245,9 +245,9 @@ export default function Home() {
           </div>
           <div className="grid-3">
             {[
-              { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Yến ở đây sợi rất dai và thơm, không bị nát như những chỗ khác mình từng mua. Đóng gói lại cực kỳ sang trọng, rất hợp để đem biếu.', imageUrl: 'https://images.unsplash.com/photo-1515548211310-66b7bbf7c6f1?q=80&w=800&auto=format&fit=crop' },
-              { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Mình thường mua nước yến chưng sẵn cho bố mẹ bồi bổ. Tiện lợi mà chất lượng vẫn đảm bảo, cảm nhận rõ sự khác biệt so với các loại nước yến đóng chai công nghiệp.', imageUrl: 'https://images.unsplash.com/photo-1506089676908-3592f7389d4d?q=80&w=800&auto=format&fit=crop' },
-              { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở Yến Tinh Hoa rất sạch, ít lông và tạp chất, nhặt rất nhanh. Ăn vào thấy ngủ ngon và da dẻ hồng hào hơn hẳn.', imageUrl: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=800&auto=format&fit=crop' }
+              { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Mình thường mua yến tinh chế về cho gia đình chưng. Rất tiện lợi vì yến đã được làm sạch lông hoàn toàn, sợi yến nấu lên nở to, dai và đặc biệt rất thơm.', imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop' },
+              { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Công việc bận rộn nên tôi hay chọn yến tinh chế làm quà biếu đối tác. Bao bì sang trọng, tổ yến đều đẹp, đối tác nhận xong ai cũng khen nức nở.', imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop' },
+              { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở đây tổ to, dày và rất ít lông. Cô tự tay nhặt nên thấy cực kỳ an tâm. Cả nhà ăn vào ai cũng thấy ngủ ngon và da dẻ hồng hào hẳn ra.', imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop' }
             ].map((t, i) => (
               <div key={i} className="glass-card" style={{ fontStyle: 'italic', position: 'relative', overflow: 'hidden', padding: 0 }}>
                 <div style={{ position: 'relative', width: '100%', height: '220px' }}>
