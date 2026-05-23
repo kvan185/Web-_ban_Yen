@@ -40,7 +40,6 @@ export default function ProductsPage() {
   return (
     <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
       <h1 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '20px' }}>Tất Cả Sản Phẩm</h1>
-      <p style={{ textAlign: 'center', opacity: 0.7, marginBottom: '40px' }}>Yến Tinh Hoa - Cung cấp tổ yến thô thiên nhiên và các dòng yến tốt nhất cho gia đình bạn</p>
 
       <div style={gridStyle}>
         {products.map((p: any) => (

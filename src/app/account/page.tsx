@@ -19,7 +19,7 @@ export default async function AccountPage() {
         </p>
 
         {isAdmin ? (
-          <Link href="/admin" className="btn-primary" style={{ display: 'inline-block' }}>
+          <Link href="/manager" className="btn-primary" style={{ display: 'inline-block' }}>
             Mở trang quản trị
           </Link>
         ) : (

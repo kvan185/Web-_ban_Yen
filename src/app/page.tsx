@@ -9,7 +9,7 @@ export default async function Home() {
   const cookieStore = await cookies();
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
-  const accountHref = isAdmin ? '/admin' : isUser ? '/account' : '/login';
+  const accountHref = isAdmin ? '/manager' : isUser ? '/account' : '/login';
   const accountLabel = isAdmin ? 'Quản trị' : isUser ? 'Tài khoản' : 'Đăng nhập';
   const productsFilePath = path.join(process.cwd(), 'src', 'data', 'products.json');
   let products = [];

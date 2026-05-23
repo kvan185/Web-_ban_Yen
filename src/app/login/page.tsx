@@ -26,7 +26,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        const destination = callbackUrl || (data.isAdmin ? '/admin' : '/account');
+        const destination = callbackUrl || (data.isAdmin ? '/manager' : '/account');
         router.push(destination);
         router.refresh();
       } else {

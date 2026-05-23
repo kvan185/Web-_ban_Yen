@@ -54,13 +54,13 @@ export default function AdminLayout({
         <nav style={{ flex: 1 }}>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', padding: 0 }}>
             {[
-              { label: 'Bảng điều khiển', href: '/admin', icon: '📊', type: 'link' },
-              { label: 'Thông tin tài khoản', href: '/admin/profile', icon: '👤', type: 'link' },
-              { label: 'Cài đặt giao diện', href: '/admin/settings', icon: '🎨', type: 'link' },
-              { label: 'Quản lý danh mục', href: '/admin/categories', icon: '📂', type: 'link' },
-              { label: 'Quản lý sản phẩm', href: '/admin/products', icon: '📦', type: 'link' },
-              { label: 'Yêu thích', href: '/admin/favorite', icon: '❤️', type: 'link' },
-              { label: 'Lịch sử đơn hàng', href: '/admin/orders', icon: '🧾', type: 'link' },
+              { label: 'Bảng điều khiển', href: '/manager', icon: '📊', type: 'link' },
+              { label: 'Thông tin tài khoản', href: '/manager/profile', icon: '👤', type: 'link' },
+              { label: 'Cài đặt giao diện', href: '/manager/settings', icon: '🎨', type: 'link' },
+              { label: 'Quản lý danh mục', href: '/manager/categories', icon: '📂', type: 'link' },
+              { label: 'Quản lý sản phẩm', href: '/manager/products', icon: '📦', type: 'link' },
+              { label: 'Yêu thích', href: '/manager/favorite', icon: '❤️', type: 'link' },
+              { label: 'Lịch sử đơn hàng', href: '/manager/orders', icon: '🧾', type: 'link' },
             ].map((item) => (
               <li key={item.label}>
                 {item.type === 'link' ? (

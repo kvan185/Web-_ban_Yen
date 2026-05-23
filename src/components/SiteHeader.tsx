@@ -99,7 +99,7 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
             </div>
             <div className="header-actions">
               {isAdmin ? (
-                <a href="/admin" className="auth-link">Quản trị</a>
+                <a href="/manager" className="auth-link">Quản trị</a>
               ) : isUser ? (
                 <a href="/account" className="auth-link">Tài khoản</a>
               ) : (

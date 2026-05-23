@@ -50,7 +50,7 @@ export default async function RootLayout({
     : rawPath?.toString() || '';
 
   const isLoginPage = pathname.startsWith('/login');
-  const isAdminPage = pathname.startsWith('/admin');
+  const isAdminPage = pathname.startsWith('/manager');
 
   const hideFooter = isAdminPage || isLoginPage;
   const isAdmin = cookieStore.has('admin_session');

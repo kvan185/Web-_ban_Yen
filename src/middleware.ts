@@ -9,17 +9,17 @@ export function middleware(request: NextRequest) {
   const session = request.cookies.get('admin_session');
   
   // LOG: Theo dõi truy cập vào khu vực admin (Tùy chọn)
-  if (pathname.startsWith('/admin')) {
+  if (pathname.startsWith('/manager')) {
     console.log(`[Admin Access] Path: ${pathname}, Session: ${session ? 'Active' : 'None'}`);
   }
 
-  // 1. Nếu đang truy cập vào các tuyến đường /admin
-  if (pathname.startsWith('/admin')) {
+  // 1. Nếu đang truy cập vào các tuyến đường /manager
+  if (pathname.startsWith('/manager')) {
     
-    // 1.1. Nếu là trang cũ /admin/login thì chuyển về /login
-    if (pathname === '/admin/login') {
+    // 1.1. Nếu là trang cũ /manager/login thì chuyển về /login
+    if (pathname === '/manager/login') {
       if (session) {
-        return NextResponse.redirect(new URL('/admin', request.url));
+        return NextResponse.redirect(new URL('/manager', request.url));
       }
       return NextResponse.redirect(new URL('/login', request.url));
     }
@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
     // 1.2. Đối với các trang admin khác
     if (!session) {
       const loginUrl = new URL('/login', request.url);
-      if (pathname !== '/admin') {
+      if (pathname !== '/manager') {
         loginUrl.searchParams.set('callbackUrl', pathname);
       }
       return NextResponse.redirect(loginUrl);
