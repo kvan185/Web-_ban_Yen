@@ -58,7 +58,7 @@ function LoginContent() {
         textAlign: 'center'
       }}>
         <div style={{ fontSize: '3rem', marginBottom: '20px', color: 'var(--primary-color)' }}>👑</div>
-        <h1 style={{ color: '#fff', fontSize: '1.8rem', marginBottom: '10px', fontWeight: '600' }}>Quản trị Yến Thô</h1>
+        <h1 style={{ color: '#fff', fontSize: '1.8rem', marginBottom: '10px', fontWeight: '600' }}>Quản trị Yến Tinh Hoa</h1>
         <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '30px' }}>Vui lòng đăng nhập để tiếp tục</p>
 
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

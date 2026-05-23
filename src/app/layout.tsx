@@ -8,8 +8,8 @@ import { cookies } from 'next/headers';
 import SearchBar from '@/components/SearchBar';
 
 export const metadata: Metadata = {
-  title: 'Yến Thô - Tổ Yến Thô Nguyên Chất, Yến Thô Tốt Giá Rẻ',
-  description: 'Yến Thô chuyên cung cấp các loại tổ yến thô nguyên chất, yến thô ít lông chất lượng tốt nhất, yến tốt cho sức khỏe gia đình bạn. Đảm bảo 100% yến thật tự nhiên.',
+  title: 'Yến Tinh Hoa - Tổ Yến Thô Nguyên Chất, Yến Thô Tốt Giá Rẻ',
+  description: 'Yến Tinh Hoa chuyên cung cấp các loại tổ yến thô nguyên chất, yến thô ít lông chất lượng tốt nhất, yến tốt cho sức khỏe gia đình bạn. Đảm bảo 100% yến thật tự nhiên.',
   keywords: ['tổ yến', 'yến thô', 'yến tốt', 'yến sào', 'tổ yến thô', 'yến thô nguyên chất'],
   verification: {
     google: 'mCOuhXES7GHQRmVHNd64Hgyct74gyysAggOmqT4V1bg',
@@ -52,7 +52,7 @@ export default async function RootLayout({
         <header className="site-header">
           <div className="container header-inner">
             <div className="logo">
-              <a href="/">Yến Thô</a>
+              <a href="/">Yến Tinh Hoa</a>
             </div>
             <SearchBar />
             <nav>
@@ -77,8 +77,8 @@ export default async function RootLayout({
         <footer className="site-footer">
           <div className="container footer-grid">
             <div className="footer-info">
-              <h3>Yến Thô</h3>
-              <p>Yến Thô - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
+              <h3>Yến Tinh Hoa</h3>
+              <p>Yến Tinh Hoa - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
               <div className="footer-map" style={{ marginTop: '20px' }}>
                 <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3924.1375799631087!2d106.186295!3d10.410646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTDCsDI0JzM4LjMiTiAxMDbCsDExJzEwLjciRQ!5e0!3m2!1sen!2s!4v1778469651225!5m2!1sen!2s" 
@@ -102,7 +102,7 @@ export default async function RootLayout({
             </div>
             <div className="footer-newsletter">
               <h4>Nhận bản tin</h4>
-              <p>Đăng ký để nhận ưu đãi mới nhất từ Yến Thô</p>
+              <p>Đăng ký để nhận ưu đãi mới nhất từ Yến Tinh Hoa</p>
               <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
                 <input type="email" placeholder="Email của bạn" style={{ 
                   padding: '10px', 
@@ -117,7 +117,7 @@ export default async function RootLayout({
             </div>
           </div>
           <div className="container footer-bottom">
-            <p>&copy; {new Date().getFullYear()} Yến Thô. Tất cả quyền được bảo lưu.</p>
+            <p>&copy; {new Date().getFullYear()} Yến Tinh Hoa. Tất cả quyền được bảo lưu.</p>
           </div>
         </footer>
         <div className="floating-contacts">

@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yến Tinh Hoa
+
+Đây là dự án cửa hàng Yến Tinh Hoa được xây dựng bằng [Next.js](https://nextjs.org).
 
 ## Getting Started
 

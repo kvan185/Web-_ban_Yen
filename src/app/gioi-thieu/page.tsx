@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Về Yến Thô - Câu Chuyện Thương Hiệu Tổ Yến Thô Tốt Nhất',
-  description: 'Tìm hiểu hành trình xây dựng thương hiệu Yến Thô và sứ mệnh mang những sản phẩm tổ yến thô nguyên chất, yến tốt thượng hạng đến sức khỏe gia đình bạn.',
+  title: 'Về Yến Tinh Hoa - Câu Chuyện Thương Hiệu Tổ Yến Thô Tốt Nhất',
+  description: 'Tìm hiểu hành trình xây dựng thương hiệu Yến Tinh Hoa và sứ mệnh mang những sản phẩm tổ yến thô nguyên chất, yến tốt thượng hạng đến sức khỏe gia đình bạn.',
 };
 
 export default function AboutPage() {
@@ -24,7 +24,7 @@ export default function AboutPage() {
             marginBottom: '20px',
             textShadow: '2px 2px 10px rgba(0,0,0,0.5)',
             fontWeight: '700'
-          }}>Câu Chuyện Yến Thô</h1>
+          }}>Câu Chuyện Yến Tinh Hoa</h1>
           <p style={{ 
             fontSize: '1.6rem', 
             opacity: 0.95,
@@ -51,10 +51,10 @@ export default function AboutPage() {
             <div>
               <h2 className="section-title" style={{ textAlign: 'left', fontSize: '2.5rem' }}>Khởi Nguồn Đam Mê</h2>
               <p style={{ marginBottom: '25px', fontSize: '1.15rem', lineHeight: '1.9', color: 'var(--text-secondary)' }}>
-                Yến Thô bắt đầu từ những chuyến đi thực tế đến các vùng đảo yến xa xôi tại Khánh Hòa. Chúng tôi nhận thấy thị trường tổ yến đang bị bão hòa bởi những sản phẩm pha trộn, kém chất lượng, làm mất đi niềm tin của người tiêu dùng.
+                Yến Tinh Hoa bắt đầu từ những chuyến đi thực tế đến các vùng đảo yến xa xôi tại Khánh Hòa. Chúng tôi nhận thấy thị trường tổ yến đang bị bão hòa bởi những sản phẩm pha trộn, kém chất lượng, làm mất đi niềm tin của người tiêu dùng.
               </p>
               <p style={{ marginBottom: '25px', fontSize: '1.15rem', lineHeight: '1.9', color: 'var(--text-secondary)' }}>
-                Với mong muốn khôi phục giá trị thực của sản phẩm yến tự nhiên, Yến Thô đã được thành lập với tôn chỉ: <strong style={{ color: 'var(--primary-color)' }}>Chỉ bán tổ yến thô nguyên chất 100%</strong>. Chúng tôi tin rằng dòng yến tốt nhất phải là yến thật, sạch và giữ nguyên bản các chất dinh dưỡng tự nhiên.
+                Với mong muốn khôi phục giá trị thực của sản phẩm yến tự nhiên, Yến Tinh Hoa đã được thành lập với tôn chỉ: <strong style={{ color: 'var(--primary-color)' }}>Chỉ bán tổ yến thô nguyên chất 100%</strong>. Chúng tôi tin rằng dòng yến tốt nhất phải là yến thật, sạch và giữ nguyên bản các chất dinh dưỡng tự nhiên.
               </p>
               <div style={{ display: 'flex', gap: '30px', marginTop: '40px' }}>
                 <div style={{ textAlign: 'center' }}>
@@ -148,7 +148,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="glass-card" style={{ padding: '60px', background: 'linear-gradient(135deg, var(--primary-color), #d4af37)', color: '#fff' }}>
             <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Trải Nghiệm Tổ Yến Thô Tốt Nhất</h2>
-            <p style={{ fontSize: '1.2rem', marginBottom: '35px', opacity: 0.9 }}>Để Yến Thô đồng hành cùng sức khỏe của bạn và những người thân yêu bằng những sản phẩm yến tốt nhất.</p>
+            <p style={{ fontSize: '1.2rem', marginBottom: '35px', opacity: 0.9 }}>Để Yến Tinh Hoa đồng hành cùng sức khỏe của bạn và những người thân yêu bằng những sản phẩm yến tốt nhất.</p>
             <a href="/san-pham" className="btn btn-primary" style={{ backgroundColor: '#fff', color: 'var(--primary-color)', padding: '15px 40px', fontSize: '1.1rem' }}>
               Khám Phá Sản Phẩm
             </a>

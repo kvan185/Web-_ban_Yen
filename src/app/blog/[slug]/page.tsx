@@ -6,12 +6,12 @@ import Link from 'next/link';
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const metadataFilePath = path.join(process.cwd(), 'src', 'data', 'blog-metadata.json');
-  let title = 'Bài Viết - Yến Thô';
+  let title = 'Bài Viết - Yến Tinh Hoa';
   try {
     if (fs.existsSync(metadataFilePath)) {
       const posts = JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
       const post = posts.find((p: any) => p.slug === decodeURIComponent(slug));
-      if (post) title = `${post.title} - Yến Thô`;
+      if (post) title = `${post.title} - Yến Tinh Hoa`;
     }
   } catch (e) {}
   return { title };

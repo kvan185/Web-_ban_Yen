@@ -5,8 +5,8 @@ import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
 
 export const metadata = {
-  title: 'Sản Phẩm Yến Thô - Tổ Yến Thô Tốt, Yến Sào Nguyên Chất',
-  description: 'Mua tổ yến thô ít lông chất lượng cao, các dòng yến tốt cho sức khỏe giá cạnh tranh nhất tại Yến Thô. Đảm bảo 100% nguyên chất.',
+  title: 'Sản Phẩm Yến Tinh Hoa - Tổ Yến Thô Tốt, Yến Sào Nguyên Chất',
+  description: 'Mua tổ yến thô ít lông chất lượng cao, các dòng yến tốt cho sức khỏe giá cạnh tranh nhất tại Yến Tinh Hoa. Đảm bảo 100% nguyên chất.',
 };
 
 export default function ProductsPage() {
@@ -40,7 +40,7 @@ export default function ProductsPage() {
   return (
     <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
       <h1 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '20px' }}>Tất Cả Sản Phẩm</h1>
-      <p style={{ textAlign: 'center', opacity: 0.7, marginBottom: '40px' }}>Yến Thô - Cung cấp tổ yến thô thiên nhiên và các dòng yến tốt nhất cho gia đình bạn</p>
+      <p style={{ textAlign: 'center', opacity: 0.7, marginBottom: '40px' }}>Yến Tinh Hoa - Cung cấp tổ yến thô thiên nhiên và các dòng yến tốt nhất cho gia đình bạn</p>
 
       <div style={gridStyle}>
         {products.map((p: any) => (

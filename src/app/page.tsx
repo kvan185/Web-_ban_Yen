@@ -59,7 +59,7 @@ export default function Home() {
               color: 'var(--primary-color)',
               lineHeight: '1.1',
               fontFamily: 'var(--font-serif)'
-            }}>Yến Thô</h1>
+            }}>Yến Tinh Hoa</h1>
             <p style={{ 
               fontSize: '1.8rem', 
               marginBottom: '40px', 
@@ -92,7 +92,7 @@ export default function Home() {
             <div className="trust-signal">
               <span className="trust-icon">✨</span>
               <h3 className="trust-title">100% Tự Nhiên</h3>
-              <p className="trust-desc">Yến sào được khai thác trực tiếp từ các nhà yến và đảo yến tự nhiên.</p>
+              <p className="trust-desc">Yến thô được khai thác trực tiếp từ nhà yến.</p>
             </div>
             <div className="trust-signal">
               <span className="trust-icon">🌿</span>
@@ -173,7 +173,7 @@ export default function Home() {
             <div style={{ position: 'relative' }}>
               <img 
                 src="https://images.unsplash.com/photo-1610488974577-c35048d88e04?q=80&w=1000&auto=format&fit=crop" 
-                alt="About Yến Thô" 
+                alt="About Yến Tinh Hoa" 
                 style={{ width: '100%', borderRadius: '15px', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}
               />
               <div style={{ 
@@ -192,12 +192,12 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <h2 style={{ fontSize: '3rem', marginBottom: '25px', color: 'var(--primary-color)' }}>Về Yến Thô</h2>
+              <h2 style={{ fontSize: '3rem', marginBottom: '25px', color: 'var(--primary-color)' }}>Về Yến Tinh Hoa</h2>
               <p style={{ marginBottom: '20px', fontSize: '1.1rem', opacity: 0.9 }}>
-                Khởi nguồn từ niềm đam mê với tổ yến thô thiên nhiên quý giá, Yến Thô ra đời với sứ mệnh mang đến các sản phẩm yến sào nguyên chất và dòng yến tốt nhất cho sức khỏe người Việt.
+                Khởi nguồn từ niềm đam mê với tổ yến thô thiên nhiên quý giá, Yến Tinh Hoa ra đời với sứ mệnh mang đến các sản phẩm yến sào nguyên chất và dòng yến tốt nhất cho sức khỏe người Việt.
               </p>
               <p style={{ marginBottom: '30px', fontSize: '1.1rem', opacity: 0.9 }}>
-                Chúng tôi kiểm soát chặt chẽ từ khâu thu hoạch tại các đảo yến đến quy trình sơ chế thủ công tỉ mỉ. Toàn bộ dòng yến thô ít lông và yến tinh chế tại Yến Thô cam kết giữ trọn vẹn 100% dưỡng chất tự nhiên.
+                Chúng tôi kiểm soát chặt chẽ từ khâu thu hoạch tại các đảo yến đến quy trình sơ chế thủ công tỉ mỉ. Toàn bộ dòng yến thô ít lông và yến tinh chế tại Yến Tinh Hoa cam kết giữ trọn vẹn 100% dưỡng chất tự nhiên.
               </p>
               <Link href="/blog/mua_yen_hcm" className="btn-primary">
                 Tìm Hiểu Câu Chuyện Của Chúng Tôi
@@ -218,7 +218,7 @@ export default function Home() {
             {[
               { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Yến ở đây sợi rất dai và thơm, không bị nát như những chỗ khác mình từng mua. Đóng gói lại cực kỳ sang trọng, rất hợp để đem biếu.' },
               { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Mình thường mua nước yến chưng sẵn cho bố mẹ bồi bổ. Tiện lợi mà chất lượng vẫn đảm bảo, cảm nhận rõ sự khác biệt so với các loại nước yến đóng chai công nghiệp.' },
-              { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở Yến Thô rất sạch, ít lông và tạp chất, nhặt rất nhanh. Ăn vào thấy ngủ ngon và da dẻ hồng hào hơn hẳn.' }
+              { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở Yến Tinh Hoa rất sạch, ít lông và tạp chất, nhặt rất nhanh. Ăn vào thấy ngủ ngon và da dẻ hồng hào hơn hẳn.' }
             ].map((t, i) => (
               <div key={i} className="glass-card" style={{ fontStyle: 'italic', position: 'relative' }}>
                 <span style={{ fontSize: '4rem', color: 'rgba(212, 175, 55, 0.2)', position: 'absolute', top: '10px', left: '20px', fontFamily: 'serif' }}>"</span>
@@ -297,7 +297,7 @@ export default function Home() {
               },
               {
                 q: "Thời gian giao hàng mất bao lâu?",
-                a: "Yến Thô giao hàng nội thành TP.HCM trong vòng 2-4 giờ. Các tỉnh thành khác sẽ mất từ 2-3 ngày làm việc."
+                a: "Yến Tinh Hoa giao hàng nội thành TP.HCM trong vòng 2-4 giờ. Các tỉnh thành khác sẽ mất từ 2-3 ngày làm việc."
               },
               {
                 q: "Nếu tôi phát hiện hàng kém chất lượng thì sao?",
@@ -319,7 +319,7 @@ export default function Home() {
           <div className="glass-card" style={{ padding: '80px 40px', background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(6, 38, 33, 0.8))' }}>
             <h2 style={{ fontSize: '3.5rem', marginBottom: '20px', fontFamily: 'var(--font-serif)' }}>Sẵn Sàng Trải Nghiệm?</h2>
             <p style={{ fontSize: '1.2rem', marginBottom: '40px', maxWidth: '700px', margin: '0 auto 40px' }}>
-              Hãy để Yến Thô cùng bạn lựa chọn những dòng yến tốt, tổ yến thô chất lượng nhất để chăm sóc sức khỏe toàn diện cho gia đình.
+              Hãy để Yến Tinh Hoa cùng bạn lựa chọn những dòng yến tốt, tổ yến thô chất lượng nhất để chăm sóc sức khỏe toàn diện cho gia đình.
             </p>
             <Link href="/san-pham" className="btn-primary" style={{ fontSize: '1.3rem', padding: '18px 50px' }}>
               Bắt Đầu Mua Sắm

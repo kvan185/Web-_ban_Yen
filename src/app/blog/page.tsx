@@ -4,7 +4,7 @@ import Link from 'next/link';
 import SafeImage from '@/components/SafeImage';
 
 export const metadata = {
-  title: 'Blog Kiến Thức Tổ Yến - Yến Thô',
+  title: 'Blog Kiến Thức Tổ Yến - Yến Tinh Hoa',
   description: 'Tin tức, cẩm nang chưng yến thô, lựa chọn yến tốt và cách sử dụng tổ yến hiệu quả cho sức khỏe.',
 };
 
