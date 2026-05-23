@@ -1,14 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const callbackUrl = searchParams.get('callbackUrl') || '';
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,7 +26,8 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        router.push(data.isAdmin ? '/admin' : '/account');
+        const destination = callbackUrl || (data.isAdmin ? '/admin' : '/account');
+        router.push(destination);
         router.refresh();
       } else {
         setError(data.message || 'Đăng nhập thất bại');

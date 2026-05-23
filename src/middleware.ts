@@ -16,26 +16,20 @@ export function middleware(request: NextRequest) {
   // 1. Nếu đang truy cập vào các tuyến đường /admin
   if (pathname.startsWith('/admin')) {
     
-    // 1.1. Nếu là trang Login
+    // 1.1. Nếu là trang cũ /admin/login thì chuyển về /login
     if (pathname === '/admin/login') {
-      // Nếu đã có session, không cần đăng nhập lại, chuyển về dashboard
       if (session) {
         return NextResponse.redirect(new URL('/admin', request.url));
       }
-      // Nếu chưa có session, cho phép truy cập trang login bình thường
-      return NextResponse.next();
+      return NextResponse.redirect(new URL('/login', request.url));
     }
 
     // 1.2. Đối với các trang admin khác
     if (!session) {
-      // Lưu lại trang đang định truy cập để quay lại sau khi đăng nhập thành công
-      const loginUrl = new URL('/admin/login', request.url);
-      
-      // Nếu không phải trang chủ admin, thêm tham số callbackUrl
+      const loginUrl = new URL('/login', request.url);
       if (pathname !== '/admin') {
         loginUrl.searchParams.set('callbackUrl', pathname);
       }
-      
       return NextResponse.redirect(loginUrl);
     }
   }

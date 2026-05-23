@@ -3,7 +3,6 @@ import './globals.css';
 import fs from 'fs';
 import path from 'path';
 import CartCounter from '@/components/CartCounter';
-import Link from 'next/link';
 import { cookies, headers } from 'next/headers';
 import SearchBar from '@/components/SearchBar';
 
@@ -40,7 +39,8 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const headersList = await headers();
   const pathname = headersList.get('x-invoke-pathname') || headersList.get('x-pathname') || '';
-  const hideFooter = pathname.startsWith('/admin');
+  const isLoginPage = pathname === '/login';
+  const hideFooter = pathname.startsWith('/admin') || isLoginPage;
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
 
@@ -51,34 +51,43 @@ export default async function RootLayout({
           '--primary-color': settings.primaryColor,
           '--bg-color': settings.backgroundColor,
           '--text-color': settings.textColor,
+          overflow: isLoginPage ? 'hidden' : 'auto',
         } as React.CSSProperties}
       >
         <header className="site-header">
-          <div className="container header-inner">
-            <div className="logo">
-              <a href="/">Yến Tinh Chế</a>
-            </div>
-            <SearchBar />
-            <nav>
-              <ul className="nav-links">
-                <li><a href="/">Trang chủ</a></li>
-                <li><a href="/gioi-thieu">Giới thiệu</a></li>
-                <li><a href="/san-pham">Sản phẩm</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/chung-nhan">Chứng nhận</a></li>
-                <li><a href="/lien-he">Liên hệ</a></li>
+          <div className="header-top">
+            <div className="container header-top-inner">
+              <div className="logo">
+                <a href="/">Yến Tinh Chế</a>
+              </div>
+              <div className="header-search">
+                <SearchBar />
+              </div>
+              <div className="header-actions">
                 {isAdmin ? (
-                  <li><a href="/admin">Quản trị</a></li>
+                  <a href="/admin" className="auth-link">Quản trị</a>
                 ) : isUser ? (
-                  <li><a href="/account">Tài khoản</a></li>
+                  <a href="/account" className="auth-link">Tài khoản</a>
                 ) : (
-                  <li><a href="/login">Đăng nhập</a></li>
+                  <a href="/login" className="auth-link">Đăng nhập</a>
                 )}
-                <li className="cart-link">
-                  <CartCounter />
-                </li>
-              </ul>
-            </nav>
+                <CartCounter />
+              </div>
+            </div>
+          </div>
+          <div className="header-bottom">
+            <div className="container header-bottom-inner">
+              <nav>
+                <ul className="nav-links">
+                  <li><a href="/">Trang chủ</a></li>
+                  <li><a href="/san-pham">Sản phẩm</a></li>
+                  <li><a href="/gioi-thieu">Giới thiệu</a></li>
+                  <li><a href="/blog">Blog</a></li>
+                  <li><a href="/chung-nhan">Chứng nhận</a></li>
+                  <li><a href="/lien-he">Liên hệ</a></li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </header>
 
