@@ -58,24 +58,27 @@ button {
   background-color: var(--primary-color);
   color: var(--bg-color);
   border: none;
-  padding: 12px 24px;
-  font-weight: 600;
-  border-radius: 4px;
+  padding: 14px 32px;
+  font-weight: 700;
+  border-radius: 28px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 14px 30px rgba(212, 175, 55, 0.18);
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
+  opacity: 0.95;
+  transform: translateY(-3px) scale(1.01);
 }
 
 /* Glassmorphism card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
   padding: 30px;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
@@ -147,13 +150,16 @@ button {
 
 .trust-signal {
   text-align: center;
-  padding: 20px;
+  padding: 28px 24px;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 22px;
+  background: rgba(212, 175, 55, 0.05);
 }
 
 .trust-icon {
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   color: var(--primary-color);
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   display: block;
 }
 

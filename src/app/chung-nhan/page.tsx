@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Chứng Nhận Chất Lượng - Yến Tinh Hoa',
-  description: 'Cam kết chất lượng tổ yến thô nguyên chất, yến tốt thượng hạng với đầy đủ chứng nhận ATVSTP, ISO và kiểm định chất lượng định kỳ tại Yến Tinh Hoa.',
+  description: 'Yến Tinh Hoa cam kết tổ yến thô nguyên chất truy xuất được nguồn gốc, được kiểm định bởi phòng thí nghiệm độc lập và sơ chế thủ công chuẩn thượng hạng.',
 };
 
 export default function CertificationsPage() {
@@ -18,9 +18,9 @@ export default function CertificationsPage() {
       iconUrl: "https://vipsen.vn/wp-content/uploads/2021/04/haccp-icon.png"
     },
     {
-      title: "Chứng Nhận ATVSTP",
-      desc: "Cấp bởi Chi cục An toàn vệ sinh thực phẩm TP.HCM, chứng nhận cơ sở đủ điều kiện sản xuất kinh doanh.",
-      iconUrl: "https://vipsen.vn/wp-content/uploads/2021/04/atvstp-icon.png"
+      title: "Nguồn Gốc Minh Bạch",
+      desc: "Mỗi lô yến thô đều có truy xuất nguồn gốc từ nhà yến đến tay khách hàng, phù hợp với sản phẩm thô tự nhiên.",
+      iconUrl: "https://vipsen.vn/wp-content/uploads/2021/04/traceability-icon.png"
     }
   ];
 
@@ -28,7 +28,7 @@ export default function CertificationsPage() {
     <div className="certifications-page">
       {/* Hero Section */}
       <section className="section-padding" style={{ 
-        background: 'linear-gradient(rgba(6, 38, 33, 0.9), rgba(6, 38, 33, 0.9)), url(https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2000&auto=format&fit=crop) center/cover',
+        background: 'linear-gradient(rgba(6, 38, 33, 0.95), rgba(6, 38, 33, 0.95)), url(https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2000&auto=format&fit=crop) center/cover',
         textAlign: 'center'
       }}>
         <div className="container">

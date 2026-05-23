@@ -46,7 +46,7 @@ export default function Home() {
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(https://images.unsplash.com/photo-1621266304191-9c096d722329?q=80&w=2000&auto=format&fit=crop) center/cover'
+        background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2000&auto=format&fit=crop) center/cover'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="glass-card" style={{ maxWidth: '800px', margin: '0 auto', padding: '60px' }}>
@@ -61,10 +61,11 @@ export default function Home() {
               fontFamily: 'var(--font-serif)'
             }}>Yến Tinh Hoa</h1>
             <p style={{ 
-              fontSize: '1.8rem', 
+              fontSize: '1.9rem', 
               marginBottom: '40px', 
               color: 'var(--text-color)',
-              fontWeight: '300'
+              fontWeight: '300',
+              letterSpacing: '0.04em'
             }}>Tinh hoa tổ yến thô nguyên chất - Lựa chọn yến tốt nhất cho sức khỏe vàng</p>
             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
               <Link href="/san-pham" className="btn-primary" style={{ fontSize: '1.2rem', padding: '15px 40px' }}>
@@ -100,9 +101,9 @@ export default function Home() {
               <p className="trust-desc">Quy trình nhặt lông hoàn toàn bằng tay, không sử dụng hóa chất tẩy rửa.</p>
             </div>
             <div className="trust-signal">
-              <span className="trust-icon">🏆</span>
-              <h3 className="trust-title">Chứng Nhận ATTP</h3>
-              <p className="trust-desc">Đạt đầy đủ các chứng nhận về an toàn vệ sinh thực phẩm của Bộ Y Tế.</p>
+              <span className="trust-icon">📜</span>
+              <h3 className="trust-title">Nguồn Gốc Minh Bạch</h3>
+              <p className="trust-desc">Mỗi lô yến thô có thể truy xuất nguồn gốc từ nhà yến, phù hợp với sản phẩm thô tự nhiên.</p>
             </div>
             <div className="trust-signal">
               <span className="trust-icon">🚚</span>
@@ -216,20 +217,32 @@ export default function Home() {
           </div>
           <div className="grid-3">
             {[
-              { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Yến ở đây sợi rất dai và thơm, không bị nát như những chỗ khác mình từng mua. Đóng gói lại cực kỳ sang trọng, rất hợp để đem biếu.' },
-              { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Mình thường mua nước yến chưng sẵn cho bố mẹ bồi bổ. Tiện lợi mà chất lượng vẫn đảm bảo, cảm nhận rõ sự khác biệt so với các loại nước yến đóng chai công nghiệp.' },
-              { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở Yến Tinh Hoa rất sạch, ít lông và tạp chất, nhặt rất nhanh. Ăn vào thấy ngủ ngon và da dẻ hồng hào hơn hẳn.' }
+              { name: 'Chị Lan Anh', role: 'Nội trợ (Quận 7)', text: 'Yến ở đây sợi rất dai và thơm, không bị nát như những chỗ khác mình từng mua. Đóng gói lại cực kỳ sang trọng, rất hợp để đem biếu.', imageUrl: 'https://images.unsplash.com/photo-1515548211310-66b7bbf7c6f1?q=80&w=800&auto=format&fit=crop' },
+              { name: 'Anh Minh Đức', role: 'Doanh nhân (Quận 1)', text: 'Mình thường mua nước yến chưng sẵn cho bố mẹ bồi bổ. Tiện lợi mà chất lượng vẫn đảm bảo, cảm nhận rõ sự khác biệt so với các loại nước yến đóng chai công nghiệp.', imageUrl: 'https://images.unsplash.com/photo-1506089676908-3592f7389d4d?q=80&w=800&auto=format&fit=crop' },
+              { name: 'Cô Thu Hà', role: 'Giáo viên nghỉ hưu', text: 'Yến thô ở Yến Tinh Hoa rất sạch, ít lông và tạp chất, nhặt rất nhanh. Ăn vào thấy ngủ ngon và da dẻ hồng hào hơn hẳn.', imageUrl: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=800&auto=format&fit=crop' }
             ].map((t, i) => (
-              <div key={i} className="glass-card" style={{ fontStyle: 'italic', position: 'relative' }}>
-                <span style={{ fontSize: '4rem', color: 'rgba(212, 175, 55, 0.2)', position: 'absolute', top: '10px', left: '20px', fontFamily: 'serif' }}>"</span>
-                <p style={{ marginBottom: '25px', paddingTop: '20px', lineHeight: '1.8' }}>{t.text}</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                  <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: 'var(--primary-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'var(--bg-color)' }}>
-                    {t.name[0]}
+              <div key={i} className="glass-card" style={{ fontStyle: 'italic', position: 'relative', overflow: 'hidden', padding: 0 }}>
+                <div style={{ position: 'relative', width: '100%', height: '220px' }}>
+                  <SafeImage src={t.imageUrl} alt={t.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.65))' }} />
+                  <div style={{ position: 'absolute', bottom: '18px', left: '18px', zIndex: 2, color: '#fff' }}>
+                    <h4 style={{ margin: 0, fontSize: '1.1rem' }}>{t.name}</h4>
+                    <small style={{ opacity: 0.85 }}>{t.role}</small>
                   </div>
-                  <div>
-                    <h4 style={{ color: 'var(--primary-color)', margin: 0 }}>{t.name}</h4>
-                    <small style={{ opacity: 0.6 }}>{t.role}</small>
+                </div>
+                <div style={{ padding: '28px 24px 24px', backgroundColor: 'rgba(6, 38, 33, 0.95)' }}>
+                  <span style={{ fontSize: '4rem', color: 'rgba(212, 175, 55, 0.15)', position: 'absolute', top: '242px', left: '24px', fontFamily: 'serif' }}>
+                    "
+                  </span>
+                  <p style={{ marginBottom: '25px', paddingTop: '10px', lineHeight: '1.8', position: 'relative' }}>{t.text}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: 'var(--primary-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'var(--bg-color)' }}>
+                      {t.name[0]}
+                    </div>
+                    <div>
+                      <h4 style={{ color: 'var(--primary-color)', margin: 0 }}>{t.name}</h4>
+                      <small style={{ opacity: 0.6 }}>{t.role}</small>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -297,7 +310,11 @@ export default function Home() {
               },
               {
                 q: "Thời gian giao hàng mất bao lâu?",
-                a: "Yến Tinh Hoa giao hàng nội thành TP.HCM trong vòng 2-4 giờ. Các tỉnh thành khác sẽ mất từ 2-3 ngày làm việc."
+                a: "Yến Tinh Hoa giao hàng nhanh 2-4 giờ tại TP.HCM, đặc biệt ưu tiên các quận Quận 1, Quận 3, Quận 7, Quận Phú Nhuận và Quận Bình Thạnh. Nếu bạn ở quận gần trung tâm như Quận 1 hay Quận 7, đơn hàng sẽ đến rất nhanh trong ngày."
+              },
+              {
+                q: "Tôi ở Quận 7 hay Quận 1 thì bao lâu nhận được hàng?",
+                a: "Với dịch vụ giao hàng nội thành TP.HCM của chúng tôi, đơn hàng tại Quận 1, Quận 7, Quận 3 và Quận Phú Nhuận thường được giao trong 2-3 giờ. Quận Bình Thạnh, Tân Bình và các quận lân cận khác sẽ nhận trong 3-4 giờ."
               },
               {
                 q: "Nếu tôi phát hiện hàng kém chất lượng thì sao?",

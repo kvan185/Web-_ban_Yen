@@ -79,6 +79,7 @@ export default async function RootLayout({
             <div className="footer-info">
               <h3>Yến Tinh Hoa</h3>
               <p>Yến Tinh Hoa - Tinh hoa tổ yến thô nguyên chất từ thiên nhiên. Cam kết mang đến các dòng sản phẩm yến tốt, chất lượng cao và an toàn tuyệt đối cho sức khỏe gia đình bạn.</p>
+              <p style={{ marginTop: '15px', opacity: 0.85 }}>Giao hàng nhanh 2-4 giờ tại TP.HCM, ưu tiên Quận 1, Quận 3, Quận 7, Quận Phú Nhuận và Quận Bình Thạnh.</p>
               <div className="footer-map" style={{ marginTop: '20px' }}>
                 <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3924.1375799631087!2d106.186295!3d10.410646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTDCsDI0JzM4LjMiTiAxMDbCsDExJzEwLjciRQ!5e0!3m2!1sen!2s!4v1778469651225!5m2!1sen!2s" 

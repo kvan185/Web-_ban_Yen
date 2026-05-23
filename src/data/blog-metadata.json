@@ -78,5 +78,21 @@
     "slug": "phan_biet_yen_dao_nha",
     "imageUrl": "https://yensaophuongnam.com/wp-content/uploads/2020/09/phan-biet-yen-dao-va-yen-nha.jpg",
     "date": "2026-05-13"
+  },
+  {
+    "id": "b11",
+    "title": "Yến sào cho mẹ bầu tháng thứ mấy?",
+    "description": "Hướng dẫn mẹ bầu dùng yến đúng thời điểm trong thai kỳ để tối ưu dưỡng chất và an toàn cho cả mẹ lẫn con.",
+    "slug": "yen_sao_me_bau_thang_may",
+    "imageUrl": "https://yensaophuongnam.com/wp-content/uploads/2020/09/yen-sao-cho-ba-bau.jpg",
+    "date": "2026-05-20"
+  },
+  {
+    "id": "b12",
+    "title": "Cách chưng yến cho người già sau phẫu thuật",
+    "description": "Công thức chưng yến nhẹ nhàng, dễ tiêu hóa và hỗ trợ phục hồi cho người cao tuổi sau phẫu thuật.",
+    "slug": "cach_chung_yen_nguoi_gia_sau_phau_thuat",
+    "imageUrl": "https://yensaophuongnam.com/wp-content/uploads/2020/09/yen-sao-cho-nguoi-gia.jpg",
+    "date": "2026-05-20"
   }
 ]
