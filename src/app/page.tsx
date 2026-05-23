@@ -114,6 +114,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Local HCM Landing Pages */}
+      <section className="section-padding" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+        <div className="container">
+          <div className="section-title-wrapper">
+            <h2 className="section-title">Giao hàng nhanh TP.HCM</h2>
+            <p className="section-subtitle">Chọn quận của bạn để xem trang dịch vụ giao hàng nhanh 2-4 giờ và đặt yến sào thượng hạng ngay trong ngày.</p>
+          </div>
+          <div className="grid-4">
+            <Link href="/hcm/quan-1" className="glass-card" style={{ padding: '30px' }}>
+              <h3>Quận 1</h3>
+              <p>Giao nhanh 2-3 giờ cho trung tâm tài chính và khu thương mại.</p>
+            </Link>
+            <Link href="/hcm/quan-3" className="glass-card" style={{ padding: '30px' }}>
+              <h3>Quận 3</h3>
+              <p>Phục vụ nhanh cho đường Võ Văn Tần, Nam Kỳ Khởi Nghĩa và khu vực lân cận.</p>
+            </Link>
+            <Link href="/hcm/quan-7" className="glass-card" style={{ padding: '30px' }}>
+              <h3>Quận 7</h3>
+              <p>Ưu tiên giao hàng nhanh cho Phú Mỹ Hưng và khu đô thị cao cấp.</p>
+            </Link>
+            <Link href="/hcm/phu-nhuan" className="glass-card" style={{ padding: '30px' }}>
+              <h3>Phú Nhuận</h3>
+              <p>Giao nhanh trong ngày cho khu vực sân bay và trung tâm thành phố.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products */}
       <section className="section-padding">
         <div className="container">
@@ -256,7 +284,7 @@ export default function Home() {
         <div className="container">
           <div className="section-title-wrapper">
             <h2 className="section-title">Kiến Thức Tổ Yến</h2>
-            <p className="section-subtitle">Cập nhật bí quyết chưng yến thô, lựa chọn yến tốt và phân biệt tổ yến thật giả</p>
+            <p className="section-subtitle">Cập nhật bí quyết chưng yến thô, lựa chọn yến tốt và nội dung chuyên sâu từ hơn 10 năm kinh nghiệm Yến Tinh Hoa.</p>
           </div>
           <div className="grid-3">
             {blogs.slice(0, 3).map((b: any) => (
@@ -302,7 +330,8 @@ export default function Home() {
               },
               {
                 q: "Yến sào có thể bảo quản được bao lâu?",
-                a: "Yến thô và yến tinh chế có thể bảo quản từ 1 - 2 năm ở nơi khô thoáng. Yến tươi (đã ngâm) để được 7 ngày trong ngăn mát hoặc 3 tháng trong ngăn đông."
+                a: "Yến thô và yến tinh chế có thể bảo quản từ 1 - 2 năm ở nơi khô thoáng. Yến tươi (đã ngâm) để được 7 ngày trong ngăn mát hoặc 3 tháng trong ngăn đông.",
+                cta: { text: 'Mua ngay Yến Tinh Chế để được hướng dẫn bảo quản chi tiết', href: '/san-pham?category=Yến Tinh Chế' }
               },
               {
                 q: "Trẻ em bao nhiêu tuổi có thể bắt đầu ăn yến?",
@@ -324,6 +353,11 @@ export default function Home() {
               <div key={index} className="glass-card" style={{ marginBottom: '20px', textAlign: 'left' }}>
                 <h4 style={{ color: 'var(--primary-color)', fontSize: '1.2rem', marginBottom: '10px' }}>{item.q}</h4>
                 <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>{item.a}</p>
+                {item.cta && (
+                  <Link href={item.cta.href} className="btn-primary" style={{ marginTop: '16px', display: 'inline-flex' }}>
+                    {item.cta.text}
+                  </Link>
+                )}
               </div>
             ))}
           </div>

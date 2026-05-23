@@ -5,7 +5,7 @@ import SafeImage from '@/components/SafeImage';
 
 export const metadata = {
   title: 'Blog Kiến Thức Tổ Yến - Yến Tinh Hoa',
-  description: 'Chuyên mục kiến thức tổ yến cho mẹ bầu, người già sau phẫu thuật, cách chưng yến thô và lời khuyên chọn yến nguyên chất.',
+  description: 'Bộ bài viết chuyên sâu từ Yến Tinh Hoa với hơn 10 năm kinh nghiệm: phân tích dưỡng chất vi lượng, kiểm soát chất lượng đảo yến và kỹ thuật chưng yến thô chuẩn cao cấp.',
 };
 
 export default function BlogListPage() {
@@ -25,7 +25,7 @@ export default function BlogListPage() {
   return (
     <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
       <h1 style={{ textAlign: 'center', fontSize: '3.5rem', marginBottom: '20px', color: 'var(--primary-color)', fontWeight: '700' }}>Blog & Kiến Thức</h1>
-      <p style={{ textAlign: 'center', opacity: 0.8, marginBottom: '50px', fontSize: '1.2rem' }}>Chia sẻ chuyên sâu theo đối tượng: mẹ bầu, người già sau phẫu thuật, người mới dùng yến và cách chưng yến thô chuẩn.</p>
+      <p style={{ textAlign: 'center', opacity: 0.8, marginBottom: '50px', fontSize: '1.2rem' }}>Chia sẻ chuyên sâu từ hơn 10 năm nghiên cứu yến sào: dinh dưỡng vi lượng, kiểm soát chất lượng đảo yến, và hướng dẫn chưng yến thô chuẩn cao cấp.</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '40px' }}>
         {posts.map(post => (

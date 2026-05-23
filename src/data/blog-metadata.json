@@ -94,5 +94,21 @@
     "slug": "cach_chung_yen_nguoi_gia_sau_phau_thuat",
     "imageUrl": "https://yensaophuongnam.com/wp-content/uploads/2020/09/yen-sao-cho-nguoi-gia.jpg",
     "date": "2026-05-20"
+  },
+  {
+    "id": "b13",
+    "title": "Phân tích 31 nguyên tố vi lượng trong tổ yến thô",
+    "description": "Bài viết chuyên sâu giải thích 31 nguyên tố vi lượng quan trọng trong tổ yến thô và tác dụng sức khỏe của từng chất.",
+    "slug": "phan-tich-31-nguyen-to-vi-luong-trong-to-yen-tho",
+    "imageUrl": "https://images.unsplash.com/photo-1498579809087-ef1e558fd1f7?q=80&w=800&auto=format&fit=crop",
+    "date": "2026-05-22"
+  },
+  {
+    "id": "b14",
+    "title": "Quy trình kiểm soát chất lượng tại đảo yến của Yến Tinh Hoa",
+    "description": "Giới thiệu quy trình giám sát chất lượng từ đảo yến đến bàn ăn của khách hàng với tiêu chí sạch và minh bạch.",
+    "slug": "quy-trinh-kiem-soat-chat-luong-dao-yen-yen-tinh-hoa",
+    "imageUrl": "https://images.unsplash.com/photo-1503596476-1c12a8ba09a9?q=80&w=800&auto=format&fit=crop",
+    "date": "2026-05-22"
   }
 ]
