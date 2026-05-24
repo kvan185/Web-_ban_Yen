@@ -43,6 +43,7 @@ export default function ProductsAdminPage() {
   // Modal states
   const [viewProduct, setViewProduct] = useState<Product | null>(null);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
+  const [previewImage, setPreviewImage] = useState<Product | null>(null);
   const [isNew, setIsNew] = useState(false);
 
   useEffect(() => {
@@ -473,9 +474,8 @@ export default function ProductsAdminPage() {
           zIndex: 9999,
           padding: '20px'
         }}>
-          <form onSubmit={handleSaveProduct} className="glass-card" style={{
+          <form onSubmit={handleSaveProduct} className="glass-card admin-product-modal" style={{
             width: '100%',
-            maxWidth: '750px',
             borderRadius: '24px',
             padding: '30px',
             maxHeight: '90vh',
@@ -495,7 +495,7 @@ export default function ProductsAdminPage() {
               </button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', flexWrap: 'wrap' }}>
+            <div className="admin-product-form-grid">
               {/* Left Column: Core Info */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -590,14 +590,13 @@ export default function ProductsAdminPage() {
 
               {/* Right Column: Image and Description */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '15px', alignItems: 'center' }}>
-                  <div style={{ width: '100px', height: '100px', borderRadius: '10px', overflow: 'hidden', background: '#111', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '15px', alignItems: 'center' }}>
+                  <button type="button" className="admin-image-preview-button" onClick={() => setPreviewImage(editProduct)}>
                     <img
                       src={editProduct.imageUrl || '/images/about-hero.png'}
                       alt="Xem trước"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
-                  </div>
+                  </button>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                       <span style={{ fontSize: '0.85rem', opacity: 0.85 }}>Tải ảnh từ máy tính</span>
@@ -627,10 +626,11 @@ export default function ProductsAdminPage() {
                   <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Mô tả ngắn *</span>
                   <textarea 
                     required
-                    rows={3}
+                    rows={6}
                     value={editProduct.description}
                     onChange={e => setEditProduct({ ...editProduct, description: e.target.value })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff', resize: 'vertical' }}
+                    className="admin-form-field"
+                    style={{ resize: 'vertical' }}
                     placeholder="Nhập mô tả sản phẩm..."
                   />
                 </label>
@@ -668,6 +668,36 @@ export default function ProductsAdminPage() {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {previewImage && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.82)',
+          zIndex: 10000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div className="glass-card" style={{ width: 'min(900px, 100%)', padding: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', marginBottom: '16px' }}>
+              <div>
+                <h3>Kiểm tra ảnh sản phẩm</h3>
+                <p style={{ color: 'var(--text-muted)', overflowWrap: 'anywhere' }}>{previewImage.imageUrl || 'Chưa có ảnh'}</p>
+              </div>
+              <button type="button" onClick={() => setPreviewImage(null)} className="btn-primary" style={{ padding: '8px 14px' }}>
+                Đóng
+              </button>
+            </div>
+            <img
+              src={previewImage.imageUrl || '/images/about-hero.png'}
+              alt={previewImage.name}
+              style={{ width: '100%', maxHeight: '70vh', objectFit: 'contain', background: '#111', borderRadius: '8px' }}
+            />
+          </div>
         </div>
       )}
     </>

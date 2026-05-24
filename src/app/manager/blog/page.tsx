@@ -74,7 +74,7 @@ export default function BlogAdminPage() {
 
   if (editingPost) {
     return (
-      <div className="glass-card">
+      <div className="glass-card manager-blog-form">
         <h2 style={{ marginBottom: '20px' }}>{editingPost.id ? 'Chỉnh sửa' : 'Thêm mới'} Bài viết</h2>
         
         <label style={{ display: 'block', marginBottom: '5px' }}>Tiêu đề:</label>
@@ -121,21 +121,21 @@ export default function BlogAdminPage() {
 
   return (
     <div className="glass-card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <div className="manager-blog-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>Quản lý Blog</h2>
         <button onClick={() => setEditingPost({ id: '', title: '', description: '', slug: '', content: '' })} className="btn-primary">
           + Bài viết mới
         </button>
       </div>
 
-      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <ul className="manager-blog-list" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {posts.map(post => (
-          <li key={post.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '4px' }}>
-            <div>
+          <li key={post.id} className="manager-blog-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '4px' }}>
+            <div className="manager-blog-meta">
               <strong style={{ display: 'block', fontSize: '1.1rem' }}>{post.title}</strong>
               <small style={{ opacity: 0.6 }}>Slug: {post.slug} | Ngày: {post.date}</small>
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div className="manager-blog-actions" style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => handleEdit(post)} style={{ padding: '5px 10px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>Sửa</button>
               <button onClick={() => handleDelete(post.id)} style={{ padding: '5px 10px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px' }}>Xóa</button>
             </div>

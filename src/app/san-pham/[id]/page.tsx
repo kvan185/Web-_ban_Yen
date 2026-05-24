@@ -3,11 +3,12 @@
 import { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import SafeImage from '@/components/SafeImage';
+import { CartItem, FavoriteProduct, parseStorageArray } from '@/lib/storage';
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const [product, setProduct] = useState<any>(null);
-  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [product, setProduct] = useState<FavoriteProduct | null>(null);
+  const [allProducts, setAllProducts] = useState<FavoriteProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,19 +16,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       .then(res => res.json())
       .then(data => {
         setAllProducts(data);
-        const p = data.find((item: any) => item.id === id);
+        const p = data.find((item: FavoriteProduct) => item.id === id);
         setProduct(p);
         setLoading(false);
       });
   }, [id]);
 
   const addToCart = () => {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existing = cart.find((item: any) => item.id === product.id);
+    if (!product) return;
+    const cart = parseStorageArray<CartItem>(localStorage.getItem('cart'));
+    const existing = cart.find((item) => item.id === product.id);
     if (existing) {
       existing.quantity += 1;
     } else {
-      cart.push({ ...product, quantity: 1 });
+      cart.push({ ...product, imageUrl: product.imageUrl || '', quantity: 1 });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     window.dispatchEvent(new Event('cartUpdated'));
@@ -38,17 +40,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   useEffect(() => {
     if (product) {
-      const favs = JSON.parse(localStorage.getItem('favoriteProducts') || '[]');
-      setIsFavorited(favs.some((item: any) => item.id === product.id));
+      const favs = parseStorageArray<FavoriteProduct>(localStorage.getItem('favoriteProducts'));
+      setIsFavorited(favs.some((item) => item.id === product.id));
     }
   }, [product]);
 
   const toggleFavorite = () => {
-    const favs = JSON.parse(localStorage.getItem('favoriteProducts') || '[]');
-    const isFav = favs.some((item: any) => item.id === product.id);
+    if (!product) return;
+    const favs = parseStorageArray<FavoriteProduct>(localStorage.getItem('favoriteProducts'));
+    const isFav = favs.some((item) => item.id === product.id);
     let updatedFavs;
     if (isFav) {
-      updatedFavs = favs.filter((item: any) => item.id !== product.id);
+      updatedFavs = favs.filter((item) => item.id !== product.id);
       setIsFavorited(false);
       alert(`Đã xóa ${product.name} khỏi danh sách yêu thích!`);
     } else {
@@ -72,14 +75,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           <Link href="/">Trang chủ</Link> / <Link href="/san-pham">Sản phẩm</Link> / <span style={{ color: 'var(--primary-color)' }}>{product.name}</span>
         </nav>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px' }}>
+        <div className="product-detail-layout" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px' }}>
           {/* Image Gallery */}
           <div style={{ position: 'relative' }}>
-          <div style={{ position: 'relative', height: '550px', overflow: 'hidden', borderRadius: '15px', boxShadow: '0 15px 40px rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="product-detail-image" style={{ position: 'relative', height: '550px', overflow: 'hidden', borderRadius: '15px', boxShadow: '0 15px 40px rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <SafeImage 
-              src={product.imageUrl} 
+              src={product.imageUrl || '/images/about-hero.png'} 
               alt={product.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', background: 'rgba(0,0,0,0.18)' }}
             />
           </div>
             {product.badge && (
@@ -163,7 +166,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <h2 style={{ borderBottom: '3px solid var(--primary-color)', paddingBottom: '15px', color: 'var(--primary-color)' }}>Chi tiết sản phẩm</h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '60px' }}>
+          <div className="product-detail-extra" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '60px' }}>
             <div className="glass-card">
               <h3 style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>Thông số kỹ thuật</h3>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -199,7 +202,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <h2 className="section-title">Sản Phẩm Tương Tự</h2>
           </div>
           <div className="grid-4">
-            {relatedProducts.map((p: any) => (
+            {relatedProducts.map((p) => (
               <div key={p.id} className="glass-card" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <Link href={`/san-pham/${p.id}`}>
                   <div style={{ 
@@ -210,9 +213,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     marginBottom: '15px'
                   }}>
                     <SafeImage 
-                      src={p.imageUrl} 
+                      src={p.imageUrl || '/images/about-hero.png'} 
                       alt={p.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', background: 'rgba(0,0,0,0.18)' }}
                     />
                   </div>
                   <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>{p.name}</h3>

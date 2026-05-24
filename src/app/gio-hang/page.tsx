@@ -2,15 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { CartItem, parseStorageArray } from '@/lib/storage';
 
 export default function CartPage() {
-  const [cart, setCart] = useState<any[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    setCart(savedCart);
-    setLoading(false);
+    const timeout = window.setTimeout(() => {
+      setCart(parseStorageArray<CartItem>(localStorage.getItem('cart')));
+      setLoading(false);
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
   }, []);
 
   const updateQuantity = (id: string, delta: number) => {

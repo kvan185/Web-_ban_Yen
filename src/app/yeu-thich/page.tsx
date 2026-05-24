@@ -2,19 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import SafeImage from '@/components/SafeImage';
+import { FavoriteProduct, parseStorageArray } from '@/lib/storage';
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState<any[]>([]);
+  const [favorites, setFavorites] = useState<FavoriteProduct[]>([]);
 
   useEffect(() => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem('favoriteProducts') : null;
-    if (stored) {
-      try {
-        setFavorites(JSON.parse(stored));
-      } catch {
-        setFavorites([]);
-      }
-    }
+    const timeout = window.setTimeout(() => {
+      setFavorites(parseStorageArray<FavoriteProduct>(localStorage.getItem('favoriteProducts')));
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
   }, []);
 
   return (
@@ -27,9 +26,9 @@ export default function FavoritesPage() {
 
         {favorites.length > 0 ? (
           <div style={{ display: 'grid', gap: '20px' }}>
-            {favorites.map((product: any) => (
+            {favorites.map((product) => (
               <div key={product.id} className="glass-card" style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '20px', alignItems: 'center' }}>
-                <img src={product.imageUrl} alt={product.name} style={{ width: '120px', height: '120px', borderRadius: '14px', objectFit: 'cover' }} />
+                <SafeImage src={product.imageUrl || '/images/about-hero.png'} alt={product.name} style={{ width: '120px', height: '120px', borderRadius: '14px', objectFit: 'contain' }} />
                 <div>
                   <h2 style={{ marginBottom: '10px' }}>{product.name}</h2>
                   <p style={{ color: 'var(--primary-color)', fontWeight: '700' }}>{product.price.toLocaleString('vi-VN')} đ</p>

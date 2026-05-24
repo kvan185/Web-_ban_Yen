@@ -28,21 +28,10 @@ export default function CategoryPage() {
     console.error(e);
   }
 
-  const settingsFilePath = path.join(process.cwd(), 'src', 'data', 'settings.json');
-  let settings = { productsPerRow: 4 };
-  try {
-    if (fs.existsSync(settingsFilePath)) {
-      settings = JSON.parse(fs.readFileSync(settingsFilePath, 'utf8'));
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
   return (
     <CategoryClient 
       products={products} 
       categories={categories} 
-      settings={settings} 
     />
   );
 }

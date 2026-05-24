@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 interface SafeImageProps {
   src: string;
   alt: string;
@@ -17,19 +15,11 @@ export default function SafeImage({
   style, 
   fallbackSrc = '/images/about-hero.png' 
 }: SafeImageProps) {
-  const [imgSrc, setImgSrc] = useState(() => src || fallbackSrc);
-
-  useEffect(() => {
-    if (src) {
-      setImgSrc(src);
-    } else {
-      setImgSrc(fallbackSrc);
-    }
-  }, [src, fallbackSrc]);
+  const imageSrc = src && src !== 'undefined' ? src : fallbackSrc;
 
   return (
     <img
-      src={imgSrc}
+      src={imageSrc}
       alt={alt}
       className={className}
       style={{ display: 'block', ...style }}
@@ -37,7 +27,7 @@ export default function SafeImage({
       decoding="async"
       onError={(event) => {
         const target = event.currentTarget;
-        if (target.src !== fallbackSrc) {
+        if (!target.src.endsWith(fallbackSrc)) {
           target.src = fallbackSrc;
         }
       }}

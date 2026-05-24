@@ -4,72 +4,60 @@ import Link from 'next/link';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
 
-export const metadata = {
-  title: 'Sản Phẩm Yến Tinh Hoa - Tổ Yến Thô Tốt, Yến Sào Nguyên Chất',
-  description: 'Mua tổ yến thô ít lông chất lượng cao, các dòng yến tốt cho sức khỏe giá cạnh tranh nhất tại Yến Tinh Hoa. Đảm bảo 100% nguyên chất.',
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  imageUrl: string;
+  description?: string;
+  badge?: string;
 };
 
+export const metadata = {
+  title: 'Sản phẩm Yến Tinh Hoa - Tổ yến nguyên chất',
+  description: 'Mua tổ yến thô, yến tinh chế và quà tặng yến sào nguyên chất tại Yến Tinh Hoa.',
+};
+
+function getProducts(): Product[] {
+  try {
+    const productsFilePath = path.join(process.cwd(), 'src', 'data', 'products.json');
+    if (!fs.existsSync(productsFilePath)) return [];
+    return JSON.parse(fs.readFileSync(productsFilePath, 'utf8'));
+  } catch {
+    return [];
+  }
+}
+
 export default function ProductsPage() {
-  const productsFilePath = path.join(process.cwd(), 'src', 'data', 'products.json');
-  let products = [];
-  try {
-    if (fs.existsSync(productsFilePath)) {
-      products = JSON.parse(fs.readFileSync(productsFilePath, 'utf8'));
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-  const settingsFilePath = path.join(process.cwd(), 'src', 'data', 'settings.json');
-  let settings = { productsPerRow: 4 };
-  try {
-    if (fs.existsSync(settingsFilePath)) {
-      settings = JSON.parse(fs.readFileSync(settingsFilePath, 'utf8'));
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: `repeat(${settings.productsPerRow}, 1fr)`,
-    gap: '30px',
-    marginTop: '40px'
-  };
+  const products = getProducts();
 
   return (
-    <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '20px' }}>Tất Cả Sản Phẩm</h1>
+    <div className="container catalog-page">
+      <div className="catalog-heading">
+        <h1>Tất cả sản phẩm</h1>
+        <p>Chọn nhanh các dòng yến thô, yến tinh chế và quà tặng yến sào phù hợp cho gia đình.</p>
+      </div>
 
-      <div style={gridStyle}>
-        {products.map((p: any) => (
-          <div key={p.id} className="glass-card" style={{ 
-            textAlign: 'center', 
-            transition: 'transform 0.3s', 
-            display: 'flex', 
-            flexDirection: 'column',
-            overflow: 'hidden',
-            padding: 0
-          }}>
-            <Link href={`/san-pham/${p.id}`}>
-              <div style={{ height: '220px', width: '100%', overflow: 'hidden', position: 'relative', marginBottom: '15px' }}>
-                <SafeImage 
-                  src={p.imageUrl} 
-                  alt={p.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-              </div>
-              <div style={{ padding: '0 20px' }}>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'var(--text-color)', cursor: 'pointer', minHeight: '2.4em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{p.name}</h3>
-              </div>
+      <div className="product-grid">
+        {products.map((product) => (
+          <article key={product.id} className="glass-card product-card">
+            <Link href={`/san-pham/${product.id}`} className="product-card-media">
+              {product.badge && <span className="product-badge">{product.badge}</span>}
+              <SafeImage src={product.imageUrl} alt={product.name} className="product-card-image" />
             </Link>
-            <div style={{ padding: '0 20px 20px 20px', marginTop: 'auto' }}>
-              <p style={{ color: 'var(--primary-color)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '15px' }}>{p.price.toLocaleString('vi-VN')} đ</p>
-              <AddToCartButton product={p} />
+            <div className="product-card-body">
+              <Link href={`/san-pham/${product.id}`}>
+                <h2>{product.name}</h2>
+              </Link>
+              <p className="product-card-desc">{product.description}</p>
+              <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+              <AddToCartButton product={product} />
             </div>
-          </div>
+          </article>
         ))}
-        {products.length === 0 && <p style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.5 }}>Chưa có sản phẩm nào. Vui lòng thêm trong Admin.</p>}
+        {products.length === 0 && (
+          <p className="catalog-empty">Chưa có sản phẩm nào. Vui lòng thêm trong Admin.</p>
+        )}
       </div>
     </div>
   );

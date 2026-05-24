@@ -22,7 +22,7 @@ export default function ContactPage() {
                     <span style={{ fontSize: '1.5rem' }}>📍</span>
                     <div>
                       <strong>Địa chỉ:</strong><br />
-                      631/26 Lê Đức Thọ, Phường 16, Gò Vấp, TP. Hồ Chí Minh
+                      105 Ung Văn Khiêm, P. Mỹ Thạnh Tây, TP.HCM
                     </div>
                   </li>
                   <li style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>

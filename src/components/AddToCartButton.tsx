@@ -1,5 +1,7 @@
 'use client';
 
+import { CartItem, parseStorageArray } from '@/lib/storage';
+
 type Product = {
   id: string;
   name: string;
@@ -12,8 +14,8 @@ export default function AddToCartButton({ product, style }: { product: Product, 
     e.preventDefault();
     e.stopPropagation();
     
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const existing = cart.find((item: any) => item.id === product.id);
+    const cart = parseStorageArray<CartItem>(localStorage.getItem('cart'));
+    const existing = cart.find((item) => item.id === product.id);
     
     if (existing) {
       existing.quantity += 1;

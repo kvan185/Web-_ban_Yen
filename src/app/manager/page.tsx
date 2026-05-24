@@ -1,30 +1,107 @@
+import fs from 'fs';
+import path from 'path';
+
+type AnalyticsStore = {
+  total?: number;
+  byDay?: Record<string, number>;
+  byMonth?: Record<string, number>;
+  pages?: Record<string, number>;
+  referrers?: Record<string, number>;
+  devices?: {
+    mobile?: number;
+    desktop?: number;
+  };
+  recent?: Array<{
+    at: string;
+    path: string;
+    referrer: string;
+    device: string;
+  }>;
+};
+
+function getAnalytics(): AnalyticsStore {
+  try {
+    const filePath = path.join(process.cwd(), 'src', 'data', 'analytics.json');
+    if (!fs.existsSync(filePath)) return {};
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
+function topEntries(source: Record<string, number> = {}, limit = 5) {
+  return Object.entries(source)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, limit);
+}
+
 export default function AdminDashboard() {
+  const analytics = getAnalytics();
+  const days = topEntries(analytics.byDay, 7);
+  const months = topEntries(analytics.byMonth, 6);
+  const pages = topEntries(analytics.pages, 6);
+  const referrers = topEntries(analytics.referrers, 5);
+  const mobile = analytics.devices?.mobile || 0;
+  const desktop = analytics.devices?.desktop || 0;
+
   return (
     <div>
-      <h1>Trang Quản Trị</h1>
-      <p>Chọn một mục bên trái để quản lý sản phẩm, danh sách yêu thích hoặc theo dõi đơn hàng.</p>
-      
-      <div style={{ marginTop: '40px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-        <div className="glass-card" style={{ textAlign: 'center' }}>
-          <h3>Cài đặt giao diện</h3>
-          <p>Thay đổi màu sắc và bố cục</p>
-          <a href="/manager/settings" className="btn-primary" style={{ display: 'inline-block', marginTop: '10px' }}>Mở</a>
+      <h1>Bảng điều khiển</h1>
+      <p className="manager-muted">
+        Theo dõi lượt truy cập, trang được xem nhiều và nguồn truy cập để tối ưu nội dung bán hàng.
+      </p>
+
+      <div className="stats-grid">
+        <div className="glass-card stat-card">
+          <span>Tổng lượt truy cập</span>
+          <strong>{(analytics.total || 0).toLocaleString('vi-VN')}</strong>
         </div>
-        <div className="glass-card" style={{ textAlign: 'center' }}>
-          <h3>Quản lý sản phẩm</h3>
-          <p>Danh sách sản phẩm và chỉnh sửa</p>
-          <a href="/manager/products" className="btn-primary" style={{ display: 'inline-block', marginTop: '10px' }}>Mở</a>
+        <div className="glass-card stat-card">
+          <span>Mobile</span>
+          <strong>{mobile.toLocaleString('vi-VN')}</strong>
         </div>
-        <div className="glass-card" style={{ textAlign: 'center' }}>
-          <h3>Yêu thích</h3>
-          <p>Xem sản phẩm khách hàng yêu thích</p>
-          <a href="/manager/favorite" className="btn-primary" style={{ display: 'inline-block', marginTop: '10px' }}>Mở</a>
+        <div className="glass-card stat-card">
+          <span>Desktop</span>
+          <strong>{desktop.toLocaleString('vi-VN')}</strong>
         </div>
-        <div className="glass-card" style={{ textAlign: 'center' }}>
-          <h3>Lịch sử đơn hàng</h3>
-          <p>Danh sách đơn hàng khách hàng</p>
-          <a href="/manager/orders" className="btn-primary" style={{ display: 'inline-block', marginTop: '10px' }}>Mở</a>
-        </div>
+      </div>
+
+      <div className="manager-grid two-cols">
+        <section className="glass-card">
+          <h2>Theo ngày</h2>
+          <div className="analytics-list">
+            {days.length ? days.map(([label, value]) => (
+              <div key={label}><span>{label}</span><strong>{value}</strong></div>
+            )) : <p>Chưa có dữ liệu truy cập.</p>}
+          </div>
+        </section>
+
+        <section className="glass-card">
+          <h2>Theo tháng</h2>
+          <div className="analytics-list">
+            {months.length ? months.map(([label, value]) => (
+              <div key={label}><span>{label}</span><strong>{value}</strong></div>
+            )) : <p>Chưa có dữ liệu truy cập.</p>}
+          </div>
+        </section>
+
+        <section className="glass-card">
+          <h2>Trang được xem nhiều</h2>
+          <div className="analytics-list">
+            {pages.length ? pages.map(([label, value]) => (
+              <div key={label}><span>{label}</span><strong>{value}</strong></div>
+            )) : <p>Chưa có dữ liệu trang.</p>}
+          </div>
+        </section>
+
+        <section className="glass-card">
+          <h2>Nguồn truy cập</h2>
+          <div className="analytics-list">
+            {referrers.length ? referrers.map(([label, value]) => (
+              <div key={label}><span>{label}</span><strong>{value}</strong></div>
+            )) : <p>Chưa có dữ liệu nguồn truy cập.</p>}
+          </div>
+        </section>
       </div>
     </div>
   );

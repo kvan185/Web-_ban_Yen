@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import SearchBar from '@/components/SearchBar';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import CartCounter from '@/components/CartCounter';
+import SearchBar from '@/components/SearchBar';
 
 type SiteHeaderProps = {
   isAdmin: boolean;
@@ -13,14 +15,13 @@ type SiteHeaderProps = {
 
 export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoHide }: SiteHeaderProps) {
   const [hideTop, setHideTop] = useState(false);
-  const [topHeight, setTopHeight] = useState(64); // sensible default
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [topHeight, setTopHeight] = useState(64);
   const lastScrollY = useRef(0);
   const headerTopEl = useRef<HTMLDivElement | null>(null);
   const roRef = useRef<ResizeObserver | null>(null);
 
-  // Callback ref: fires as soon as the DOM node is attached
   const headerTopRef = useCallback((node: HTMLDivElement | null) => {
-    // Clean up old observer
     if (roRef.current) {
       roRef.current.disconnect();
       roRef.current = null;
@@ -29,30 +30,19 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
     headerTopEl.current = node;
 
     if (node) {
-      // Measure immediately
       setTopHeight(node.offsetHeight);
-
-      // Watch for resize
-      roRef.current = new ResizeObserver(() => {
-        setTopHeight(node.offsetHeight);
-      });
+      roRef.current = new ResizeObserver(() => setTopHeight(node.offsetHeight));
       roRef.current.observe(node);
     }
   }, []);
 
-  // Cleanup observer on unmount
   useEffect(() => {
-    return () => {
-      if (roRef.current) {
-        roRef.current.disconnect();
-      }
-    };
+    return () => roRef.current?.disconnect();
   }, []);
 
-  // Scroll handler for auto-hide
   useEffect(() => {
     if (!showTopHeader || !enableAutoHide) {
-      setHideTop(false);
+      window.setTimeout(() => setHideTop(false), 0);
       return;
     }
 
@@ -62,10 +52,8 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
       if (currentScrollY <= 10) {
         setHideTop(false);
       } else if (currentScrollY > lastScrollY.current + 5) {
-        // Scrolling down (with 5px threshold to avoid micro-jitter)
         setHideTop(true);
       } else if (currentScrollY < lastScrollY.current - 5) {
-        // Scrolling up
         setHideTop(false);
       }
 
@@ -92,36 +80,57 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
         <div className="header-top" ref={headerTopRef}>
           <div className="container header-top-inner">
             <div className="logo">
-              <a href="/">Yến Tinh Hoa</a>
+              <Link href="/" aria-label="Yến Tinh Hoa">
+                <Image
+                  src="/logo.jpeg"
+                  alt="Logo Yến Tinh Hoa"
+                  width={48}
+                  height={48}
+                  className="site-logo-img"
+                  priority
+                />
+                <span>Yến Tinh Hoa</span>
+              </Link>
             </div>
             <div className="header-search">
               <SearchBar />
             </div>
             <div className="header-actions">
               {isAdmin ? (
-                <a href="/manager" className="auth-link">Quản trị</a>
+                <Link href="/manager" className="auth-link">Quản trị</Link>
               ) : isUser ? (
-                <a href="/account" className="auth-link">Tài khoản</a>
+                <Link href="/account" className="auth-link">Tài khoản</Link>
               ) : (
-                <a href="/login" className="auth-link">Đăng nhập</a>
+                <Link href="/login" className="auth-link">Đăng nhập</Link>
               )}
               <CartCounter />
+              <button
+                type="button"
+                className="site-menu-toggle"
+                aria-expanded={menuOpen}
+                aria-controls="site-main-nav"
+                onClick={() => setMenuOpen((value) => !value)}
+              >
+                <span />
+                <span />
+                <span />
+              </button>
             </div>
           </div>
         </div>
       )}
 
       <div className="header-bottom">
-        <div className="container header-bottom-inner">
-          <nav>
-            <ul className="nav-links">
-              <li><a href="/">Trang chủ</a></li>
-              <li><a href="/danh-muc">Danh mục</a></li>
-              <li><a href="/san-pham">Sản phẩm</a></li>
-              <li><a href="/gioi-thieu">Giới thiệu</a></li>
-              <li><a href="/blog">Blog</a></li>
-              <li><a href="/chung-nhan">Chứng nhận</a></li>
-              <li><a href="/lien-he">Liên hệ</a></li>
+        <div className={`container header-bottom-inner ${menuOpen ? 'is-open' : ''}`}>
+          <nav aria-label="Điều hướng chính">
+            <ul className="nav-links" id="site-main-nav">
+              <li><Link href="/">Trang chủ</Link></li>
+              <li><Link href="/danh-muc">Danh mục</Link></li>
+              <li><Link href="/san-pham">Sản phẩm</Link></li>
+              <li><Link href="/gioi-thieu">Giới thiệu</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/chung-nhan">Chứng nhận</Link></li>
+              <li><Link href="/lien-he">Liên hệ</Link></li>
             </ul>
           </nav>
         </div>

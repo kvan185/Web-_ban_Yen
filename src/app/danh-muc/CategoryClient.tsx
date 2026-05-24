@@ -5,99 +5,79 @@ import Link from 'next/link';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
 
-type CategoryClientProps = {
-  products: any[];
-  categories: any[];
-  settings: any;
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  imageUrl: string;
+  description?: string;
+  badge?: string;
+  category?: string;
 };
 
-export default function CategoryClient({ products, categories, settings }: CategoryClientProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+type Category = {
+  id: string;
+  name: string;
+};
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
-    : products.filter(p => p.category === selectedCategory);
+type CategoryClientProps = {
+  products: Product[];
+  categories: Category[];
+};
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: `repeat(${settings.productsPerRow || 4}, 1fr)`,
-    gap: '30px',
-    marginTop: '40px'
-  };
+export default function CategoryClient({ products, categories }: CategoryClientProps) {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const filteredProducts =
+    selectedCategory === 'all'
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
-      <h1 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '20px' }}>Danh Mục Sản Phẩm</h1>
-      
-      {/* Category Filter Buttons */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap', marginBottom: '40px' }}>
+    <div className="container catalog-page">
+      <div className="catalog-heading">
+        <h1>Danh mục sản phẩm</h1>
+        <p>Lọc nhanh theo từng dòng yến để xem đúng nhóm sản phẩm bạn đang cần.</p>
+      </div>
+
+      <div className="category-filter" aria-label="Lọc danh mục">
         <button
+          type="button"
+          className={selectedCategory === 'all' ? 'is-active' : ''}
           onClick={() => setSelectedCategory('all')}
-          style={{
-            padding: '10px 24px',
-            borderRadius: '30px',
-            border: '1px solid var(--primary-color)',
-            background: selectedCategory === 'all' ? 'var(--primary-color)' : 'transparent',
-            color: selectedCategory === 'all' ? 'var(--bg-color)' : 'var(--primary-color)',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'all 0.3s'
-          }}
         >
           Tất cả
         </button>
-        {categories.map(cat => (
+        {categories.map((category) => (
           <button
-            key={cat.id}
-            onClick={() => setSelectedCategory(cat.name)}
-            style={{
-              padding: '10px 24px',
-              borderRadius: '30px',
-              border: '1px solid var(--primary-color)',
-              background: selectedCategory === cat.name ? 'var(--primary-color)' : 'transparent',
-              color: selectedCategory === cat.name ? 'var(--bg-color)' : 'var(--primary-color)',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.3s'
-            }}
+            key={category.id}
+            type="button"
+            className={selectedCategory === category.name ? 'is-active' : ''}
+            onClick={() => setSelectedCategory(category.name)}
           >
-            {cat.name}
+            {category.name}
           </button>
         ))}
       </div>
 
-      <div style={gridStyle}>
-        {filteredProducts.map((p: any) => (
-          <div key={p.id} className="glass-card" style={{ 
-            textAlign: 'center', 
-            transition: 'transform 0.3s', 
-            display: 'flex', 
-            flexDirection: 'column',
-            overflow: 'hidden',
-            padding: 0
-          }}>
-            <Link href={`/san-pham/${p.id}`}>
-              <div style={{ height: '220px', width: '100%', overflow: 'hidden', position: 'relative', marginBottom: '15px' }}>
-                <SafeImage 
-                  src={p.imageUrl} 
-                  alt={p.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-              </div>
-              <div style={{ padding: '0 20px' }}>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', color: 'var(--text-color)', cursor: 'pointer', minHeight: '2.4em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{p.name}</h3>
-              </div>
+      <div className="product-grid">
+        {filteredProducts.map((product) => (
+          <article key={product.id} className="glass-card product-card">
+            <Link href={`/san-pham/${product.id}`} className="product-card-media">
+              {product.badge && <span className="product-badge">{product.badge}</span>}
+              <SafeImage src={product.imageUrl} alt={product.name} className="product-card-image" />
             </Link>
-            <div style={{ padding: '0 20px 20px 20px', marginTop: 'auto' }}>
-              <p style={{ color: 'var(--primary-color)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '15px' }}>{p.price.toLocaleString('vi-VN')} đ</p>
-              <AddToCartButton product={p} />
+            <div className="product-card-body">
+              <Link href={`/san-pham/${product.id}`}>
+                <h2>{product.name}</h2>
+              </Link>
+              <p className="product-card-desc">{product.description}</p>
+              <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+              <AddToCartButton product={product} />
             </div>
-          </div>
+          </article>
         ))}
         {filteredProducts.length === 0 && (
-          <p style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.5 }}>
-            Không tìm thấy sản phẩm nào trong danh mục này.
-          </p>
+          <p className="catalog-empty">Không tìm thấy sản phẩm nào trong danh mục này.</p>
         )}
       </div>
     </div>
