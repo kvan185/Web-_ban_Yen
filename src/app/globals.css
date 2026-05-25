@@ -300,6 +300,7 @@ button {
 /* --- TIER 2: Navigation --- */
 .header-bottom {
   width: 100%;
+  position: relative;
   background: rgba(6, 38, 33, 0.98);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -430,7 +431,7 @@ body.no-footer {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  z-index: 9999;
+  z-index: 10010;
 }
 
 .floating-btn {
@@ -473,7 +474,7 @@ body.no-footer {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 9980;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -499,7 +500,7 @@ body.no-footer {
 
 .manager-menu-toggle {
   position: fixed;
-  top: 84px;
+  top: 76px;
   left: 16px;
   z-index: 1200;
   display: inline-flex;
@@ -999,6 +1000,15 @@ body.no-footer {
 
   .header-bottom-inner.is-open {
     display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1060;
+    padding: 10px 16px 14px;
+    background: rgba(6, 38, 33, 0.98);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
   }
 
   .header-bottom nav {
@@ -1031,6 +1041,7 @@ body.no-footer {
     width: auto;
     justify-content: flex-end;
     gap: 6px;
+    flex-wrap: nowrap;
   }
 
   .site-menu-toggle {
@@ -1089,7 +1100,7 @@ body.no-footer {
 
   .floating-contacts {
     right: 14px;
-    bottom: 88px;
+    bottom: 104px;
     gap: 10px;
   }
 
@@ -1112,7 +1123,7 @@ body.no-footer {
   }
 
   .manager-menu-toggle {
-    top: 12px;
+    top: 76px;
     left: 12px;
   }
 
@@ -1139,6 +1150,10 @@ body.no-footer {
 
   .manager-menu-open .manager-sidebar {
     transform: translateX(0);
+  }
+
+  .manager-menu-open .manager-menu-toggle {
+    left: calc(min(82vw, 310px) - 54px);
   }
 
   .manager-nav {

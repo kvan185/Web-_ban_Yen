@@ -17,14 +17,16 @@ type ManagerShellProps = {
 };
 
 export default function ManagerShell({ children, isAdmin, userName, links }: ManagerShellProps) {
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      if (window.innerWidth <= 768) setMenuOpen(false);
-    }, 0);
+    const syncMenuStateByViewport = () => {
+      setMenuOpen(window.innerWidth > 768);
+    };
 
-    return () => window.clearTimeout(timeout);
+    syncMenuStateByViewport();
+    window.addEventListener('resize', syncMenuStateByViewport);
+    return () => window.removeEventListener('resize', syncMenuStateByViewport);
   }, []);
 
   return (

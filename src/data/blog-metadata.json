@@ -110,5 +110,21 @@
     "slug": "quy-trinh-kiem-soat-chat-luong-dao-yen-yen-tinh-hoa",
     "imageUrl": "https://images.unsplash.com/photo-1503596476-1c12a8ba09a9?q=80&w=800&auto=format&fit=crop",
     "date": "2026-05-22"
+  },
+  {
+    "id": "b15",
+    "title": "Phac do su dung to yen theo muc tieu suc khoe trong 12 tuan",
+    "description": "Huong dan chuyen sau cach xay dung lo trinh dung to yen theo tung nhom muc tieu: phuc hoi the luc, cai thien giac ngu, va tang nen tang dinh duong.",
+    "slug": "phac-do-su-dung-to-yen-12-tuan-theo-muc-tieu",
+    "imageUrl": "/images/about-hero.png",
+    "date": "2026-05-25"
+  },
+  {
+    "id": "b16",
+    "title": "Sai so thuong gap khi chung yen va cach chuan hoa chat luong moi chen yen",
+    "description": "Phan tich cac loi ky thuat chung yen tai nha, nguyen nhan lam hao hut duong chat, va quy trinh chuan de giu soi no dep, mui vi on dinh.",
+    "slug": "sai-so-khi-chung-yen-va-cach-chuan-hoa-chat-luong",
+    "imageUrl": "/images/about-process.png",
+    "date": "2026-05-25"
   }
 ]

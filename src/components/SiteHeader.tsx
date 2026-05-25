@@ -41,6 +41,17 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
   }, []);
 
   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
     if (!showTopHeader || !enableAutoHide) {
       window.setTimeout(() => setHideTop(false), 0);
       return;

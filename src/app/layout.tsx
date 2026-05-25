@@ -71,6 +71,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="vi">
       <body
+        suppressHydrationWarning
         style={
           {
             '--primary-color': settings.primaryColor,
