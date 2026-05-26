@@ -6,7 +6,16 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/manager/', '/account/', '/login/', '/api/'],
+        disallow: [
+          '/manager/',
+          '/account/',
+          '/login/',
+          '/register/',
+          '/gio-hang/',
+          '/yeu-thich/',
+          '/api/',
+          '/tim-kiem',
+        ],
       },
     ],
     sitemap: 'https://yenth.vn/sitemap.xml',

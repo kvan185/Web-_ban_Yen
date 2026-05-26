@@ -4,10 +4,11 @@ import path from 'path';
 import { cookies, headers } from 'next/headers';
 import SiteHeader from '@/components/SiteHeader';
 import VisitTracker from '@/components/VisitTracker';
+import { DEFAULT_OG_IMAGE, JsonLd, organizationJsonLd, SITE_URL, websiteJsonLd } from '@/lib/seo';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://yenth.vn'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Yến Tinh Hoa - Tổ yến nguyên chất tại TP.HCM',
     template: '%s | Yến Tinh Hoa',
@@ -26,6 +27,21 @@ export const metadata: Metadata = {
     locale: 'vi_VN',
     type: 'website',
     images: ['/logo.jpeg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [DEFAULT_OG_IMAGE],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
   verification: {
     google: 'mCOuhXES7GHQRmVHNd64Hgyct74gyysAggOmqT4V1bg',
@@ -89,6 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             enableAutoHide={!isManagerPage}
           />
         )}
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <VisitTracker disabled={isLoginPage || isManagerPage} />
 
         <main style={{ paddingTop: isLoginPage ? 0 : undefined }}>{children}</main>
