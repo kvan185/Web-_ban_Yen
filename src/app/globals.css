@@ -885,8 +885,86 @@ button {
   justify-content: center;
 }
 
-.header-search .search-input {
-  width: 240px;
+.site-search {
+  width: min(100%, 430px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 28px rgba(0, 0, 0, 0.16);
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-search:focus-within {
+  border-color: rgba(212, 175, 55, 0.72);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12), 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.site-search-input {
+  min-width: 0;
+  height: 40px;
+  padding: 0 14px 0 16px;
+  border: 0;
+  outline: 0;
+  color: #ffffff;
+  background: transparent;
+  font: inherit;
+}
+
+.site-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.site-search-button {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  color: #062621;
+  background: var(--primary-color);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-search-button:hover {
+  transform: translateY(-1px);
+  background: #f0cc5c;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.24);
+}
+
+.site-search-button:active {
+  transform: translateY(0);
+}
+
+.site-search-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.site-search-icon::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 2px;
+  right: -6px;
+  bottom: -3px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: rotate(45deg);
+  transform-origin: left center;
 }
 
 /* --- TIER 2: Navigation --- */
@@ -952,9 +1030,21 @@ button {
     gap: 12px;
   }
 
-  .header-search .search-input {
+  .site-search {
     width: 100%;
     max-width: 100%;
+  }
+
+  .site-search-button {
+    padding: 0 12px;
+  }
+
+  .site-search-button span:last-child {
+    display: none;
+  }
+
+  .search-summary {
+    display: block;
   }
 }
 
@@ -1712,6 +1802,100 @@ body.no-footer {
   font-size: 1.05rem;
 }
 
+.search-page {
+  padding-top: 34px;
+}
+
+.search-hero {
+  margin: 0 0 30px;
+  padding: 34px 0 24px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.search-eyebrow {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: var(--primary-color);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-hero h1 {
+  max-width: 860px;
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.12;
+}
+
+.search-hero p {
+  max-width: 760px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.search-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.search-suggestions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-weight: 700;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.search-suggestions a:hover {
+  border-color: var(--primary-color);
+  background: rgba(212, 175, 55, 0.14);
+  color: var(--primary-color);
+}
+
+.search-summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--text-muted);
+}
+
+.search-summary strong {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.search-empty {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 46px 24px;
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  text-align: center;
+}
+
+.search-empty h2 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.search-empty p {
+  max-width: 520px;
+  margin: 0 auto 22px;
+  color: var(--text-muted);
+}
+
 .product-grid,
 .blog-grid {
   display: grid;
@@ -2128,7 +2312,8 @@ body.no-footer {
   }
 
   .header-search form,
-  .header-search .search-input {
+  .site-search,
+  .site-search-input {
     width: 100% !important;
   }
 

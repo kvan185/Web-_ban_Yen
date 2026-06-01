@@ -3,6 +3,8 @@ import path from 'path';
 
 type AnalyticsStore = {
   total?: number;
+  pageViews?: number;
+  uniqueSessions?: number;
   byDay?: Record<string, number>;
   byMonth?: Record<string, number>;
   pages?: Record<string, number>;
@@ -16,6 +18,7 @@ type AnalyticsStore = {
     path: string;
     referrer: string;
     device: string;
+    isNewSession?: boolean;
   }>;
 };
 
@@ -43,18 +46,24 @@ export default function AdminDashboard() {
   const referrers = topEntries(analytics.referrers, 5);
   const mobile = analytics.devices?.mobile || 0;
   const desktop = analytics.devices?.desktop || 0;
+  const pageViews = analytics.pageViews || analytics.total || 0;
+  const uniqueSessions = analytics.uniqueSessions || pageViews;
 
   return (
     <div>
       <h1>Bảng điều khiển</h1>
       <p className="manager-muted">
-        Theo dõi lượt truy cập, trang được xem nhiều và nguồn truy cập để tối ưu nội dung bán hàng.
+        Theo dõi phiên truy cập, lượt xem trang, trang được xem nhiều và nguồn truy cập để tối ưu nội dung bán hàng.
       </p>
 
       <div className="stats-grid">
         <div className="glass-card stat-card">
-          <span>Tổng lượt truy cập</span>
-          <strong>{(analytics.total || 0).toLocaleString('vi-VN')}</strong>
+          <span>Phiên khách truy cập</span>
+          <strong>{uniqueSessions.toLocaleString('vi-VN')}</strong>
+        </div>
+        <div className="glass-card stat-card">
+          <span>Lượt xem trang</span>
+          <strong>{pageViews.toLocaleString('vi-VN')}</strong>
         </div>
         <div className="glass-card stat-card">
           <span>Mobile</span>

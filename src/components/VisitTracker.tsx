@@ -13,10 +13,18 @@ export default function VisitTracker({ disabled = false }: VisitTrackerProps) {
   useEffect(() => {
     if (disabled || !pathname) return;
 
+    const storageKey = 'yenth_visit_session';
+    const sessionId =
+      window.sessionStorage.getItem(storageKey) ||
+      `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
+    window.sessionStorage.setItem(storageKey, sessionId);
+
     const payload = JSON.stringify({
       path: pathname,
       referrer: document.referrer || '',
       width: window.innerWidth,
+      sessionId,
     });
 
     if (navigator.sendBeacon) {
