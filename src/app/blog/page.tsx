@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
 import SafeImage from '@/components/SafeImage';
 import { JsonLd, pageMetadata, readBlogPosts, SITE_URL, truncateDescription } from '@/lib/seo';
@@ -21,28 +19,15 @@ export const metadata = pageMetadata({
   keywords: ['blog yến sào', 'kiến thức tổ yến', 'cách chưng yến', 'phân biệt yến thật giả'],
 });
 
-function getPosts(): BlogPostMeta[] {
-  try {
-    const metadataFilePath = path.join(process.cwd(), 'src', 'data', 'blog-metadata.json');
-    if (!fs.existsSync(metadataFilePath)) return [];
-    return JSON.parse(fs.readFileSync(metadataFilePath, 'utf8')).sort(
-      (a: BlogPostMeta, b: BlogPostMeta) =>
-        new Date(b.date || '').getTime() - new Date(a.date || '').getTime()
-    );
-  } catch {
-    return [];
-  }
-}
-
-export default function BlogListPage() {
-  const posts = getPosts();
+export default async function BlogListPage() {
+  const posts = (await readBlogPosts()) as BlogPostMeta[];
   const blogJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: 'Blog kiến thức tổ yến Yến Tinh Hoa',
     url: `${SITE_URL}/blog`,
     inLanguage: 'vi-VN',
-    blogPost: readBlogPosts().map((post) => ({
+    blogPost: posts.map((post) => ({
       '@type': 'BlogPosting',
       headline: post.title,
       description: truncateDescription(post.description, 240),

@@ -1,8 +1,5 @@
-import fs from 'fs';
-import path from 'path';
 import BlogAdminClient, { Post } from './BlogAdminClient';
-
-const metadataFilePath = path.join(process.cwd(), 'src', 'data', 'blog-metadata.json');
+import { getBlogPosts } from '@/lib/dataStore';
 
 function repairText(value = '') {
   if (!/(Ã|Ä|Æ|Â|áº|á»|â€|ðŸ)/.test(value)) {
@@ -16,24 +13,13 @@ function repairText(value = '') {
   }
 }
 
-function getInitialPosts(): Post[] {
-  try {
-    if (!fs.existsSync(metadataFilePath)) {
-      return [];
-    }
+export default async function BlogAdminPage() {
+  const posts = ((await getBlogPosts()) as Post[]).map((post) => ({
+    ...post,
+    title: repairText(post.title),
+    description: repairText(post.description),
+    content: post.content || '',
+  }));
 
-    const posts = JSON.parse(fs.readFileSync(metadataFilePath, 'utf8')) as Post[];
-    return posts.map((post) => ({
-      ...post,
-      title: repairText(post.title),
-      description: repairText(post.description),
-      content: post.content || '',
-    }));
-  } catch {
-    return [];
-  }
-}
-
-export default function BlogAdminPage() {
-  return <BlogAdminClient initialPosts={getInitialPosts()} />;
+  return <BlogAdminClient initialPosts={posts} />;
 }

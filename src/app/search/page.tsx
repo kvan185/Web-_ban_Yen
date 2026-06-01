@@ -22,7 +22,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q = '' } = await searchParams;
   const displayQuery = q.replace(/\s+/g, ' ').trim();
   const keyword = normalizeKeyword(displayQuery);
-  const products = readProducts();
+  const products = await readProducts();
   const results = keyword
     ? products.filter((product) => {
         const searchableText = normalizeKeyword(

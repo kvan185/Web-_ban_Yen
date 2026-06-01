@@ -1,9 +1,8 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
+import { getBlogPosts, getProducts } from '@/lib/dataStore';
 
 type Product = {
   id: string;
@@ -24,20 +23,6 @@ type BlogPost = {
   imageUrl: string;
   date: string;
 };
-
-function readJsonFile<T>(fileName: string, fallback: T): T {
-  const filePath = path.join(process.cwd(), 'src', 'data', fileName);
-
-  try {
-    if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath, 'utf8')) as T;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-
-  return fallback;
-}
 
 function repairText(value = '') {
   if (!/(Ã|Ä|Æ|Â|áº|á»|â€|ðŸ)/.test(value)) {
@@ -76,8 +61,8 @@ export default async function Home() {
   const isUser = cookieStore.has('user_session');
   const accountHref = isAdmin ? '/manager' : isUser ? '/account' : '/login';
   const accountLabel = isAdmin ? 'Quản trị' : isUser ? 'Tài khoản' : 'Đăng nhập';
-  const products = readJsonFile<Product[]>('products.json', []);
-  const blogs = readJsonFile<BlogPost[]>('blog-metadata.json', []);
+  const products = (await getProducts()) as Product[];
+  const blogs = (await getBlogPosts()) as BlogPost[];
 
   const featuredProducts = products.slice(0, 4).map(normalizeProduct);
   const featuredBlogs = blogs.slice(0, 3).map(normalizeBlog);

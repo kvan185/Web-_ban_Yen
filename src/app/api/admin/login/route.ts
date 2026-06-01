@@ -70,7 +70,7 @@ export async function POST(request: Request) {
 
     const cookieStore = await cookies();
 
-    if (verifyAdminCredentials(username, password)) {
+    if (await verifyAdminCredentials(username, password)) {
       if (isFormPost) {
         const response = NextResponse.redirect(redirectUrl(request, callbackUrl || '/manager'), 303);
         setAdminCookie(response);

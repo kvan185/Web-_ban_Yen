@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Mật khẩu mới phải có ít nhất 8 ký tự' }, { status: 400 });
     }
 
-    const updated = updateAdminPassword(currentPassword, newPassword);
+    const updated = await updateAdminPassword(currentPassword, newPassword);
 
     if (!updated) {
       return NextResponse.json({ success: false, message: 'Mật khẩu hiện tại không đúng' }, { status: 401 });

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
-import { JsonLd, pageMetadata, readProducts, SITE_URL } from '@/lib/seo';
+import { JsonLd, pageMetadata, ProductSeo, readProducts, SITE_URL } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: 'Yến thô là gì? Giá yến thô 100g mới nhất tại Yến Tinh Hoa',
@@ -27,13 +27,13 @@ function normalizeText(value: string) {
     .toLowerCase();
 }
 
-function isRawBirdNestProduct(product: ReturnType<typeof readProducts>[number]) {
+function isRawBirdNestProduct(product: ProductSeo) {
   const searchText = normalizeText(`${product.name} ${product.category || ''} ${product.description || ''}`);
   return searchText.includes('yen tho');
 }
 
-export default function RawBirdNestPage() {
-  const rawProducts = readProducts().filter(isRawBirdNestProduct);
+export default async function RawBirdNestPage() {
+  const rawProducts = (await readProducts()).filter(isRawBirdNestProduct);
   const lowestPrice = rawProducts.length ? Math.min(...rawProducts.map((product) => product.price)) : 0;
   const highestPrice = rawProducts.length ? Math.max(...rawProducts.map((product) => product.price)) : 0;
 

@@ -1,6 +1,4 @@
 import type { MetadataRoute } from 'next';
-import fs from 'fs';
-import path from 'path';
 import { readBlogPosts, readProducts, SITE_URL } from '@/lib/seo';
 
 const staticRoutes: Array<{
@@ -25,17 +23,9 @@ const staticRoutes: Array<{
   { path: '/contact', changeFrequency: 'monthly', priority: 0.7 },
 ];
 
-function fileModifiedDate(filePath: string) {
-  try {
-    return fs.statSync(filePath).mtime;
-  } catch {
-    return new Date();
-  }
-}
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const dataModified = fileModifiedDate(path.join(process.cwd(), 'src', 'data', 'products.json'));
-  const blogModified = fileModifiedDate(path.join(process.cwd(), 'src', 'data', 'blog-metadata.json'));
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const dataModified = new Date();
+  const blogModified = new Date();
 
   const sitemap: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${SITE_URL}${route.path === '/' ? '' : route.path}`,
@@ -44,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route.priority,
   }));
 
-  for (const product of readProducts()) {
+  for (const product of await readProducts()) {
     sitemap.push({
       url: `${SITE_URL}/products/${product.id}`,
       lastModified: dataModified,
@@ -53,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  for (const post of readBlogPosts()) {
+  for (const post of await readBlogPosts()) {
     sitemap.push({
       url: `${SITE_URL}/blog/${post.slug}`,
       lastModified: post.date ? new Date(post.date) : blogModified,

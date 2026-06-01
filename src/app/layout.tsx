@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import fs from 'fs';
-import path from 'path';
 import { cookies } from 'next/headers';
 import PublicChrome, { PublicFooter } from '@/components/PublicChrome';
 import { DEFAULT_OG_IMAGE, JsonLd, organizationJsonLd, SITE_URL, websiteJsonLd } from '@/lib/seo';
+import { getSettings } from '@/lib/dataStore';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -47,22 +46,8 @@ export const metadata: Metadata = {
   },
 };
 
-function getSettings() {
-  try {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'settings.json');
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch {
-    return {
-      primaryColor: '#D4AF37',
-      backgroundColor: '#062621',
-      textColor: '#F5F5F5',
-      productsPerRow: 4,
-    };
-  }
-}
-
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = getSettings();
+  const settings = await getSettings();
   const cookieStore = await cookies();
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
