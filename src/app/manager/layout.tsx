@@ -4,7 +4,7 @@ import ManagerShell from '@/components/ManagerShell';
 const customerLinks = [
   { label: 'Thông tin tài khoản', href: '/manager/profile' },
   { label: 'Yêu thích', href: '/manager/favorite' },
-  { label: 'Lịch sử đơn hàng', href: '/manager/orders' },
+  { label: 'Lịch sử đơn hàng', href: '/manager/order-history' },
 ];
 
 const adminLinks = [
@@ -13,6 +13,7 @@ const adminLinks = [
   { label: 'Cài đặt giao diện', href: '/manager/settings' },
   { label: 'Quản lý danh mục', href: '/manager/categories' },
   { label: 'Quản lý sản phẩm', href: '/manager/products' },
+  { label: 'Quản lý đơn hàng', href: '/manager/oders' },
   { label: 'Quản lý blog', href: '/manager/blog' },
 ];
 

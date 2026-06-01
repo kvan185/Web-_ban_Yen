@@ -173,7 +173,7 @@ export function websiteJsonLd() {
     inLanguage: 'vi-VN',
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_URL}/tim-kiem?q={search_term_string}`,
+      target: `${SITE_URL}/search?q={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   };
@@ -196,7 +196,7 @@ export function productJsonLd(product: ProductSeo) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    '@id': `${SITE_URL}/san-pham/${product.id}#product`,
+    '@id': `${SITE_URL}/products/${product.id}#product`,
     name: product.name,
     description: truncateDescription(product.description || product.name, 500),
     image: [absoluteImageUrl(product.imageUrl)],
@@ -208,7 +208,7 @@ export function productJsonLd(product: ProductSeo) {
     category: product.category || 'Yến sào',
     offers: {
       '@type': 'Offer',
-      url: `${SITE_URL}/san-pham/${product.id}`,
+      url: `${SITE_URL}/products/${product.id}`,
       priceCurrency: 'VND',
       price: product.price,
       availability: 'https://schema.org/InStock',

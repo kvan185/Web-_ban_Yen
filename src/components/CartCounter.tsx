@@ -23,7 +23,7 @@ export default function CartCounter() {
   }, []);
 
   return (
-    <Link href="/gio-hang" className="cart-link" aria-label={`Giỏ hàng có ${count} sản phẩm`}>
+    <Link href="/cart" className="cart-link" aria-label={`Giỏ hàng có ${count} sản phẩm`}>
       <span>Giỏ</span>
       <span className="cart-count">{count}</span>
     </Link>

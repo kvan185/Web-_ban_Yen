@@ -1,12 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CartItem, parseStorageArray } from '@/lib/storage';
+import { useRouter } from 'next/navigation';
+import CheckoutProfileModal, { CheckoutPayment, CustomerProfile } from '@/components/CheckoutProfileModal';
+import { CartItem, OrderHistoryItem, parseStorageArray } from '@/lib/storage';
 
 export default function CartPage() {
+  const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showCheckoutProfile, setShowCheckoutProfile] = useState(false);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -18,7 +22,7 @@ export default function CartPage() {
   }, []);
 
   const updateQuantity = (id: string, delta: number) => {
-    const newCart = cart.map(item => {
+    const newCart = cart.map((item) => {
       if (item.id === id) {
         const newQty = Math.max(1, item.quantity + delta);
         return { ...item, quantity: newQty };
@@ -31,7 +35,7 @@ export default function CartPage() {
   };
 
   const removeItem = (id: string) => {
-    const newCart = cart.filter(item => item.id !== id);
+    const newCart = cart.filter((item) => item.id !== id);
     setCart(newCart);
     localStorage.setItem('cart', JSON.stringify(newCart));
     window.dispatchEvent(new Event('cartUpdated'));
@@ -39,23 +43,66 @@ export default function CartPage() {
 
   const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
+  const createOrderDraft = (profile: CustomerProfile, payment: CheckoutPayment): OrderHistoryItem => {
+    const isBankTransfer = payment.method === 'bank';
+    return {
+      // eslint-disable-next-line react-hooks/purity
+      id: Date.now().toString(),
+      date: new Date().toLocaleString('vi-VN'),
+      total: totalPrice,
+      items: cart,
+      customerName: profile.fullName,
+      phone: profile.phone,
+      address: profile.address,
+      paymentMethod: payment.method,
+      paymentStatus: isBankTransfer ? 'Đã thanh toán' : 'Chưa thanh toán',
+      fulfillmentStatus: 'Đã nhận',
+      transferContent: payment.transferContent,
+      status: isBankTransfer ? 'Đã thanh toán, Đã nhận' : 'Chưa thanh toán, Đã nhận',
+    };
+  };
+
+  const saveOrder = async (order: OrderHistoryItem) => {
+    await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order),
+    });
+  };
+
+  const completeCheckout = async (profile: CustomerProfile, payment: CheckoutPayment) => {
+    const order = createOrderDraft(profile, payment);
+
+    if (payment.method === 'bank') {
+      localStorage.setItem('pendingBankCheckout', JSON.stringify(order));
+      router.push('/check-out');
+      return;
+    }
+
+    await saveOrder(order);
+    localStorage.removeItem('cart');
+    setCart([]);
+    window.dispatchEvent(new Event('cartUpdated'));
+    router.push('/order-history');
+  };
+
   if (loading) return <div className="container" style={{ padding: '100px' }}>Đang tải...</div>;
 
   return (
     <div className="container" style={{ padding: '60px 20px', minHeight: '80vh' }}>
-      <h1 style={{ fontSize: '2.5rem', marginBottom: '40px' }}>Giỏ Hàng Của Bạn</h1>
+      <h1 style={{ fontSize: '2.5rem', marginBottom: '40px' }}>Giỏ hàng của bạn</h1>
 
       {cart.length === 0 ? (
         <div className="glass-card" style={{ textAlign: 'center', padding: '60px' }}>
           <p style={{ fontSize: '1.2rem', marginBottom: '20px', opacity: 0.7 }}>Giỏ hàng của bạn đang trống.</p>
-          <Link href="/san-pham" className="btn-primary">Mua Sắm Ngay</Link>
+          <Link href="/products" className="btn-primary">Mua sắm ngay</Link>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '40px' }}>
+        <div className="cart-layout">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {cart.map(item => (
-              <div key={item.id} className="glass-card" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                <div style={{ width: '100px', height: '100px', background: `url(${item.imageUrl}) center/cover`, borderRadius: '8px' }}></div>
+            {cart.map((item) => (
+              <div key={item.id} className="glass-card cart-item-row">
+                <div style={{ width: '100px', height: '100px', background: `url(${item.imageUrl}) center/cover`, borderRadius: '8px' }} />
                 <div style={{ flex: 1 }}>
                   <h3 style={{ fontSize: '1.2rem' }}>{item.name}</h3>
                   <p style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{item.price.toLocaleString('vi-VN')} đ</p>
@@ -71,7 +118,7 @@ export default function CartPage() {
           </div>
 
           <div className="glass-card" style={{ height: 'fit-content' }}>
-            <h2 style={{ marginBottom: '20px' }}>Tổng Đơn Hàng</h2>
+            <h2 style={{ marginBottom: '20px' }}>Tổng đơn hàng</h2>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
               <span>Tạm tính:</span>
               <span>{totalPrice.toLocaleString('vi-VN')} đ</span>
@@ -80,12 +127,21 @@ export default function CartPage() {
               <span>Tổng cộng:</span>
               <span style={{ color: 'var(--primary-color)' }}>{totalPrice.toLocaleString('vi-VN')} đ</span>
             </div>
-            <button className="btn-primary" style={{ width: '100%', padding: '15px' }} onClick={() => alert('Chức năng đặt hàng sẽ được cập nhật ở bản PRO!')}>
-              TIẾN HÀNH THANH TOÁN
+            <button className="btn-primary" style={{ width: '100%', padding: '15px' }} onClick={() => setShowCheckoutProfile(true)}>
+              Tiến hành thanh toán
             </button>
           </div>
         </div>
       )}
+
+      <CheckoutProfileModal
+        open={showCheckoutProfile}
+        onClose={() => setShowCheckoutProfile(false)}
+        onComplete={(profile, payment) => {
+          setShowCheckoutProfile(false);
+          completeCheckout(profile, payment);
+        }}
+      />
     </div>
   );
 }

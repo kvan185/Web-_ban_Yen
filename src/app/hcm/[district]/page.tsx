@@ -75,7 +75,7 @@ export default function DistrictLandingPage({ params }: { params: { district: st
       </div>
 
       <div style={{ textAlign: 'center' }}>
-        <Link href={`/san-pham?district=${params.district}`} className="btn-primary" style={{ fontSize: '1.2rem', padding: '18px 50px' }}>
+        <Link href={`/products?district=${params.district}`} className="btn-primary" style={{ fontSize: '1.2rem', padding: '18px 50px' }}>
           Xem sản phẩm và đặt ngay
         </Link>
       </div>

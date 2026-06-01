@@ -9,18 +9,19 @@ const staticRoutes: Array<{
   priority: number;
 }> = [
   { path: '/', changeFrequency: 'daily', priority: 1 },
-  { path: '/san-pham', changeFrequency: 'daily', priority: 0.95 },
-  { path: '/danh-muc', changeFrequency: 'weekly', priority: 0.9 },
-  { path: '/gioi-thieu', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/raw-bird-nest', changeFrequency: 'daily', priority: 0.98 },
+  { path: '/products', changeFrequency: 'daily', priority: 0.95 },
+  { path: '/categories', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/about', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/hcm', changeFrequency: 'weekly', priority: 0.85 },
   { path: '/hcm/quan-1', changeFrequency: 'weekly', priority: 0.82 },
   { path: '/hcm/quan-3', changeFrequency: 'weekly', priority: 0.82 },
   { path: '/hcm/quan-7', changeFrequency: 'weekly', priority: 0.82 },
   { path: '/hcm/phu-nhuan', changeFrequency: 'weekly', priority: 0.82 },
   { path: '/blog', changeFrequency: 'weekly', priority: 0.78 },
-  { path: '/chung-nhan', changeFrequency: 'monthly', priority: 0.72 },
-  { path: '/lich-su', changeFrequency: 'monthly', priority: 0.68 },
-  { path: '/lien-he', changeFrequency: 'monthly', priority: 0.7 },
+  { path: '/certifications', changeFrequency: 'monthly', priority: 0.72 },
+  { path: '/order-history', changeFrequency: 'monthly', priority: 0.68 },
+  { path: '/contact', changeFrequency: 'monthly', priority: 0.7 },
 ];
 
 function fileModifiedDate(filePath: string) {
@@ -44,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const product of readProducts()) {
     sitemap.push({
-      url: `${SITE_URL}/san-pham/${product.id}`,
+      url: `${SITE_URL}/products/${product.id}`,
       lastModified: dataModified,
       changeFrequency: 'weekly',
       priority: 0.86,

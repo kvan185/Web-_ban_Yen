@@ -80,9 +80,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   const isLoginPage = pathname.startsWith('/login');
   const isManagerPage = pathname.startsWith('/manager');
-  const hideFooter = isManagerPage || isLoginPage;
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
+  const isAdminManagerPage = isManagerPage && isAdmin;
+  const hideFooter = isAdminManagerPage || isLoginPage;
 
   return (
     <html lang="vi">
@@ -101,8 +102,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <SiteHeader
             isAdmin={isAdmin}
             isUser={isUser}
-            showTopHeader={!isManagerPage}
-            enableAutoHide={!isManagerPage}
+            showTopHeader={!isAdminManagerPage}
+            enableAutoHide={!isAdminManagerPage}
           />
         )}
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />

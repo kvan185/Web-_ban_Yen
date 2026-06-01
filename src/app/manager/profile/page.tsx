@@ -22,6 +22,12 @@ export default async function ProfilePage() {
             <strong>Tên đăng nhập</strong>
             <span>{isAdmin ? ADMIN_USERNAME : userName}</span>
           </div>
+          {!isAdmin && (
+            <div>
+              <strong>Họ và tên</strong>
+              <span>Cập nhật riêng trong biểu mẫu bên dưới</span>
+            </div>
+          )}
           <div>
             <strong>Vai trò</strong>
             <span>{isAdmin ? 'Quản trị viên' : 'Khách hàng'}</span>

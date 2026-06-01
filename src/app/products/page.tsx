@@ -18,7 +18,7 @@ export const metadata = pageMetadata({
   title: 'Sản phẩm yến sào nguyên chất tại TP.HCM',
   description:
     'Mua tổ yến thô, yến tinh chế và quà tặng yến sào nguyên chất tại Yến Tinh Hoa. Giao nhanh 2-4 giờ tại TP.HCM.',
-  pathname: '/san-pham',
+  pathname: '/products',
   keywords: ['sản phẩm yến sào', 'mua tổ yến', 'yến tinh chế', 'tổ yến thô', 'yến sào TP.HCM'],
 });
 
@@ -41,7 +41,7 @@ export default function ProductsPage() {
     itemListElement: products.map((product, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `${SITE_URL}/san-pham/${product.id}`,
+      url: `${SITE_URL}/products/${product.id}`,
       item: {
         '@type': 'Product',
         name: product.name,
@@ -72,12 +72,12 @@ export default function ProductsPage() {
         <div className="product-grid">
           {products.map((product) => (
             <article key={product.id} className="glass-card product-card">
-              <Link href={`/san-pham/${product.id}`} className="product-card-media">
+              <Link href={`/products/${product.id}`} className="product-card-media">
                 {product.badge && <span className="product-badge">{product.badge}</span>}
                 <SafeImage src={product.imageUrl} alt={product.name} className="product-card-image" />
               </Link>
               <div className="product-card-body">
-                <Link href={`/san-pham/${product.id}`}>
+                <Link href={`/products/${product.id}`}>
                   <h2>{product.name}</h2>
                 </Link>
                 <p className="product-card-desc">{product.description}</p>

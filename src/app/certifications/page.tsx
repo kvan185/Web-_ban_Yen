@@ -136,7 +136,7 @@ export default function CertificationsPage() {
       <section className="section-padding" style={{ backgroundColor: 'var(--bg-secondary)', textAlign: 'center' }}>
         <div className="container">
           <h2 style={{ fontSize: '2.5rem', marginBottom: '30px' }}>Yên Tâm Mua Sắm Tại Yến Tinh Hoa</h2>
-          <Link href="/san-pham" className="btn-primary" style={{ padding: '15px 50px' }}>Xem Sản Phẩm</Link>
+          <Link href="/products" className="btn-primary" style={{ padding: '15px 50px' }}>Xem Sản Phẩm</Link>
         </div>
       </section>
     </div>

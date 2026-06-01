@@ -89,46 +89,47 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
     >
       {showTopHeader && (
         <div className="header-top" ref={headerTopRef}>
-          <div className="container header-top-inner">
-            <div className="logo">
-              <Link href="/" aria-label="Yến Tinh Hoa">
-                <Image
-                  src="/logo.jpeg"
-                  alt="Logo Yến Tinh Hoa"
-                  width={48}
-                  height={48}
-                  className="site-logo-img"
-                  priority
-                />
-                <span>Yến Tinh Hoa</span>
-              </Link>
-            </div>
-            <div className="header-search">
-              <SearchBar />
-            </div>
-            <div className="header-actions">
-              {isAdmin ? (
-                <Link href="/manager" className="auth-link">Quản trị</Link>
-              ) : isUser ? (
-                <Link href="/account" className="auth-link">Tài khoản</Link>
-              ) : (
-                <Link href="/login" className="auth-link">Đăng nhập</Link>
-              )}
-              <CartCounter />
-              <button
-                type="button"
-                className="site-menu-toggle"
-                aria-expanded={menuOpen}
-                aria-controls="site-main-nav"
-                onClick={() => setMenuOpen((value) => !value)}
-              >
-                <span />
-                <span />
-                <span />
-              </button>
+            <div className="container header-top-inner">
+              <div className="logo">
+                <Link href="/" aria-label="Yến Tinh Hoa">
+                  <Image
+                    src="/logo.jpeg"
+                    alt="Logo Yến Tinh Hoa"
+                    width={48}
+                    height={48}
+                    className="site-logo-img"
+                    priority
+                  />
+                  <span>Yến Tinh Hoa</span>
+                </Link>
+              </div>
+              <div className="header-search">
+                <SearchBar />
+              </div>
+              <div className="header-actions">
+                {isAdmin ? (
+                  <Link href="/manager" className="auth-link">Quản trị</Link>
+                ) : isUser ? (
+                  <Link href="/account" className="auth-link">Tài khoản</Link>
+                ) : (
+                  <Link href="/login" className="auth-link">Đăng nhập</Link>
+                )}
+                <CartCounter />
+                <button
+                  type="button"
+                  className="site-menu-toggle"
+                  aria-expanded={menuOpen}
+                  aria-controls="site-main-nav"
+                  aria-label="Mở menu"
+                  onClick={() => setMenuOpen((value) => !value)}
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
       )}
 
       <div className="header-bottom">
@@ -136,12 +137,13 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
           <nav aria-label="Điều hướng chính">
             <ul className="nav-links" id="site-main-nav">
               <li><Link href="/">Trang chủ</Link></li>
-              <li><Link href="/danh-muc">Danh mục</Link></li>
-              <li><Link href="/san-pham">Sản phẩm</Link></li>
-              <li><Link href="/gioi-thieu">Giới thiệu</Link></li>
+              <li><Link href="/categories">Danh mục</Link></li>
+              <li><Link href="/raw-bird-nest">Yến thô</Link></li>
+              <li><Link href="/products">Sản phẩm</Link></li>
+              <li><Link href="/about">Giới thiệu</Link></li>
               <li><Link href="/blog">Blog</Link></li>
-              <li><Link href="/chung-nhan">Chứng nhận</Link></li>
-              <li><Link href="/lien-he">Liên hệ</Link></li>
+              <li><Link href="/certifications">Chứng nhận</Link></li>
+              <li><Link href="/contact">Liên hệ</Link></li>
             </ul>
           </nav>
         </div>

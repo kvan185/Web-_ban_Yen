@@ -1,7 +1,3 @@
-'use client';
-
-import { useState } from 'react';
-import { useEffect } from 'react';
 import ManagerLogoutButton from '@/components/ManagerLogoutButton';
 
 type ManagerLink = {
@@ -17,31 +13,20 @@ type ManagerShellProps = {
 };
 
 export default function ManagerShell({ children, isAdmin, userName, links }: ManagerShellProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const syncMenuStateByViewport = () => {
-      setMenuOpen(window.innerWidth > 768);
-    };
-
-    syncMenuStateByViewport();
-    window.addEventListener('resize', syncMenuStateByViewport);
-    return () => window.removeEventListener('resize', syncMenuStateByViewport);
-  }, []);
-
   return (
-    <div className={`manager-shell ${menuOpen ? 'manager-menu-open' : 'manager-menu-closed'}`}>
-      <button
-        type="button"
-        className="manager-menu-toggle"
-        aria-expanded={menuOpen}
-        aria-controls="manager-sidebar"
-        onClick={() => setMenuOpen((value) => !value)}
-      >
+    <div className="manager-shell manager-menu-css">
+      <input
+        type="checkbox"
+        className="manager-menu-control manager-menu-open-control"
+        id="manager-menu-open-control"
+        defaultChecked
+        aria-label="Mở menu quản trị"
+      />
+      <label className="manager-menu-toggle" htmlFor="manager-menu-open-control" role="button">
         <span />
         <span />
         <span />
-      </button>
+      </label>
 
       <aside className="manager-sidebar" id="manager-sidebar">
         <div className="manager-brand">
@@ -53,7 +38,7 @@ export default function ManagerShell({ children, isAdmin, userName, links }: Man
           <ul className="manager-nav">
             {links.map((item) => (
               <li key={item.href}>
-                <a href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
+                <a href={item.href}>{item.label}</a>
               </li>
             ))}
           </ul>

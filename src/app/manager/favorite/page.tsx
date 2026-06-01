@@ -3,31 +3,32 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-export default function AdminFavoritePage() {
-  const [favorites, setFavorites] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+type FavoriteProduct = {
+  id: string;
+  name: string;
+  price: number;
+  imageUrl?: string;
+  description?: string;
+  badge?: string;
+};
 
-  const loadFavorites = () => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem('favoriteProducts') : null;
-    if (stored) {
-      try {
-        setFavorites(JSON.parse(stored));
-      } catch {
-        setFavorites([]);
-      }
-    } else {
-      setFavorites([]);
-    }
-    setLoading(false);
-  };
+export default function AdminFavoritePage() {
+  const [favorites, setFavorites] = useState<FavoriteProduct[]>([]);
 
   useEffect(() => {
-    loadFavorites();
+    const stored = localStorage.getItem('favoriteProducts');
+    if (!stored) return;
+
+    try {
+      setFavorites(JSON.parse(stored));
+    } catch {
+      setFavorites([]);
+    }
   }, []);
 
   const handleRemoveFavorite = (id: string, name: string) => {
     if (window.confirm(`Bạn có chắc chắn muốn xóa "${name}" khỏi danh sách yêu thích?`)) {
-      const updated = favorites.filter((p: any) => p.id !== id);
+      const updated = favorites.filter((product) => product.id !== id);
       localStorage.setItem('favoriteProducts', JSON.stringify(updated));
       setFavorites(updated);
       window.dispatchEvent(new Event('favoritesUpdated'));
@@ -35,19 +36,11 @@ export default function AdminFavoritePage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <p style={{ color: 'var(--primary-color)', fontSize: '1.2rem' }}>Đang tải danh sách yêu thích...</p>
-      </div>
-    );
-  }
-
   return (
     <div style={{ minHeight: '100vh', padding: '20px' }}>
       <div style={{ marginBottom: '30px' }}>
         <h1 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', marginBottom: '10px' }}>
-          Quản lý Sản phẩm Yêu Thích ❤️
+          Quản lý Sản phẩm Yêu thích
         </h1>
         <p style={{ color: 'rgba(245, 245, 245, 0.75)', fontSize: '1.05rem', lineHeight: '1.6' }}>
           Xem và quản lý danh sách các sản phẩm tổ yến được yêu thích và quan tâm nhiều nhất của khách hàng trên hệ thống.
@@ -56,31 +49,31 @@ export default function AdminFavoritePage() {
 
       {favorites.length > 0 ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '25px' }}>
-          {favorites.map((product: any) => (
-            <div key={product.id} className="glass-card" style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              borderRadius: '20px', 
-              padding: '24px', 
+          {favorites.map((product) => (
+            <div key={product.id} className="glass-card" style={{
+              display: 'flex',
+              flexDirection: 'column',
+              borderRadius: '20px',
+              padding: '24px',
               border: '1px solid rgba(255,255,255,0.08)',
               height: '100%',
               justifyContent: 'space-between'
             }}>
               <div>
-                <div style={{ 
-                  width: '100%', 
-                  height: '200px', 
-                  borderRadius: '14px', 
-                  overflow: 'hidden', 
-                  background: '#111', 
-                  marginBottom: '20px', 
+                <div style={{
+                  width: '100%',
+                  height: '200px',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  background: '#111',
+                  marginBottom: '20px',
                   position: 'relative',
                   border: '1px solid rgba(255,255,255,0.1)'
                 }}>
-                  <img 
-                    src={product.imageUrl || '/images/about-hero.png'} 
-                    alt={product.name} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  <img
+                    src={product.imageUrl || '/images/about-hero.png'}
+                    alt={product.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                   {product.badge && (
                     <span style={{
@@ -103,15 +96,15 @@ export default function AdminFavoritePage() {
                 <h3 style={{ fontSize: '1.25rem', color: '#fff', marginBottom: '8px', lineHeight: '1.4' }}>
                   {product.name}
                 </h3>
-                
+
                 <p style={{ color: 'var(--primary-color)', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '15px' }}>
                   {product.price.toLocaleString('vi-VN')} đ
                 </p>
 
-                <p style={{ 
-                  opacity: 0.8, 
-                  fontSize: '0.9rem', 
-                  lineHeight: '1.6', 
+                <p style={{
+                  opacity: 0.8,
+                  fontSize: '0.9rem',
+                  lineHeight: '1.6',
                   marginBottom: '20px',
                   display: '-webkit-box',
                   WebkitLineClamp: 3,
@@ -123,12 +116,12 @@ export default function AdminFavoritePage() {
               </div>
 
               <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
-                <Link 
-                  href={`/san-pham/${product.id}`}
-                  style={{ 
+                <Link
+                  href={`/products/${product.id}`}
+                  style={{
                     flex: 1.5,
-                    padding: '10px 15px', 
-                    borderRadius: '8px', 
+                    padding: '10px 15px',
+                    borderRadius: '8px',
                     border: '1px solid var(--primary-color)',
                     background: 'rgba(212, 175, 55, 0.1)',
                     color: 'var(--primary-color)',
@@ -137,23 +130,15 @@ export default function AdminFavoritePage() {
                     fontSize: '0.9rem',
                     transition: 'all 0.2s'
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'var(--primary-color)';
-                    e.currentTarget.style.color = 'var(--bg-color)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(212, 175, 55, 0.1)';
-                    e.currentTarget.style.color = 'var(--primary-color)';
-                  }}
                 >
                   Xem chi tiết
                 </Link>
-                <button 
+                <button
                   onClick={() => handleRemoveFavorite(product.id, product.name)}
-                  style={{ 
+                  style={{
                     flex: 1,
-                    padding: '10px 15px', 
-                    borderRadius: '8px', 
+                    padding: '10px 15px',
+                    borderRadius: '8px',
                     border: '1px solid rgba(255, 77, 77, 0.3)',
                     background: 'rgba(255, 77, 77, 0.1)',
                     color: '#ff4d4d',
@@ -161,12 +146,6 @@ export default function AdminFavoritePage() {
                     fontWeight: '600',
                     fontSize: '0.9rem',
                     transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 77, 77, 0.2)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255, 77, 77, 0.1)';
                   }}
                 >
                   Bỏ thích
@@ -177,13 +156,12 @@ export default function AdminFavoritePage() {
         </div>
       ) : (
         <div className="glass-card" style={{ padding: '50px 30px', textAlign: 'center', borderRadius: '20px' }}>
-          <span style={{ fontSize: '4rem', display: 'block', marginBottom: '20px' }}>💔</span>
           <h3 style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '10px' }}>Chưa có sản phẩm yêu thích nào</h3>
           <p style={{ opacity: 0.7, maxWidth: '500px', margin: '0 auto 25px' }}>
-            Khách hàng chưa đánh dấu yêu thích bất kỳ sản phẩm nào. Hãy khám phá ngay các loại tổ yến thô và tinh chế thượng hạng của chúng tôi.
+            Khách hàng chưa đánh dấu yêu thích bất kỳ sản phẩm nào. Hãy khám phá ngay các loại tổ yến thô và tinh chế thượng hạng.
           </p>
-          <Link href="/san-pham" className="btn-primary" style={{ display: 'inline-block', padding: '12px 30px' }}>
-            Xem Danh Sách Sản Phẩm
+          <Link href="/products" className="btn-primary" style={{ display: 'inline-block', padding: '12px 30px' }}>
+            Xem danh sách sản phẩm
           </Link>
         </div>
       )}

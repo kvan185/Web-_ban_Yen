@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const customerManagerPaths = ['/manager/profile', '/manager/favorite', '/manager/orders'];
+const customerManagerPaths = ['/manager/profile', '/manager/favorite', '/manager/order-history'];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

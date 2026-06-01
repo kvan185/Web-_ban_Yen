@@ -62,12 +62,12 @@ export default function CategoryClient({ products, categories }: CategoryClientP
       <div className="product-grid">
         {filteredProducts.map((product) => (
           <article key={product.id} className="glass-card product-card">
-            <Link href={`/san-pham/${product.id}`} className="product-card-media">
+            <Link href={`/products/${product.id}`} className="product-card-media">
               {product.badge && <span className="product-badge">{product.badge}</span>}
               <SafeImage src={product.imageUrl} alt={product.name} className="product-card-image" />
             </Link>
             <div className="product-card-body">
-              <Link href={`/san-pham/${product.id}`}>
+              <Link href={`/products/${product.id}`}>
                 <h2>{product.name}</h2>
               </Link>
               <p className="product-card-desc">{product.description}</p>

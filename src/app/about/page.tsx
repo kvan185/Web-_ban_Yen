@@ -149,7 +149,7 @@ export default function AboutPage() {
           <div className="glass-card" style={{ padding: '60px', background: 'linear-gradient(135deg, var(--primary-color), #d4af37)', color: '#fff' }}>
             <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Trải Nghiệm Tổ Yến Thô Tốt Nhất</h2>
             <p style={{ fontSize: '1.2rem', marginBottom: '35px', opacity: 0.9 }}>Để Yến Tinh Hoa đồng hành cùng sức khỏe của bạn và những người thân yêu bằng những sản phẩm yến tốt nhất.</p>
-            <a href="/san-pham" className="btn btn-primary" style={{ backgroundColor: '#fff', color: 'var(--primary-color)', padding: '15px 40px', fontSize: '1.1rem' }}>
+            <a href="/products" className="btn btn-primary" style={{ backgroundColor: '#fff', color: 'var(--primary-color)', padding: '15px 40px', fontSize: '1.1rem' }}>
               Khám Phá Sản Phẩm
             </a>
           </div>

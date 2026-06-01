@@ -39,7 +39,7 @@ export default function FavoritesPage() {
         ) : (
           <div className="glass-card" style={{ padding: '30px', textAlign: 'center' }}>
             <p>Hiện chưa có sản phẩm yêu thích.</p>
-            <Link href="/san-pham" className="btn-primary" style={{ marginTop: '20px', display: 'inline-block' }}>
+            <Link href="/products" className="btn-primary" style={{ marginTop: '20px', display: 'inline-block' }}>
               Xem sản phẩm
             </Link>
           </div>

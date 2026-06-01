@@ -25,6 +25,14 @@ export type OrderHistoryItem = {
   date?: string;
   total?: number;
   items?: CartItem[];
+  customerName?: string;
+  phone?: string;
+  address?: string;
+  paymentMethod?: 'bank' | 'cod';
+  paymentStatus?: string;
+  fulfillmentStatus?: string;
+  transferContent?: string;
+  status?: string;
 };
 
 export function parseStorageArray<T>(value: string | null): T[] {

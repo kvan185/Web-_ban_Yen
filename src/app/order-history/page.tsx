@@ -2,17 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { OrderHistoryItem, parseStorageArray } from '@/lib/storage';
+import { OrderHistoryItem } from '@/lib/storage';
 
 export default function OrderHistoryPage() {
   const [orders, setOrders] = useState<OrderHistoryItem[]>([]);
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      setOrders(parseStorageArray<OrderHistoryItem>(localStorage.getItem('orderHistory')));
-    }, 0);
-
-    return () => window.clearTimeout(timeout);
+    fetch('/api/orders')
+      .then((res) => res.json())
+      .then((data) => setOrders(Array.isArray(data) ? data : []))
+      .catch(() => setOrders([]));
   }, []);
 
   return (
@@ -34,6 +33,20 @@ export default function OrderHistoryPage() {
                   </div>
                   <strong style={{ color: 'var(--primary-color)' }}>{order.total?.toLocaleString('vi-VN')} đ</strong>
                 </div>
+                <div className="checkout-info-list" style={{ marginTop: '18px' }}>
+                  <div>
+                    <span>Trạng thái</span>
+                    <strong>{order.status || 'Mới đặt'}</strong>
+                  </div>
+                  <div>
+                    <span>Thanh toán</span>
+                    <strong>{order.paymentMethod === 'bank' ? 'Chuyển khoản' : 'Khi nhận hàng'}</strong>
+                  </div>
+                  <div>
+                    <span>Nội dung CK</span>
+                    <strong>{order.transferContent || '-'}</strong>
+                  </div>
+                </div>
                 <div style={{ marginTop: '18px' }}>
                   <h3 style={{ marginBottom: '10px' }}>Sản phẩm</h3>
                   <ul style={{ listStyle: 'disc', paddingLeft: '20px', color: 'rgba(255,255,255,0.9)' }}>
@@ -48,7 +61,7 @@ export default function OrderHistoryPage() {
         ) : (
           <div className="glass-card" style={{ padding: '30px', textAlign: 'center' }}>
             <p>Chưa có lịch sử đơn hàng nào.</p>
-            <Link href="/san-pham" className="btn-primary" style={{ marginTop: '20px', display: 'inline-block' }}>
+            <Link href="/products" className="btn-primary" style={{ marginTop: '20px', display: 'inline-block' }}>
               Mua ngay
             </Link>
           </div>

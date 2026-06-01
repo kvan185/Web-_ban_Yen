@@ -1,15 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-type CustomerProfile = {
-  fullName: string;
-  email: string;
-  phone: string;
-  address: string;
-  gender: string;
-  birthday: string;
-};
+import AddressFields from '@/components/AddressFields';
+import { CustomerProfile } from '@/components/CheckoutProfileModal';
+import { AddressSelection, composeAddress, emptyAddressSelection, splitStoredAddress } from '@/lib/vietnamAddress';
 
 const emptyProfile: CustomerProfile = {
   fullName: '',
@@ -21,7 +15,8 @@ const emptyProfile: CustomerProfile = {
 };
 
 export default function CustomerProfileForm({ userName }: { userName: string }) {
-  const [profile, setProfile] = useState<CustomerProfile>({ ...emptyProfile, fullName: userName });
+  const [profile, setProfile] = useState<CustomerProfile>(emptyProfile);
+  const [address, setAddress] = useState<AddressSelection>(emptyAddressSelection);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -29,9 +24,12 @@ export default function CustomerProfileForm({ userName }: { userName: string }) 
       try {
         const stored = localStorage.getItem('customerProfile');
         if (!stored || stored === 'undefined') return;
-        setProfile({ ...emptyProfile, fullName: userName, ...JSON.parse(stored) });
+        const storedProfile = { ...emptyProfile, ...JSON.parse(stored) };
+        setProfile(storedProfile);
+        setAddress(splitStoredAddress(storedProfile.address));
       } catch {
-        setProfile({ ...emptyProfile, fullName: userName });
+        setProfile(emptyProfile);
+        setAddress(emptyAddressSelection);
       }
     }, 0);
 
@@ -45,13 +43,16 @@ export default function CustomerProfileForm({ userName }: { userName: string }) 
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    localStorage.setItem('customerProfile', JSON.stringify(profile));
+    localStorage.setItem('customerProfile', JSON.stringify({ ...profile, address: composeAddress(address) }));
     setSaved(true);
   };
 
   return (
     <form className="glass-card customer-profile-form" onSubmit={handleSubmit}>
       <h2>Thông tin liên hệ</h2>
+      <p className="profile-login-note">
+        Tên đăng nhập: <strong>{userName}</strong>
+      </p>
       <div className="profile-form-grid">
         <label>
           <span>Họ và tên</span>
@@ -78,13 +79,21 @@ export default function CustomerProfileForm({ userName }: { userName: string }) 
           <span>Ngày sinh</span>
           <input type="date" value={profile.birthday} onChange={(e) => updateField('birthday', e.target.value)} />
         </label>
-        <label className="profile-address">
+        <div className="profile-address">
           <span>Địa chỉ</span>
-          <textarea rows={3} value={profile.address} onChange={(e) => updateField('address', e.target.value)} />
-        </label>
+          <AddressFields
+            value={address}
+            onChange={(nextAddress) => {
+              setSaved(false);
+              setAddress(nextAddress);
+            }}
+          />
+        </div>
       </div>
       {saved && <p className="profile-saved">Đã lưu thông tin khách hàng.</p>}
-      <button type="submit" className="btn-primary">Lưu thông tin</button>
+      <button type="submit" className="btn-primary">
+        Lưu thông tin
+      </button>
     </form>
   );
 }

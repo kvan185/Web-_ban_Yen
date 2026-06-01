@@ -101,7 +101,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
               {recommendedProducts.map((product) => (
-                <Link key={product.id} href={`/san-pham/${product.id}`} style={{ textDecoration: 'none' }}>
+                <Link key={product.id} href={`/products/${product.id}`} style={{ textDecoration: 'none' }}>
                   <div className="glass-card" style={{ padding: '20px', minHeight: '320px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
                       <div style={{ width: '100%', height: '180px', overflow: 'hidden', borderRadius: '14px', marginBottom: '18px' }}>

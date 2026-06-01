@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import SafeImage from '@/components/SafeImage';
 import { CartItem, FavoriteProduct, parseStorageArray } from '@/lib/storage';
 
@@ -16,6 +17,7 @@ export default function ProductDetailClient({
   initialProduct,
   initialProducts,
 }: ProductDetailClientProps) {
+  const router = useRouter();
   const [product, setProduct] = useState<FavoriteProduct | null>(initialProduct);
   const [allProducts, setAllProducts] = useState<FavoriteProduct[]>(initialProducts);
   const [loading, setLoading] = useState(false);
@@ -44,6 +46,11 @@ export default function ProductDetailClient({
     localStorage.setItem('cart', JSON.stringify(cart));
     window.dispatchEvent(new Event('cartUpdated'));
     alert(`Đã thêm ${product.name} vào giỏ hàng!`);
+  };
+
+  const buyNow = () => {
+    addToCart();
+    router.push('/cart');
   };
 
   const [isFavorited, setIsFavorited] = useState(false);
@@ -82,7 +89,7 @@ export default function ProductDetailClient({
     <div className="product-detail-page">
       <div className="container" style={{ padding: '40px 20px' }}>
         <nav style={{ marginBottom: '30px', opacity: 0.7 }}>
-          <Link href="/">Trang chủ</Link> / <Link href="/san-pham">Sản phẩm</Link> / <span style={{ color: 'var(--primary-color)' }}>{product.name}</span>
+          <Link href="/">Trang chủ</Link> / <Link href="/products">Sản phẩm</Link> / <span style={{ color: 'var(--primary-color)' }}>{product.name}</span>
         </nav>
 
         <div className="product-detail-layout" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px' }}>
@@ -123,7 +130,7 @@ export default function ProductDetailClient({
               <button className="btn-primary" style={{ padding: '18px 30px', fontSize: '1.1rem', flex: 2 }} onClick={addToCart}>
                 Thêm Vào Giỏ Hàng
               </button>
-              <button className="btn-primary" style={{ background: 'transparent', border: '2px solid var(--primary-color)', color: 'var(--primary-color)', padding: '18px 30px', fontSize: '1.1rem', flex: 1.5 }}>
+              <button className="btn-primary" onClick={buyNow} style={{ background: 'transparent', border: '2px solid var(--primary-color)', color: 'var(--primary-color)', padding: '18px 30px', fontSize: '1.1rem', flex: 1.5 }}>
                 Mua Ngay
               </button>
               <button 
@@ -214,7 +221,7 @@ export default function ProductDetailClient({
           <div className="grid-4">
             {relatedProducts.map((p) => (
               <div key={p.id} className="glass-card" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <Link href={`/san-pham/${p.id}`}>
+                <Link href={`/products/${p.id}`}>
                   <div style={{ 
                     height: '200px', 
                     width: '100%',

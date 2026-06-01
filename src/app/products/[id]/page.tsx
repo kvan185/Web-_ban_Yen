@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     return pageMetadata({
       title: 'Sản phẩm không tồn tại',
       description: 'Sản phẩm bạn đang tìm không còn tồn tại tại Yến Tinh Hoa.',
-      pathname: `/san-pham/${id}`,
+      pathname: `/products/${id}`,
     });
   }
 
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     description: truncateDescription(
       `${product.description || product.name} Mua ${product.name} tại Yến Tinh Hoa, giao nhanh 2-4 giờ ở TP.HCM, nguồn gốc minh bạch.`
     ),
-    pathname: `/san-pham/${product.id}`,
+    pathname: `/products/${product.id}`,
     image: absoluteImageUrl(product.imageUrl),
     keywords: [
       product.name,
@@ -63,8 +63,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           productJsonLd(product),
           breadcrumbJsonLd([
             { name: 'Trang chủ', url: '/' },
-            { name: 'Sản phẩm', url: '/san-pham' },
-            { name: product.name, url: `/san-pham/${product.id}` },
+            { name: 'Sản phẩm', url: '/products' },
+            { name: product.name, url: `/products/${product.id}` },
           ]),
         ]}
       />
