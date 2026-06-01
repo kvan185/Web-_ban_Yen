@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
@@ -17,13 +19,13 @@ type BlogPostProps = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateStaticParams() {
-  return (await readBlogPosts()).map((post) => ({ slug: post.slug }));
+export function generateStaticParams() {
+  return readBlogPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: BlogPostProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await findBlogPost(slug);
+  const post = findBlogPost(slug);
 
   if (!post) {
     return pageMetadata({
@@ -43,12 +45,19 @@ export async function generateMetadata({ params }: BlogPostProps): Promise<Metad
   });
 }
 
+function readPostContent(postId: string) {
+  const blogDirPath = path.join(process.cwd(), 'src', 'data', 'blog');
+  const filePath = path.join(blogDirPath, `${postId}.md`);
+  if (!fs.existsSync(filePath)) return '# Nội dung đang được cập nhật';
+  return fs.readFileSync(filePath, 'utf8');
+}
+
 export default async function BlogPost({ params }: BlogPostProps) {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
-  const meta = await findBlogPost(decodedSlug);
-  const content = meta?.content || '# Bài viết không tồn tại';
-  const products = await readProducts();
+  const meta = findBlogPost(decodedSlug);
+  const content = meta ? readPostContent(meta.id) : '# Bài viết không tồn tại';
+  const products = readProducts();
   const recommendedProducts = products.slice(0, 2);
 
   return (

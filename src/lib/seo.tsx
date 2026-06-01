@@ -1,5 +1,6 @@
+import fs from 'fs';
+import path from 'path';
 import type { Metadata } from 'next';
-import { getBlogPosts, getProducts } from './dataStore';
 
 export const SITE_URL = 'https://yenth.vn';
 export const SITE_NAME = 'Yến Tinh Hoa';
@@ -33,7 +34,6 @@ export type BlogPostSeo = {
   slug: string;
   imageUrl?: string;
   date?: string;
-  content?: string;
 };
 
 export function absoluteUrl(pathname = '/') {
@@ -52,24 +52,37 @@ export function truncateDescription(value: string, maxLength = 158) {
   return `${normalized.slice(0, maxLength - 1).trim()}…`;
 }
 
-export async function readProducts() {
-  return (await getProducts()) as ProductSeo[];
+function readJsonFile<T>(filePath: string): T | null {
+  try {
+    if (!fs.existsSync(filePath)) return null;
+    return JSON.parse(fs.readFileSync(filePath, 'utf8')) as T;
+  } catch {
+    return null;
+  }
 }
 
-export async function readBlogPosts() {
-  const posts = (await getBlogPosts()) as BlogPostSeo[];
+export function readProducts() {
+  return readJsonFile<ProductSeo[]>(
+    path.join(process.cwd(), 'src', 'data', 'products.json')
+  ) || [];
+}
+
+export function readBlogPosts() {
+  const posts = readJsonFile<BlogPostSeo[]>(
+    path.join(process.cwd(), 'src', 'data', 'blog-metadata.json')
+  ) || [];
   return posts.sort(
     (a, b) => new Date(b.date || '').getTime() - new Date(a.date || '').getTime()
   );
 }
 
-export async function findProduct(id: string) {
-  return (await readProducts()).find((product) => product.id === id) || null;
+export function findProduct(id: string) {
+  return readProducts().find((product) => product.id === id) || null;
 }
 
-export async function findBlogPost(slug: string) {
+export function findBlogPost(slug: string) {
   const decodedSlug = decodeURIComponent(slug);
-  return (await readBlogPosts()).find((post) => post.slug === decodedSlug) || null;
+  return readBlogPosts().find((post) => post.slug === decodedSlug) || null;
 }
 
 export function pageMetadata({

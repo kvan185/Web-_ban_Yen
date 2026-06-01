@@ -1,6 +1,7 @@
 import { randomBytes, scrypt, timingSafeEqual } from 'crypto';
 import { promisify } from 'util';
-import { getAdminUser, saveAdminUser } from './dataStore';
+import fs from 'fs/promises';
+import path from 'path';
 
 export const ADMIN_USERNAME = 'admin';
 export const ADMIN_EMAIL = 'khanhvan18052004@gmail.com';
@@ -16,6 +17,7 @@ type UsersData = {
 };
 
 const scryptAsync = promisify(scrypt);
+const usersFilePath = path.join(process.cwd(), 'src', 'data', 'users.json');
 const defaultUsersData: UsersData = {
   admin: {
     username: ADMIN_USERNAME,
@@ -45,8 +47,18 @@ async function verifyPassword(password: string, storedHash: string) {
 }
 
 async function readUsersData(): Promise<UsersData> {
-  const admin = await getAdminUser();
-  return admin ? { admin } : defaultUsersData;
+  try {
+    const data = await fs.readFile(usersFilePath, 'utf8');
+    return JSON.parse(data) as UsersData;
+  } catch {
+    await fs.mkdir(path.dirname(usersFilePath), { recursive: true });
+    await fs.writeFile(usersFilePath, JSON.stringify(defaultUsersData, null, 2), 'utf8');
+    return defaultUsersData;
+  }
+}
+
+async function writeUsersData(usersData: UsersData) {
+  await fs.writeFile(usersFilePath, JSON.stringify(usersData, null, 2), 'utf8');
 }
 
 export const verifyAdminCredentials = async (username: string, password: string) => {
@@ -74,6 +86,6 @@ export const updateAdminPassword = async (currentPassword: string, newPassword: 
   }
 
   usersData.admin.passwordHash = await hashPassword(newPassword);
-  await saveAdminUser(usersData.admin);
+  await writeUsersData(usersData);
   return true;
 };

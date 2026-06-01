@@ -1,18 +1,37 @@
+import fs from 'fs';
+import path from 'path';
 import CategoryClient from './CategoryClient';
-import { getCategories, getProducts } from '@/lib/dataStore';
 
 export const metadata = {
-  title: 'Danh Má»¥c Sáº£n Pháº©m - Yáº¿n Tinh Hoa',
-  description: 'KhÃ¡m phÃ¡ cÃ¡c danh má»¥c yáº¿n sÃ o cháº¥t lÆ°á»£ng cao táº¡i Yáº¿n Tinh Hoa.',
+  title: 'Danh Mục Sản Phẩm - Yến Tinh Hoa',
+  description: 'Khám phá các danh mục yến sào chất lượng cao tại Yến Tinh Hoa.',
 };
 
-export default async function CategoryPage() {
-  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+export default function CategoryPage() {
+  const productsFilePath = path.join(process.cwd(), 'src', 'data', 'products.json');
+  let products = [];
+  try {
+    if (fs.existsSync(productsFilePath)) {
+      products = JSON.parse(fs.readFileSync(productsFilePath, 'utf8'));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  const categoriesFilePath = path.join(process.cwd(), 'src', 'data', 'categories.json');
+  let categories = [];
+  try {
+    if (fs.existsSync(categoriesFilePath)) {
+      categories = JSON.parse(fs.readFileSync(categoriesFilePath, 'utf8'));
+    }
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
-    <CategoryClient
-      products={products}
-      categories={categories}
+    <CategoryClient 
+      products={products} 
+      categories={categories} 
     />
   );
 }
