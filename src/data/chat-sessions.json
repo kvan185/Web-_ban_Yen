@@ -1,0 +1,52 @@
+[
+  {
+    "id": "chat_1780339004785_l3qeze",
+    "customerName": "",
+    "customerPhone": "",
+    "pagePath": "/",
+    "createdAt": "2026-06-01T18:36:48.008Z",
+    "updatedAt": "2026-06-01T18:36:48.008Z",
+    "messages": [
+      {
+        "id": "msg_1780339008008_852pdz",
+        "sender": "system",
+        "text": "Khách hàng ở / bắt đầu chat.",
+        "createdAt": "2026-06-01T18:36:48.008Z"
+      },
+      {
+        "id": "msg_1780339008008_et2mog",
+        "sender": "customer",
+        "text": "Hi",
+        "createdAt": "2026-06-01T18:36:48.008Z"
+      }
+    ]
+  },
+  {
+    "id": "chat_1780338974235_77woir",
+    "customerName": "",
+    "customerPhone": "",
+    "pagePath": "/",
+    "createdAt": "2026-06-01T18:36:17.518Z",
+    "updatedAt": "2026-06-01T18:36:26.011Z",
+    "messages": [
+      {
+        "id": "msg_1780338977518_2i4uus",
+        "sender": "system",
+        "text": "Khách hàng ở / bắt đầu chat.",
+        "createdAt": "2026-06-01T18:36:17.518Z"
+      },
+      {
+        "id": "msg_1780338977518_fre4qr",
+        "sender": "customer",
+        "text": "Hi",
+        "createdAt": "2026-06-01T18:36:17.518Z"
+      },
+      {
+        "id": "msg_1780338986011_1mvxr8",
+        "sender": "manager",
+        "text": "Chào bạn",
+        "createdAt": "2026-06-01T18:36:26.012Z"
+      }
+    ]
+  }
+]

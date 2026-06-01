@@ -169,6 +169,7 @@ export function websiteJsonLd() {
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: SITE_NAME,
+    alternateName: ['Yến Tinh Hoa', 'yenth.vn'],
     publisher: { '@id': `${SITE_URL}/#organization` },
     inLanguage: 'vi-VN',
     potentialAction: {

@@ -14,6 +14,8 @@ const adminLinks = [
   { label: 'Quản lý danh mục', href: '/manager/categories' },
   { label: 'Quản lý sản phẩm', href: '/manager/products' },
   { label: 'Quản lý đơn hàng', href: '/manager/oders' },
+  { label: 'Khách liên hệ', href: '/manager/contact' },
+  { label: 'Quản lý chat', href: '/manager/managechat' },
   { label: 'Quản lý blog', href: '/manager/blog' },
 ];
 

@@ -2,14 +2,16 @@ import type { Metadata } from 'next';
 import fs from 'fs';
 import path from 'path';
 import { cookies } from 'next/headers';
+import FloatingContactButtons from '@/components/FloatingContactButtons';
 import PublicChrome, { PublicFooter } from '@/components/PublicChrome';
 import { DEFAULT_OG_IMAGE, JsonLd, organizationJsonLd, SITE_URL, websiteJsonLd } from '@/lib/seo';
 import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: 'Yến Tinh Hoa',
   title: {
-    default: 'Yến Tinh Hoa - Tổ yến nguyên chất tại TP.HCM',
+    default: 'Yến Thô - Tổ yến nguyên chất tại TP.HCM',
     template: '%s | Yến Tinh Hoa',
   },
   description:
@@ -127,17 +129,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <span><strong>Zalo / Hotline:</strong> <a href="tel:0375266538">0375266538</a></span>
               <span><strong>Địa chỉ:</strong> <a href="https://maps.google.com/?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh" target="_blank" rel="noopener noreferrer">105 Ung Văn Khiêm, TP.HCM</a></span>
             </div>
-            <div className="floating-contacts">
-              <a href="https://zalo.me/0375266538" target="_blank" rel="noopener noreferrer" className="floating-btn btn-zalo" title="Chat Zalo">
-                Zalo
-              </a>
-              <a href="https://m.me/nkhanhvan185" target="_blank" rel="noopener noreferrer" className="floating-btn btn-messenger" title="Chat Messenger">
-                Chat
-              </a>
-              <a href="tel:0375266538" className="floating-btn btn-phone" title="Gọi Hotline">
-                Call
-              </a>
-            </div>
+            <FloatingContactButtons />
         </PublicFooter>
       </body>
     </html>

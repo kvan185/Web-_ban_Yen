@@ -1,3 +1,4 @@
+import ContactLeadForm from '@/components/ContactLeadForm';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
@@ -15,6 +16,8 @@ export default function ContactPage() {
         <h1>Yến Tinh Hoa</h1>
         <p>Tư vấn chọn yến thô, yến tinh chế và quà tặng yến sào phù hợp nhu cầu của gia đình bạn.</p>
       </div>
+
+      <ContactLeadForm />
 
       <div className="manager-grid two-cols">
         <section className="glass-card" style={{ padding: '28px' }}>

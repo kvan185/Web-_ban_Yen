@@ -137,12 +137,12 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
           <nav aria-label="Điều hướng chính">
             <ul className="nav-links" id="site-main-nav">
               <li><Link href="/">Trang chủ</Link></li>
-              <li><Link href="/categories">Danh mục</Link></li>
               <li><Link href="/raw-bird-nest">Yến thô</Link></li>
               <li><Link href="/refined-bird-nest">Yến tinh chế</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/categories">Danh mục</Link></li>
               <li><Link href="/products">Sản phẩm</Link></li>
               <li><Link href="/about">Giới thiệu</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
               <li><Link href="/certifications">Chứng nhận</Link></li>
               <li><Link href="/contact">Liên hệ</Link></li>
             </ul>
