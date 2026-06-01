@@ -10,6 +10,7 @@ const staticRoutes: Array<{
 }> = [
   { path: '/', changeFrequency: 'daily', priority: 1 },
   { path: '/raw-bird-nest', changeFrequency: 'daily', priority: 0.98 },
+  { path: '/refined-bird-nest', changeFrequency: 'daily', priority: 0.97 },
   { path: '/products', changeFrequency: 'daily', priority: 0.95 },
   { path: '/categories', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/about', changeFrequency: 'monthly', priority: 0.8 },

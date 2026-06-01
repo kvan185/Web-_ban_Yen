@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import fs from 'fs';
 import path from 'path';
-import { cookies, headers } from 'next/headers';
-import SiteHeader from '@/components/SiteHeader';
-import VisitTracker from '@/components/VisitTracker';
+import { cookies } from 'next/headers';
+import PublicChrome, { PublicFooter } from '@/components/PublicChrome';
 import { DEFAULT_OG_IMAGE, JsonLd, organizationJsonLd, SITE_URL, websiteJsonLd } from '@/lib/seo';
 import './globals.css';
 
@@ -65,25 +64,8 @@ function getSettings() {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = getSettings();
   const cookieStore = await cookies();
-  const headersList = await headers();
-  const rawPath =
-    headersList.get('x-invoke-pathname') ||
-    headersList.get('x-pathname') ||
-    headersList.get('x-nextjs-rewritten-path') ||
-    headersList.get('x-middleware-path') ||
-    headersList.get('x-nextjs-rewrite') ||
-    '';
-
-  const pathname = rawPath?.toString().startsWith('http')
-    ? new URL(rawPath.toString()).pathname
-    : rawPath?.toString() || '';
-
-  const isLoginPage = pathname.startsWith('/login');
-  const isManagerPage = pathname.startsWith('/manager');
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
-  const isAdminManagerPage = isManagerPage && isAdmin;
-  const hideFooter = isAdminManagerPage || isLoginPage;
 
   return (
     <html lang="vi">
@@ -94,25 +76,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             '--primary-color': settings.primaryColor,
             '--bg-color': settings.backgroundColor,
             '--text-color': settings.textColor,
-            overflow: isLoginPage ? 'hidden' : 'auto',
+            overflow: 'auto',
           } as React.CSSProperties
         }
       >
-        {!isLoginPage && (
-          <SiteHeader
-            isAdmin={isAdmin}
-            isUser={isUser}
-            showTopHeader={!isAdminManagerPage}
-            enableAutoHide={!isAdminManagerPage}
-          />
-        )}
+        <PublicChrome isAdmin={isAdmin} isUser={isUser} />
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
-        <VisitTracker disabled={isLoginPage || isManagerPage} />
 
-        <main style={{ paddingTop: isLoginPage ? 0 : undefined }}>{children}</main>
+        <main>{children}</main>
 
-        {!hideFooter && (
-          <>
+        <PublicFooter>
             <footer className="site-footer">
               <div className="container footer-grid">
                 <div className="footer-info">
@@ -165,8 +138,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 Call
               </a>
             </div>
-          </>
-        )}
+        </PublicFooter>
       </body>
     </html>
   );
