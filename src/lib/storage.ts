@@ -32,7 +32,9 @@ export type OrderHistoryItem = {
   date?: string;
   total?: number;
   items?: CartItem[];
+  orderOwner?: string;
   customerName?: string;
+  email?: string;
   phone?: string;
   address?: string;
   paymentMethod?: 'bank' | 'cod';

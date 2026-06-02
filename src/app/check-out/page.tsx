@@ -31,7 +31,7 @@ export default function CheckOutPage() {
   useEffect(() => {
     if (!paid) return;
     const timeout = window.setTimeout(() => {
-      router.push('/');
+      router.push('/order-history');
     }, 5000);
 
     return () => window.clearTimeout(timeout);
@@ -48,21 +48,24 @@ export default function CheckOutPage() {
 
   const markPaid = async () => {
     if (!order) return;
-    const paidOrder: OrderHistoryItem = {
+
+    const bankOrder: OrderHistoryItem = {
       ...order,
-      paymentStatus: 'Đã thanh toán',
-      fulfillmentStatus: 'Đã nhận',
-      status: 'Đã thanh toán, Đã nhận',
+      paymentStatus: 'Chờ xác nhận chuyển khoản',
+      fulfillmentStatus: 'Chờ xử lý',
+      status: 'Chờ xác nhận chuyển khoản, Chờ xử lý',
     };
+
     await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(paidOrder),
+      body: JSON.stringify(bankOrder),
     });
+
     localStorage.removeItem('pendingBankCheckout');
     localStorage.removeItem('cart');
     window.dispatchEvent(new Event('cartUpdated'));
-    setOrder(paidOrder);
+    setOrder(bankOrder);
     setPaid(true);
   };
 
@@ -70,8 +73,8 @@ export default function CheckOutPage() {
     return (
       <div className="container checkout-page">
         <div className="glass-card checkout-thank-you">
-          <h1>Cảm ơn quý khách đã mua hàng</h1>
-          <p>Sẽ chuyển về trang chủ sau 5s...</p>
+          <h1>Cảm ơn quý khách đã gửi yêu cầu thanh toán</h1>
+          <p>Đơn hàng đang chờ xác nhận chuyển khoản. Sẽ chuyển về lịch sử mua hàng sau 5 giây...</p>
         </div>
       </div>
     );
@@ -97,7 +100,7 @@ export default function CheckOutPage() {
             <small>BANK</small>
           </div>
           <h1>Thanh toán chuyển khoản</h1>
-          <p>Quét mã QR hoặc chuyển khoản theo thông tin bên dưới.</p>
+          <p>Quét mã QR hoặc chuyển khoản theo thông tin bên dưới. Sau khi chuyển xong, hệ thống sẽ ghi nhận đơn ở trạng thái chờ xác nhận.</p>
           <div className="checkout-bank-info">
             <div>
               <span>Ngân hàng</span>
@@ -121,7 +124,7 @@ export default function CheckOutPage() {
             </div>
           </div>
           <button type="button" className="btn-primary" onClick={markPaid}>
-            Thanh toán xong
+            Tôi đã chuyển khoản
           </button>
         </div>
         <img src={qrUrl} alt="QR chuyển khoản MB Bank" />

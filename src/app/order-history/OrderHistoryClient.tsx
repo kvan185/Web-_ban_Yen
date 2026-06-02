@@ -21,7 +21,7 @@ export default function OrderHistoryClient() {
       <div className="catalog-heading">
         <p className="eyebrow">Tài khoản</p>
         <h1>Lịch sử mua hàng</h1>
-        <p>Theo dõi các đơn hàng đã đặt tại Yến Tinh Hoa.</p>
+        <p>Theo dõi các đơn hàng của chính bạn tại Yến Tinh Hoa.</p>
       </div>
 
       {loading ? (
@@ -46,10 +46,11 @@ export default function OrderHistoryClient() {
               </div>
               <div className="admin-order-grid">
                 <div><span>Khách hàng</span><strong>{order.customerName || 'Chưa có'}</strong></div>
+                <div><span>Email</span><strong>{order.email || 'Chưa có'}</strong></div>
                 <div><span>Số điện thoại</span><strong>{order.phone || 'Chưa có'}</strong></div>
                 <div><span>Địa chỉ</span><strong>{order.address || 'Chưa có'}</strong></div>
                 <div><span>Thanh toán</span><strong>{order.paymentStatus || 'Chưa cập nhật'}</strong></div>
-                <div><span>Trạng thái</span><strong>{order.fulfillmentStatus || order.status || 'Đã nhận'}</strong></div>
+                <div><span>Trạng thái</span><strong>{order.fulfillmentStatus || order.status || 'Mới đặt'}</strong></div>
               </div>
               <div className="analytics-list" style={{ marginTop: '18px' }}>
                 {(order.items || []).map((item) => (

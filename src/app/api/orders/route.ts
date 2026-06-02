@@ -1,31 +1,58 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import { OrderHistoryItem } from '@/lib/storage';
+import { isKvConfigured, kv } from '@/lib/kv';
+import { sendNewOrderNotification } from '@/lib/order-notify';
+import { createOrderId, formatOrderStatus } from '@/lib/orders';
+import type { OrderHistoryItem } from '@/lib/storage';
 
-const ordersFilePath = path.join(process.cwd(), 'src', 'data', 'orders.json');
+async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
+  const order = await kv.hgetall<Record<string, unknown>>(`orders:item:${orderId}`);
+  if (!order?.id) return null;
 
-function ensureOrdersFile() {
-  if (!fs.existsSync(ordersFilePath)) {
-    fs.writeFileSync(ordersFilePath, '[]', 'utf8');
-  }
+  return {
+    id: String(order.id),
+    date: String(order.date || ''),
+    orderOwner: String(order.orderOwner || ''),
+    customerName: String(order.customerName || ''),
+    email: String(order.email || ''),
+    phone: String(order.phone || ''),
+    address: String(order.address || ''),
+    paymentMethod: (order.paymentMethod === 'bank' ? 'bank' : 'cod') as 'bank' | 'cod',
+    paymentStatus: String(order.paymentStatus || ''),
+    fulfillmentStatus: String(order.fulfillmentStatus || ''),
+    transferContent: String(order.transferContent || ''),
+    status: String(order.status || ''),
+    total: Number(order.total || 0),
+    items: order.items ? JSON.parse(String(order.items)) : [],
+  };
 }
 
-function readOrders(): OrderHistoryItem[] {
-  ensureOrdersFile();
-  const data = fs.readFileSync(ordersFilePath, 'utf8');
-  const parsed = JSON.parse(data);
-  return Array.isArray(parsed) ? parsed : [];
-}
-
-function writeOrders(orders: OrderHistoryItem[]) {
-  ensureOrdersFile();
-  fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2), 'utf8');
+async function readOrders() {
+  const ids = await kv.lrange<string>('orders:list', 0, -1);
+  const orders = await Promise.all((ids || []).map((id) => readOrder(id)));
+  return orders.filter(Boolean) as OrderHistoryItem[];
 }
 
 export async function GET() {
   try {
-    return NextResponse.json(readOrders());
+    if (!isKvConfigured()) {
+      return NextResponse.json([]);
+    }
+
+    const cookieStore = await cookies();
+    const isAdmin = cookieStore.has('admin_session');
+    const userName = cookieStore.get('user_session')?.value || '';
+    const orders = await readOrders();
+
+    if (isAdmin) {
+      return NextResponse.json(orders);
+    }
+
+    if (!userName) {
+      return NextResponse.json([]);
+    }
+
+    return NextResponse.json(orders.filter((order) => order.orderOwner === userName));
   } catch {
     return NextResponse.json({ error: 'Failed to read orders' }, { status: 500 });
   }
@@ -33,11 +60,61 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const order = (await request.json()) as OrderHistoryItem;
-    const orders = readOrders();
-    const nextOrders = [order, ...orders.filter((item) => item.id !== order.id)];
-    writeOrders(nextOrders);
-    return NextResponse.json({ success: true, order });
+    if (!isKvConfigured()) {
+      return NextResponse.json({ error: 'KV not configured' }, { status: 500 });
+    }
+
+    const cookieStore = await cookies();
+    const userName = cookieStore.get('user_session')?.value || 'guest';
+    const payload = (await request.json()) as OrderHistoryItem;
+    const isBankTransfer = payload.paymentMethod === 'bank';
+    const now = new Date();
+
+    const nextOrder: OrderHistoryItem = {
+      ...payload,
+      id: payload.id || createOrderId(userName),
+      date: payload.date || now.toLocaleString('vi-VN'),
+      orderOwner: userName,
+      email: payload.email || '',
+      paymentMethod: isBankTransfer ? 'bank' : 'cod',
+      paymentStatus: isBankTransfer
+        ? payload.paymentStatus || 'Chờ xác nhận chuyển khoản'
+        : payload.paymentStatus || 'Chưa thanh toán',
+      fulfillmentStatus: payload.fulfillmentStatus || 'Mới đặt',
+    };
+
+    nextOrder.status = formatOrderStatus(nextOrder);
+
+    const orderKey = `orders:item:${nextOrder.id}`;
+    const existing = await kv.hget(orderKey, 'id');
+
+    await kv.hset(orderKey, {
+      id: nextOrder.id,
+      date: nextOrder.date || '',
+      orderOwner: nextOrder.orderOwner || '',
+      customerName: nextOrder.customerName || '',
+      email: nextOrder.email || '',
+      phone: nextOrder.phone || '',
+      address: nextOrder.address || '',
+      paymentMethod: nextOrder.paymentMethod || 'cod',
+      paymentStatus: nextOrder.paymentStatus || '',
+      fulfillmentStatus: nextOrder.fulfillmentStatus || '',
+      transferContent: nextOrder.transferContent || '',
+      status: nextOrder.status || '',
+      total: nextOrder.total || 0,
+      items: JSON.stringify(nextOrder.items || []),
+    });
+
+    if (!existing) {
+      await kv.lrem('orders:list', 0, nextOrder.id);
+      await kv.lpush('orders:list', nextOrder.id);
+      try {
+        await sendNewOrderNotification(nextOrder);
+      } catch {
+      }
+    }
+
+    return NextResponse.json({ success: true, order: nextOrder });
   } catch {
     return NextResponse.json({ error: 'Failed to save order' }, { status: 500 });
   }
@@ -45,13 +122,49 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    if (!isKvConfigured()) {
+      return NextResponse.json({ error: 'KV not configured' }, { status: 500 });
+    }
+
+    const cookieStore = await cookies();
+    if (!cookieStore.has('admin_session')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
     const orderPatch = (await request.json()) as Partial<OrderHistoryItem> & { id: string };
-    const orders = readOrders();
-    const nextOrders = orders.map((order) =>
-      order.id === orderPatch.id ? { ...order, ...orderPatch } : order
-    );
-    writeOrders(nextOrders);
-    return NextResponse.json({ success: true });
+    const currentOrder = await readOrder(orderPatch.id);
+
+    if (!currentOrder) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+
+    const nextOrder: OrderHistoryItem = {
+      ...currentOrder,
+      ...orderPatch,
+      status: formatOrderStatus({
+        ...currentOrder,
+        ...orderPatch,
+      }),
+    };
+
+    await kv.hset(`orders:item:${nextOrder.id}`, {
+      id: nextOrder.id,
+      date: nextOrder.date || '',
+      orderOwner: nextOrder.orderOwner || '',
+      customerName: nextOrder.customerName || '',
+      email: nextOrder.email || '',
+      phone: nextOrder.phone || '',
+      address: nextOrder.address || '',
+      paymentMethod: nextOrder.paymentMethod || 'cod',
+      paymentStatus: nextOrder.paymentStatus || '',
+      fulfillmentStatus: nextOrder.fulfillmentStatus || '',
+      transferContent: nextOrder.transferContent || '',
+      status: nextOrder.status || '',
+      total: nextOrder.total || 0,
+      items: JSON.stringify(nextOrder.items || []),
+    });
+
+    return NextResponse.json({ success: true, order: nextOrder });
   } catch {
     return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
   }

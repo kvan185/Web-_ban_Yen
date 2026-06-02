@@ -126,6 +126,15 @@ export default function CheckoutProfileModal({ open, onClose, onComplete }: Chec
                   />
                 </label>
                 <label>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    value={profile.email}
+                    onChange={(event) => setProfile((current) => ({ ...current, email: event.target.value }))}
+                    placeholder="email@example.com"
+                  />
+                </label>
+                <label>
                   <span>Số điện thoại</span>
                   <input
                     value={profile.phone}
@@ -141,15 +150,19 @@ export default function CheckoutProfileModal({ open, onClose, onComplete }: Chec
               </button>
             </>
           ) : (
-            <div className="checkout-info-list">
-              <div>
-                <span>Người nhận</span>
-                <strong>{profile.fullName || 'Chưa có tên'}</strong>
-              </div>
-              <div>
-                <span>Số điện thoại</span>
-                <strong>{profile.phone || 'Chưa có số điện thoại'}</strong>
-              </div>
+              <div className="checkout-info-list">
+                <div>
+                  <span>Người nhận</span>
+                  <strong>{profile.fullName || 'Chưa có tên'}</strong>
+                </div>
+                <div>
+                  <span>Email</span>
+                  <strong>{profile.email || 'Chưa có email'}</strong>
+                </div>
+                <div>
+                  <span>Số điện thoại</span>
+                  <strong>{profile.phone || 'Chưa có số điện thoại'}</strong>
+                </div>
               <div>
                 <span>Địa chỉ</span>
                 <strong>{currentAddressText || 'Chưa có địa chỉ'}</strong>

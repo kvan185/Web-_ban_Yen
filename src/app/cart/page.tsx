@@ -45,29 +45,32 @@ export default function CartPage() {
 
   const createOrderDraft = (profile: CustomerProfile, payment: CheckoutPayment): OrderHistoryItem => {
     const isBankTransfer = payment.method === 'bank';
+
     return {
-      // eslint-disable-next-line react-hooks/purity
-      id: Date.now().toString(),
+      id: '',
       date: new Date().toLocaleString('vi-VN'),
       total: totalPrice,
       items: cart,
       customerName: profile.fullName,
+      email: profile.email || '',
       phone: profile.phone,
       address: profile.address,
       paymentMethod: payment.method,
-      paymentStatus: isBankTransfer ? 'Đã thanh toán' : 'Chưa thanh toán',
-      fulfillmentStatus: 'Đã nhận',
+      paymentStatus: isBankTransfer ? 'Chờ xác nhận chuyển khoản' : 'Chưa thanh toán',
+      fulfillmentStatus: 'Mới đặt',
       transferContent: payment.transferContent,
-      status: isBankTransfer ? 'Đã thanh toán, Đã nhận' : 'Chưa thanh toán, Đã nhận',
+      status: isBankTransfer ? 'Chờ xác nhận chuyển khoản, Mới đặt' : 'Chưa thanh toán, Mới đặt',
     };
   };
 
   const saveOrder = async (order: OrderHistoryItem) => {
-    await fetch('/api/orders', {
+    const response = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(order),
     });
+
+    return response.json();
   };
 
   const completeCheckout = async (profile: CustomerProfile, payment: CheckoutPayment) => {

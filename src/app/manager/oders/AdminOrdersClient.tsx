@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { ORDER_FULFILLMENT_STATUSES, ORDER_PAYMENT_STATUSES, formatOrderStatus } from '@/lib/orders';
 import { OrderHistoryItem } from '@/lib/storage';
 
 export default function AdminOrdersClient() {
@@ -13,19 +14,23 @@ export default function AdminOrdersClient() {
       .catch(() => setOrders([]));
   }, []);
 
-  const completeOrder = async (orderId: string) => {
-    const patch = {
-      id: orderId,
-      paymentStatus: 'Đã thanh toán',
-      fulfillmentStatus: 'Hoàn thành',
-      status: 'Đã thanh toán, Hoàn thành',
-    };
-    await fetch('/api/orders', {
+  const updateOrder = async (orderId: string, patch: Partial<OrderHistoryItem>) => {
+    const response = await fetch('/api/orders', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(patch),
+      body: JSON.stringify({ id: orderId, ...patch }),
     });
-    setOrders((current) => current.map((order) => (order.id === orderId ? { ...order, ...patch } : order)));
+
+    const data = await response.json();
+    const nextOrder = data?.order as OrderHistoryItem | undefined;
+
+    setOrders((current) =>
+      current.map((order) =>
+        order.id === orderId
+          ? nextOrder || { ...order, ...patch, status: formatOrderStatus({ ...order, ...patch }) }
+          : order
+      )
+    );
   };
 
   return (
@@ -53,8 +58,16 @@ export default function AdminOrdersClient() {
 
               <div className="admin-order-grid">
                 <div>
+                  <span>Tài khoản</span>
+                  <strong>{order.orderOwner || 'guest'}</strong>
+                </div>
+                <div>
                   <span>Khách hàng</span>
                   <strong>{order.customerName || 'Chưa có tên'}</strong>
+                </div>
+                <div>
+                  <span>Email</span>
+                  <strong>{order.email || 'Chưa có'}</strong>
                 </div>
                 <div>
                   <span>Số điện thoại</span>
@@ -69,28 +82,39 @@ export default function AdminOrdersClient() {
                   <strong>{order.paymentMethod === 'bank' ? 'Chuyển khoản' : 'Khi nhận hàng'}</strong>
                 </div>
                 <div>
-                  <span>Thanh toán</span>
-                  <strong>{order.paymentStatus || 'Chưa thanh toán'}</strong>
-                </div>
-                <div>
-                  <span>Giao nhận</span>
-                  <strong>{order.fulfillmentStatus || 'Đã nhận'}</strong>
-                </div>
-                <div>
-                  <span>Trạng thái</span>
-                  <strong>{order.status || 'Mới đặt'}</strong>
-                </div>
-                <div>
                   <span>Nội dung CK</span>
                   <strong>{order.transferContent || '-'}</strong>
                 </div>
+                <div>
+                  <span>Trạng thái tổng</span>
+                  <strong>{order.status || 'Mới đặt'}</strong>
+                </div>
               </div>
 
-              {order.status !== 'Đã thanh toán, Hoàn thành' && (
-                <button type="button" className="btn-primary admin-order-complete" onClick={() => completeOrder(order.id)}>
-                  Hoàn thành
-                </button>
-              )}
+              <div className="admin-order-grid" style={{ marginTop: '18px' }}>
+                <label>
+                  <span>Thanh toán</span>
+                  <select
+                    value={order.paymentStatus || 'Chưa thanh toán'}
+                    onChange={(event) => updateOrder(order.id, { paymentStatus: event.target.value })}
+                  >
+                    {ORDER_PAYMENT_STATUSES.map((status) => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Giao nhận</span>
+                  <select
+                    value={order.fulfillmentStatus || 'Mới đặt'}
+                    onChange={(event) => updateOrder(order.id, { fulfillmentStatus: event.target.value })}
+                  >
+                    {ORDER_FULFILLMENT_STATUSES.map((status) => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
 
               <div style={{ marginTop: '18px' }}>
                 <h3 style={{ marginBottom: '10px' }}>Sản phẩm</h3>
