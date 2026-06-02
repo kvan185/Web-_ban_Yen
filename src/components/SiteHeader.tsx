@@ -5,15 +5,24 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CartCounter from '@/components/CartCounter';
 import SearchBar from '@/components/SearchBar';
+import { getCategoryHref } from '@/lib/category-links';
+import type { SiteCategory } from '@/lib/categories';
 
 type SiteHeaderProps = {
   isAdmin: boolean;
   isUser: boolean;
+  categories: SiteCategory[];
   showTopHeader: boolean;
   enableAutoHide: boolean;
 };
 
-export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoHide }: SiteHeaderProps) {
+export default function SiteHeader({
+  isAdmin,
+  isUser,
+  categories,
+  showTopHeader,
+  enableAutoHide,
+}: SiteHeaderProps) {
   const [hideTop, setHideTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [topHeight, setTopHeight] = useState(64);
@@ -76,6 +85,16 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
   }, [showTopHeader, enableAutoHide]);
 
   const stickyTop = showTopHeader && hideTop ? -topHeight : 0;
+  const featuredCategories = categories.slice(0, 7);
+  const primaryLinks = [
+    { href: '/', label: 'Trang chủ' },
+    { href: '/products', label: 'Sản phẩm' },
+    { href: '/categories', label: 'Danh mục' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/about', label: 'Giới thiệu' },
+    { href: '/certifications', label: 'Chứng nhận' },
+    { href: '/contact', label: 'Liên hệ' },
+  ];
 
   return (
     <header
@@ -89,62 +108,77 @@ export default function SiteHeader({ isAdmin, isUser, showTopHeader, enableAutoH
     >
       {showTopHeader && (
         <div className="header-top" ref={headerTopRef}>
-            <div className="container header-top-inner">
-              <div className="logo">
-                <Link href="/" aria-label="Yến Tinh Hoa">
-                  <Image
-                    src="/logo.jpeg"
-                    alt="Logo Yến Tinh Hoa"
-                    width={48}
-                    height={48}
-                    className="site-logo-img"
-                    priority
-                  />
-                  <span>Yến Tinh Hoa</span>
-                </Link>
-              </div>
-              <div className="header-search">
-                <SearchBar />
-              </div>
-              <div className="header-actions">
-                {isAdmin ? (
-                  <Link href="/manager" className="auth-link">Quản trị</Link>
-                ) : isUser ? (
-                  <Link href="/account" className="auth-link">Tài khoản</Link>
-                ) : (
-                  <Link href="/login" className="auth-link">Đăng nhập</Link>
-                )}
-                <CartCounter />
-                <button
-                  type="button"
-                  className="site-menu-toggle"
-                  aria-expanded={menuOpen}
-                  aria-controls="site-main-nav"
-                  aria-label="Mở menu"
-                  onClick={() => setMenuOpen((value) => !value)}
-                >
-                  <span />
-                  <span />
-                  <span />
-                </button>
-              </div>
+          <div className="container header-top-inner">
+            <div className="logo">
+              <Link href="/" aria-label="Yến Tinh Hoa">
+                <Image
+                  src="/logo.jpeg"
+                  alt="Logo Yến Tinh Hoa"
+                  width={48}
+                  height={48}
+                  className="site-logo-img"
+                  priority
+                />
+                <span>Yến Tinh Hoa</span>
+              </Link>
+            </div>
+            <div className="header-search">
+              <SearchBar />
+            </div>
+            <div className="header-actions">
+              {isAdmin ? (
+                <Link href="/manager" className="auth-link">Quản trị</Link>
+              ) : isUser ? (
+                <Link href="/account" className="auth-link">Tài khoản</Link>
+              ) : (
+                <Link href="/login" className="auth-link">Đăng nhập</Link>
+              )}
+              <CartCounter />
+              <button
+                type="button"
+                className="site-menu-toggle"
+                aria-expanded={menuOpen}
+                aria-controls="site-main-nav"
+                aria-label="Mở menu"
+                onClick={() => setMenuOpen((value) => !value)}
+              >
+                <span />
+                <span />
+                <span />
+              </button>
             </div>
           </div>
+        </div>
       )}
 
       <div className="header-bottom">
         <div className={`container header-bottom-inner ${menuOpen ? 'is-open' : ''}`}>
           <nav aria-label="Điều hướng chính">
-            <ul className="nav-links" id="site-main-nav">
-              <li><Link href="/">Trang chủ</Link></li>
-              <li><Link href="/raw-bird-nest">Yến thô</Link></li>
-              <li><Link href="/refined-bird-nest">Yến tinh chế</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
-              <li><Link href="/categories">Danh mục</Link></li>
-              <li><Link href="/products">Sản phẩm</Link></li>
-              <li><Link href="/about">Giới thiệu</Link></li>
-              <li><Link href="/certifications">Chứng nhận</Link></li>
-              <li><Link href="/contact">Liên hệ</Link></li>
+            <ul className="nav-links nav-links-main" id="site-main-nav">
+              {primaryLinks.map((item) => {
+                const isCategoryMenu = item.href === '/categories';
+
+                if (!isCategoryMenu) {
+                  return (
+                    <li key={item.href}>
+                      <Link href={item.href}>{item.label}</Link>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={item.href} className="nav-item-with-submenu">
+                    <Link href={item.href}>{item.label}</Link>
+                    <ul className="nav-submenu">
+                      {featuredCategories.map((category) => (
+                        <li key={category.id}>
+                          <Link href={getCategoryHref(category.name)}>{category.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>

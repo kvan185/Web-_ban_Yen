@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { isKvConfigured, kv } from '@/lib/kv';
 
 type ChatMessage = {
   id: string;
@@ -19,26 +18,6 @@ type ChatSession = {
   messages: ChatMessage[];
 };
 
-const chatSessionsFilePath = path.join(process.cwd(), 'src', 'data', 'chat-sessions.json');
-
-function ensureChatSessionsFile() {
-  if (!fs.existsSync(chatSessionsFilePath)) {
-    fs.writeFileSync(chatSessionsFilePath, '[]', 'utf8');
-  }
-}
-
-function readChatSessions(): ChatSession[] {
-  ensureChatSessionsFile();
-  const data = fs.readFileSync(chatSessionsFilePath, 'utf8');
-  const parsed = JSON.parse(data);
-  return Array.isArray(parsed) ? parsed : [];
-}
-
-function writeChatSessions(sessions: ChatSession[]) {
-  ensureChatSessionsFile();
-  fs.writeFileSync(chatSessionsFilePath, JSON.stringify(sessions, null, 2), 'utf8');
-}
-
 function createMessage(sender: ChatMessage['sender'], text: string): ChatMessage {
   return {
     id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
@@ -48,19 +27,51 @@ function createMessage(sender: ChatMessage['sender'], text: string): ChatMessage
   };
 }
 
+async function readSession(sessionId: string): Promise<ChatSession | null> {
+  const metadata = await kv.hgetall<Record<string, string>>(`chat:session:${sessionId}`);
+  if (!metadata?.id) return null;
+
+  const rawMessages = await kv.lrange<string>(`chat:session:${sessionId}:messages`, 0, -1);
+  const messages = (rawMessages || []).map((entry) => {
+    try {
+      return JSON.parse(entry) as ChatMessage;
+    } catch {
+      return null;
+    }
+  }).filter(Boolean) as ChatMessage[];
+
+  return {
+    id: metadata.id,
+    customerName: metadata.customerName || '',
+    customerPhone: metadata.customerPhone || '',
+    pagePath: metadata.pagePath || '/',
+    createdAt: metadata.createdAt || metadata.updatedAt || new Date().toISOString(),
+    updatedAt: metadata.updatedAt || metadata.createdAt || new Date().toISOString(),
+    messages,
+  };
+}
+
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const sessionId = searchParams.get('sessionId');
-    const sessions = readChatSessions().sort(
-      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    );
-
-    if (sessionId) {
-      return NextResponse.json(sessions.find((session) => session.id === sessionId) || null);
+    if (!isKvConfigured()) {
+      return NextResponse.json([]);
     }
 
-    return NextResponse.json(sessions);
+    const { searchParams } = new URL(request.url);
+    const sessionId = searchParams.get('sessionId');
+
+    if (sessionId) {
+      return NextResponse.json(await readSession(sessionId) || null);
+    }
+
+    const ids = await kv.smembers<string[]>('chat:sessions');
+    const sessions = await Promise.all((ids || []).map((id) => readSession(id)));
+
+    return NextResponse.json(
+      sessions
+        .filter(Boolean)
+        .sort((a, b) => new Date(b!.updatedAt).getTime() - new Date(a!.updatedAt).getTime())
+    );
   } catch {
     return NextResponse.json({ error: 'Failed to read chat sessions' }, { status: 500 });
   }
@@ -68,6 +79,10 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    if (!isKvConfigured()) {
+      return NextResponse.json({ error: 'KV not configured' }, { status: 500 });
+    }
+
     const body = await request.json();
     const sessionId = String(body.sessionId || '').trim() || `chat_${Date.now()}`;
     const text = String(body.text || '').trim();
@@ -80,36 +95,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing message' }, { status: 400 });
     }
 
-    const sessions = readChatSessions();
-    const sessionIndex = sessions.findIndex((session) => session.id === sessionId);
+    const sessionKey = `chat:session:${sessionId}`;
+    const messagesKey = `${sessionKey}:messages`;
+    const existing = await kv.hgetall<Record<string, string>>(sessionKey);
     const now = new Date().toISOString();
 
-    if (sessionIndex >= 0) {
-      const session = sessions[sessionIndex];
-      sessions[sessionIndex] = {
-        ...session,
-        customerName: customerName || session.customerName,
-        customerPhone: customerPhone || session.customerPhone,
-        pagePath: pagePath || session.pagePath,
-        updatedAt: now,
-        messages: [...session.messages, createMessage(sender, text)],
-      };
-    } else {
-      sessions.unshift({
-        id: sessionId,
-        customerName,
-        customerPhone,
-        pagePath,
-        createdAt: now,
-        updatedAt: now,
-        messages: [
-          createMessage('system', customerName ? `${customerName} bắt đầu chat.` : `Khách hàng ở ${pagePath} bắt đầu chat.`),
-          createMessage(sender, text),
-        ],
-      });
+    await kv.sadd('chat:sessions', sessionId);
+    await kv.hset(sessionKey, {
+      id: sessionId,
+      customerName: customerName || existing?.customerName || '',
+      customerPhone: customerPhone || existing?.customerPhone || '',
+      pagePath: pagePath || existing?.pagePath || '/',
+      createdAt: existing?.createdAt || now,
+      updatedAt: now,
+    });
+
+    if (!existing?.id) {
+      const systemText = customerName
+        ? `${customerName} bắt đầu chat.`
+        : `Khách hàng ở ${pagePath} bắt đầu chat.`;
+      await kv.rpush(messagesKey, JSON.stringify(createMessage('system', systemText)));
     }
 
-    writeChatSessions(sessions);
+    await kv.rpush(messagesKey, JSON.stringify(createMessage(sender, text)));
+
     return NextResponse.json({ success: true, sessionId });
   } catch {
     return NextResponse.json({ error: 'Failed to save chat message' }, { status: 500 });

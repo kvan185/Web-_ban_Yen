@@ -178,7 +178,14 @@ export default function RawBirdNestPage() {
             {rawProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`}>
                 <span>{product.name}</span>
-                <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                <strong>
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <span className="product-price-original" style={{ display: 'block', textAlign: 'right' }}>
+                      {product.originalPrice.toLocaleString('vi-VN')} đ
+                    </span>
+                  )}
+                  {product.price.toLocaleString('vi-VN')} đ
+                </strong>
               </Link>
             ))}
           </div>
@@ -260,8 +267,13 @@ export default function RawBirdNestPage() {
                   <Link href={`/products/${product.id}`}>
                     <h2>{product.name}</h2>
                   </Link>
-                  <p className="product-card-desc">{product.description}</p>
-                  <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                  <p className="product-card-desc">{product.shortDescription || product.description}</p>
+                  <div className="product-price-stack">
+                    {product.originalPrice && product.originalPrice > product.price && (
+                      <span>{product.originalPrice.toLocaleString('vi-VN')} đ</span>
+                    )}
+                    <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                  </div>
                   <AddToCartButton product={{ ...product, imageUrl: product.imageUrl || '' }} />
                 </div>
               </article>

@@ -17,8 +17,14 @@ export type ProductSeo = {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   imageUrl: string;
   description?: string;
+  shortDescription?: string;
+  features?: string;
+  productInfo?: string;
+  targetUsers?: string;
+  usageGuide?: string;
   badge?: string;
   weight?: string;
   origin?: string;

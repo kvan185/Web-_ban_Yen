@@ -9,8 +9,10 @@ type Product = {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   imageUrl: string;
   description?: string;
+  shortDescription?: string;
   badge?: string;
 };
 
@@ -80,8 +82,13 @@ export default function ProductsPage() {
                 <Link href={`/products/${product.id}`}>
                   <h2>{product.name}</h2>
                 </Link>
-                <p className="product-card-desc">{product.description}</p>
-                <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                <p className="product-card-desc">{product.shortDescription || product.description}</p>
+                <div className="product-price-stack">
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <span>{product.originalPrice.toLocaleString('vi-VN')} đ</span>
+                  )}
+                  <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                </div>
                 <AddToCartButton product={product} />
               </div>
             </article>

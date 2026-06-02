@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import ManagerShell from '@/components/ManagerShell';
+import ManagerBodyMode from '@/components/ManagerBodyMode';
 
 const customerLinks = [
   { label: 'Thông tin tài khoản', href: '/manager/profile' },
@@ -25,8 +26,11 @@ export default async function ManagerLayout({ children }: { children: React.Reac
   const userName = cookieStore.get('user_session')?.value;
 
   return (
-    <ManagerShell isAdmin={isAdmin} userName={userName} links={isAdmin ? adminLinks : customerLinks}>
-      {children}
-    </ManagerShell>
+    <>
+      <ManagerBodyMode />
+      <ManagerShell isAdmin={isAdmin} userName={userName} links={isAdmin ? adminLinks : customerLinks}>
+        {children}
+      </ManagerShell>
+    </>
   );
 }

@@ -3,13 +3,15 @@
 import { usePathname } from 'next/navigation';
 import SiteHeader from '@/components/SiteHeader';
 import VisitTracker from '@/components/VisitTracker';
+import type { SiteCategory } from '@/lib/categories';
 
 type PublicChromeProps = {
   isAdmin: boolean;
   isUser: boolean;
+  categories: SiteCategory[];
 };
 
-export default function PublicChrome({ isAdmin, isUser }: PublicChromeProps) {
+export default function PublicChrome({ isAdmin, isUser, categories }: PublicChromeProps) {
   const pathname = usePathname() || '';
   const isLoginPage = pathname.startsWith('/login');
   const isManagerPage = pathname.startsWith('/manager');
@@ -24,6 +26,7 @@ export default function PublicChrome({ isAdmin, isUser }: PublicChromeProps) {
       <SiteHeader
         isAdmin={isAdmin}
         isUser={isUser}
+        categories={categories}
         showTopHeader={!isAdminManagerPage}
         enableAutoHide={!isAdminManagerPage}
       />

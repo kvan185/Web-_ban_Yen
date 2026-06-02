@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
+import { sortCategories } from '@/lib/category-order';
 
 type Product = {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   imageUrl: string;
   description?: string;
+  shortDescription?: string;
   badge?: string;
   category?: string;
 };
@@ -27,6 +30,7 @@ type CategoryClientProps = {
 
 export default function CategoryClient({ products, categories }: CategoryClientProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const sortedCategories = useMemo(() => sortCategories(categories), [categories]);
   const filteredProducts =
     selectedCategory === 'all'
       ? products
@@ -47,7 +51,7 @@ export default function CategoryClient({ products, categories }: CategoryClientP
         >
           Tất cả
         </button>
-        {categories.map((category) => (
+        {sortedCategories.map((category) => (
           <button
             key={category.id}
             type="button"
@@ -70,8 +74,13 @@ export default function CategoryClient({ products, categories }: CategoryClientP
               <Link href={`/products/${product.id}`}>
                 <h2>{product.name}</h2>
               </Link>
-              <p className="product-card-desc">{product.description}</p>
-              <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+              <p className="product-card-desc">{product.shortDescription || product.description}</p>
+              <div className="product-price-stack">
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span>{product.originalPrice.toLocaleString('vi-VN')} đ</span>
+                )}
+                <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+              </div>
               <AddToCartButton product={product} />
             </div>
           </article>

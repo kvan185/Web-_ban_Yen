@@ -12,6 +12,8 @@ type ProductDetailClientProps = {
   initialProducts: FavoriteProduct[];
 };
 
+const listFromText = (value?: string) => (value || '').split('\n').map(item => item.trim()).filter(Boolean);
+
 export default function ProductDetailClient({
   id,
   initialProduct,
@@ -94,36 +96,44 @@ export default function ProductDetailClient({
 
         <div className="product-detail-layout" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '60px' }}>
           {/* Image Gallery */}
-          <div style={{ position: 'relative' }}>
-          <div className="product-detail-image" style={{ position: 'relative', height: '550px', overflow: 'hidden', borderRadius: '15px', boxShadow: '0 15px 40px rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="product-detail-image-card">
             <SafeImage 
               src={product.imageUrl || '/images/about-hero.png'} 
               alt={product.name}
-              style={{ width: '100%', height: '100%', objectFit: 'contain', background: 'rgba(0,0,0,0.18)' }}
+              className="product-detail-main-image"
             />
-          </div>
-            {product.badge && (
-              <div className={`badge ${product.badge === 'Giảm giá' ? 'badge-sale' : 'badge-best'}`} style={{ top: '20px', left: '20px', padding: '8px 20px', fontSize: '1rem' }}>
-                {product.badge}
-              </div>
-            )}
+            <div className="product-image-title-tag">{product.name}</div>
+            <div className="product-image-tag product-image-tag-bottom-right">{product.weight || '100g'}</div>
           </div>
 
           {/* Product Info */}
           <div>
             <h1 style={{ fontSize: '3.2rem', marginBottom: '15px', lineHeight: '1.2' }}>{product.name}</h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '25px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '14px', marginBottom: '18px', flexWrap: 'wrap' }}>
+              <p className="product-price-sale" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+                {product.price.toLocaleString('vi-VN')} đ
+              </p>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <p className="product-price-original" style={{ fontSize: '1.15rem' }}>
+                  {product.originalPrice.toLocaleString('vi-VN')} đ
+                </p>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '14px', flexWrap: 'wrap' }}>
               <div style={{ color: '#F1C40F', fontSize: '1.2rem' }}>⭐⭐⭐⭐⭐</div>
               <span style={{ opacity: 0.6 }}>(12 đánh giá)</span>
               <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>| Đã bán 150+</span>
+              {product.badge && <span className="product-detail-badge-chip">{product.badge}</span>}
+            </div>
+
+            <div className="product-detail-meta-row">
+              <span>Xuất xứ: <strong>{product.origin || 'Việt Nam'}</strong></span>
+              <span>Hạn sử dụng: <strong>{product.shelfLife || '24 tháng'}</strong></span>
             </div>
             
-            <p style={{ color: 'var(--primary-color)', fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '30px' }}>
-              {product.price.toLocaleString('vi-VN')} đ
-            </p>
-            
             <div className="glass-card" style={{ marginBottom: '35px' }}>
-              <p style={{ opacity: 0.9, lineHeight: '1.8', fontSize: '1.05rem' }}>{product.description}</p>
+              <p style={{ opacity: 0.9, lineHeight: '1.8', fontSize: '1.05rem' }}>{product.shortDescription || product.description}</p>
             </div>
 
             <div style={{ display: 'flex', gap: '15px', marginBottom: '40px', alignItems: 'center' }}>
@@ -155,62 +165,30 @@ export default function ProductDetailClient({
                 {isFavorited ? '❤️' : '🤍'}
               </button>
             </div>
-
-            <div style={{ gridTemplateColumns: '1fr 1fr', display: 'grid', gap: '20px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '30px' }}>
-              <div>
-                <p style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                  <span style={{ color: 'var(--primary-color)' }}>🛡️</span> Cam kết nguyên chất 100%
-                </p>
-                <p style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: 'var(--primary-color)' }}>🚚</span> Giao nhanh 2h tại TP.HCM
-                </p>
-              </div>
-              <div>
-                <p style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                  <span style={{ color: 'var(--primary-color)' }}>🔄</span> Đổi trả trong 7 ngày
-                </p>
-                <p style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ color: 'var(--primary-color)' }}>💰</span> Thanh toán khi nhận hàng
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Product Details Tabs-like structure */}
-        <div style={{ marginTop: '80px' }}>
-          <div style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: '40px', display: 'flex', gap: '40px' }}>
-            <h2 style={{ borderBottom: '3px solid var(--primary-color)', paddingBottom: '15px', color: 'var(--primary-color)' }}>Chi tiết sản phẩm</h2>
-          </div>
-
-          <div className="product-detail-extra" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '60px' }}>
-            <div className="glass-card">
-              <h3 style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>Thông số kỹ thuật</h3>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <tbody>
-                  {[
-                    ['Trọng lượng', product.weight || '100g'],
-                    ['Xuất xứ', product.origin || 'Việt Nam'],
-                    ['Hạn sử dụng', product.shelfLife || '24 tháng'],
-                    ['Phân loại', product.category || 'Yến Sào'],
-                    ['Tình trạng', 'Còn hàng']
-                  ].map(([label, value], i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                      <td style={{ padding: '12px 0', fontWeight: '600', opacity: 0.7 }}>{label}</td>
-                      <td style={{ padding: '12px 0', textAlign: 'right' }}>{value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="glass-card">
-              <h3 style={{ marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>Hướng dẫn sử dụng</h3>
-              <p style={{ lineHeight: '1.8', opacity: 0.9 }}>{product.usage || 'Ngâm yến trong nước sạch khoảng 30 phút cho đến khi sợi yến nở đều. Sau đó chưng cách thủy cùng đường phèn, táo đỏ hoặc hạt sen trong khoảng 20-30 phút.'}</p>
-              <div style={{ marginTop: '20px', padding: '15px', backgroundColor: 'rgba(212, 175, 55, 0.1)', borderRadius: '8px', borderLeft: '4px solid var(--primary-color)' }}>
-                <strong>Mẹo hay:</strong> Nên ăn yến vào buổi sáng sớm hoặc 30 phút trước khi đi ngủ để cơ thể hấp thụ dưỡng chất tốt nhất.
-              </div>
-            </div>
-          </div>
+        <div className="product-detail-box-grid">
+          {[
+            ['Đặc điểm nổi bật', product.features],
+            ['Thông tin chi tiết', product.productInfo],
+            ['Đối tượng sử dụng', product.targetUsers],
+            ['Hướng dẫn sử dụng', product.usageGuide || product.usage || 'Ngâm yến trong nước sạch khoảng 30 phút cho đến khi sợi yến nở đều.\nChưng cách thủy cùng đường phèn, táo đỏ hoặc hạt sen trong khoảng 20-30 phút.'],
+          ].map(([title, value]) => {
+            const items = listFromText(value);
+            return (
+              <section key={title} className="glass-card product-detail-info-box">
+                <h2>{title}</h2>
+                {items.length > 0 ? (
+                  <ul className="product-detail-list">
+                    {items.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                ) : (
+                  <p style={{ color: 'var(--text-muted)' }}>Đang cập nhật.</p>
+                )}
+              </section>
+            );
+          })}
         </div>
 
         {/* Related Products */}
@@ -237,7 +215,12 @@ export default function ProductDetailClient({
                   </div>
                   <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>{p.name}</h3>
                 </Link>
-                <p style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{p.price.toLocaleString('vi-VN')} đ</p>
+                <div className="product-price-stack" style={{ alignItems: 'center' }}>
+                  {p.originalPrice && p.originalPrice > p.price && (
+                    <span>{p.originalPrice.toLocaleString('vi-VN')} đ</span>
+                  )}
+                  <strong style={{ color: 'var(--primary-color)' }}>{p.price.toLocaleString('vi-VN')} đ</strong>
+                </div>
               </div>
             ))}
           </div>

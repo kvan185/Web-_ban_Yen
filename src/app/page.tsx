@@ -9,8 +9,10 @@ type Product = {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   imageUrl: string;
   description?: string;
+  shortDescription?: string;
   badge?: string;
   origin?: string;
   category?: string;
@@ -169,9 +171,14 @@ export default async function Home() {
                   <h3>
                     <Link href={`/products/${product.id}`}>{product.name}</Link>
                   </h3>
-                  <p>{product.description || 'Sản phẩm yến sào nguyên chất, đóng gói cẩn thận.'}</p>
+                  <p>{product.shortDescription || product.description || 'Sản phẩm yến sào nguyên chất, đóng gói cẩn thận.'}</p>
                   <div className="premium-product-footer">
-                    <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                    <div className="product-price-stack">
+                      {product.originalPrice && product.originalPrice > product.price && (
+                        <span>{product.originalPrice.toLocaleString('vi-VN')} đ</span>
+                      )}
+                      <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                    </div>
                     <AddToCartButton product={product} style={{ width: 'auto' }} />
                   </div>
                 </div>

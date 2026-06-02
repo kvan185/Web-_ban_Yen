@@ -6,8 +6,14 @@ type Product = {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   imageUrl: string;
   description: string;
+  shortDescription?: string;
+  features?: string;
+  productInfo?: string;
+  targetUsers?: string;
+  usageGuide?: string;
   badge?: string;
   weight?: string;
   origin?: string;
@@ -20,12 +26,18 @@ const DEFAULT_PRODUCT: Product = {
   id: '',
   name: '',
   price: 0,
+  originalPrice: 0,
   imageUrl: '',
   description: '',
+  shortDescription: '',
+  features: '',
+  productInfo: '',
+  targetUsers: '',
+  usageGuide: '',
   badge: '',
   weight: '100g',
-  origin: 'Việt Nam',
-  shelfLife: '24 tháng',
+  origin: 'Tiền Giang',
+  shelfLife: '12 tháng',
   usage: 'Ngâm nước 20-30 phút cho mềm, sau đó đem chưng cách thủy khoảng 20-30 phút.',
   category: 'Yến Tinh Hoa',
 };
@@ -35,6 +47,9 @@ type ProductsAdminClientProps = {
   initialCategories: {id: string, name: string}[];
   initialProductsPerPage: number;
 };
+
+const listFromText = (value?: string) => (value || '').split('\n').map(item => item.trim()).filter(Boolean);
+const BADGE_OPTIONS = ['Bán chạy', 'Cao cấp', 'Thượng hạng', 'Mới', 'Quà tặng', 'Nguyên chất 100%', 'Tiết kiệm', 'Mẹ Bầu', 'Dưỡng Nhan', 'Premium'];
 
 export default function ProductsAdminClient({
   initialProducts,
@@ -233,8 +248,13 @@ export default function ProductsAdminClient({
                     )}
                   </td>
                   <td style={{ padding: '15px 10px', opacity: 0.8 }}>{product.category || 'Yến Tinh Hoa'}</td>
-                  <td style={{ padding: '15px 10px', textAlign: 'right', fontWeight: 'bold', color: 'var(--primary-color)' }}>
-                    {product.price.toLocaleString('vi-VN')} đ
+                  <td style={{ padding: '15px 10px', textAlign: 'right' }}>
+                    {product.originalPrice && product.originalPrice > product.price && (
+                      <div style={{ color: 'rgba(255,255,255,0.48)', fontSize: '0.82rem', textDecoration: 'line-through' }}>
+                        {product.originalPrice.toLocaleString('vi-VN')} đ
+                      </div>
+                    )}
+                    <strong style={{ color: 'var(--primary-color)' }}>{product.price.toLocaleString('vi-VN')} đ</strong>
                   </td>
                   <td style={{ padding: '15px 10px', textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
@@ -399,9 +419,16 @@ export default function ProductsAdminClient({
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <h4 style={{ fontSize: '1.4rem', color: '#fff' }}>{viewProduct.name}</h4>
-                <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--primary-color)' }}>
-                  {viewProduct.price.toLocaleString('vi-VN')} đ
-                </p>
+                <div>
+                  {viewProduct.originalPrice && viewProduct.originalPrice > viewProduct.price && (
+                    <p style={{ color: 'rgba(255,255,255,0.48)', textDecoration: 'line-through' }}>
+                      {viewProduct.originalPrice.toLocaleString('vi-VN')} đ
+                    </p>
+                  )}
+                  <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--primary-color)' }}>
+                    {viewProduct.price.toLocaleString('vi-VN')} đ
+                  </p>
+                </div>
                 <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', fontSize: '0.9rem', opacity: 0.85 }}>
                   <span><strong>Phân loại:</strong> {viewProduct.category || 'Yến Tinh Hoa'}</span>
                   <span><strong>Trọng lượng:</strong> {viewProduct.weight || '100g'}</span>
@@ -427,13 +454,29 @@ export default function ProductsAdminClient({
 
             <div style={{ marginTop: '25px', display: 'grid', gap: '15px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '20px' }}>
               <div>
-                <strong style={{ display: 'block', marginBottom: '5px', color: 'var(--primary-color)' }}>Mô tả sản phẩm:</strong>
-                <p style={{ opacity: 0.85, fontSize: '0.95rem', lineHeight: 1.6 }}>{viewProduct.description || 'Chưa có mô tả.'}</p>
+                <strong style={{ display: 'block', marginBottom: '5px', color: 'var(--primary-color)' }}>Mô tả ngắn:</strong>
+                <p style={{ opacity: 0.85, fontSize: '0.95rem', lineHeight: 1.6 }}>{viewProduct.shortDescription || viewProduct.description || 'Chưa có mô tả.'}</p>
               </div>
-              <div>
-                <strong style={{ display: 'block', marginBottom: '5px', color: 'var(--primary-color)' }}>Hướng dẫn sử dụng:</strong>
-                <p style={{ opacity: 0.85, fontSize: '0.95rem', lineHeight: 1.6 }}>{viewProduct.usage || 'Chưa có hướng dẫn.'}</p>
-              </div>
+              {[
+                ['Đặc điểm nổi bật', viewProduct.features],
+                ['Thông tin sản phẩm', viewProduct.productInfo],
+                ['Đối tượng sử dụng', viewProduct.targetUsers],
+                ['Hướng dẫn sử dụng', viewProduct.usageGuide || viewProduct.usage],
+              ].map(([title, value]) => {
+                const items = listFromText(value);
+                return (
+                  <div key={title}>
+                    <strong style={{ display: 'block', marginBottom: '5px', color: 'var(--primary-color)' }}>{title}:</strong>
+                    {items.length > 0 ? (
+                      <ul style={{ paddingLeft: '20px', opacity: 0.85, fontSize: '0.95rem', lineHeight: 1.7 }}>
+                        {items.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    ) : (
+                      <p style={{ opacity: 0.6 }}>Chưa có nội dung.</p>
+                    )}
+                  </div>
+                );
+              })}
               <div style={{ display: 'flex', gap: '20px', fontSize: '0.9rem', opacity: 0.7 }}>
                 <span><strong>Hạn sử dụng:</strong> {viewProduct.shelfLife || '24 tháng'}</span>
                 <span><strong>ID:</strong> {viewProduct.id}</span>
@@ -472,27 +515,36 @@ export default function ProductsAdminClient({
           <form onSubmit={handleSaveProduct} className="glass-card admin-product-modal" style={{
             width: '100%',
             borderRadius: '24px',
-            padding: '30px',
-            maxHeight: '90vh',
-            overflowY: 'auto',
+            padding: '18px 20px',
+            maxHeight: 'calc(100vh - 24px)',
+            overflowY: 'hidden',
             border: '1px solid var(--primary-color)'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '15px', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px', marginBottom: '12px' }}>
               <h3 style={{ fontSize: '1.5rem', color: 'var(--primary-color)' }}>
                 {isNew ? 'Thêm Sản Phẩm Mới' : 'Chỉnh Sửa Sản Phẩm'}
               </h3>
-              <button 
-                type="button"
-                onClick={() => setEditProduct(null)} 
-                style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }}
-              >
-                &times;
-              </button>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', flex: '0 0 auto' }}>
+                <button
+                  type="button"
+                  onClick={() => setEditProduct(null)}
+                  className="btn-primary"
+                  style={{ padding: '10px 22px', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', boxShadow: 'none' }}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  style={{ padding: '10px 22px' }}
+                >
+                  Lưu Thay Đổi
+                </button>
+              </div>
             </div>
 
-            <div className="admin-product-form-grid">
-              {/* Left Column: Core Info */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div className="admin-product-edit-layout">
+              <div className="admin-product-main-fields">
                 <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Tên sản phẩm *</span>
                   <input 
@@ -505,162 +557,161 @@ export default function ProductsAdminClient({
                   />
                 </label>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                  <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Giá (VND) *</span>
-                    <input 
-                      type="number"
-                      required
-                      min={0}
-                      value={editProduct.price}
-                      onChange={e => setEditProduct({ ...editProduct, price: parseInt(e.target.value) || 0 })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
-                      placeholder="3800000"
-                    />
-                  </label>
-                  
-                  <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Phân loại</span>
-                    <select 
-                      value={editProduct.category || ''}
-                      onChange={e => setEditProduct({ ...editProduct, category: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.8)', color: '#fff', cursor: 'pointer' }}
-                    >
-                      <option value="">-- Chọn danh mục --</option>
-                      {categories.map(c => (
-                        <option key={c.id} value={c.name}>{c.name}</option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Phân loại</span>
+                  <select
+                    value={editProduct.category || ''}
+                    onChange={e => setEditProduct({ ...editProduct, category: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.8)', color: '#fff', cursor: 'pointer' }}
+                  >
+                    <option value="">-- Chọn danh mục --</option>
+                    {categories.map(c => (
+                      <option key={c.id} value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </label>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                  <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Trọng lượng</span>
-                    <input 
-                      type="text"
-                      value={editProduct.weight}
-                      onChange={e => setEditProduct({ ...editProduct, weight: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
-                      placeholder="100g, 50g..."
-                    />
-                  </label>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Giá (VND) *</span>
+                  <input
+                    type="number"
+                    required
+                    min={0}
+                    value={editProduct.price}
+                    onChange={e => setEditProduct({ ...editProduct, price: parseInt(e.target.value) || 0 })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                    placeholder="3800000"
+                  />
+                </label>
 
-                  <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Xuất xứ</span>
-                    <input 
-                      type="text"
-                      value={editProduct.origin}
-                      onChange={e => setEditProduct({ ...editProduct, origin: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
-                      placeholder="Khánh Hòa..."
-                    />
-                  </label>
-                </div>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Giá gốc (VND)</span>
+                  <input
+                    type="number"
+                    min={0}
+                    value={editProduct.originalPrice || 0}
+                    onChange={e => setEditProduct({ ...editProduct, originalPrice: parseInt(e.target.value) || 0 })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                    placeholder="3500000"
+                  />
+                </label>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                  <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Hạn sử dụng</span>
-                    <input 
-                      type="text"
-                      value={editProduct.shelfLife}
-                      onChange={e => setEditProduct({ ...editProduct, shelfLife: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
-                      placeholder="2 năm..."
-                    />
-                  </label>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Trọng lượng</span>
+                  <input
+                    type="text"
+                    value={editProduct.weight}
+                    onChange={e => setEditProduct({ ...editProduct, weight: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                    placeholder="100g, 50g..."
+                  />
+                </label>
 
-                  <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Nhãn dán (Badge)</span>
-                    <input 
-                      type="text"
-                      value={editProduct.badge}
-                      onChange={e => setEditProduct({ ...editProduct, badge: e.target.value })}
-                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
-                      placeholder="Bán chạy, Mới, Yêu thích..."
-                    />
-                  </label>
-                </div>
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Xuất xứ</span>
+                  <input
+                    type="text"
+                    value={editProduct.origin}
+                    onChange={e => setEditProduct({ ...editProduct, origin: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                    placeholder="Khánh Hòa..."
+                  />
+                </label>
+
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Hạn sử dụng</span>
+                  <input
+                    type="text"
+                    value={editProduct.shelfLife}
+                    onChange={e => setEditProduct({ ...editProduct, shelfLife: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                    placeholder="2 năm..."
+                  />
+                </label>
+
+                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Nhãn dán (Badge)</span>
+                  <select
+                    value={editProduct.badge || ''}
+                    onChange={e => setEditProduct({ ...editProduct, badge: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.8)', color: '#fff', cursor: 'pointer' }}
+                  >
+                    <option value="">-- Chọn nhãn --</option>
+                    {BADGE_OPTIONS.map(badge => (
+                      <option key={badge} value={badge}>{badge}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="admin-short-description-field" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Mô tả ngắn *</span>
+                  <textarea
+                    required
+                    rows={2}
+                    value={editProduct.shortDescription ?? editProduct.description}
+                    onChange={e => setEditProduct({ ...editProduct, shortDescription: e.target.value, description: e.target.value })}
+                    className="admin-form-field"
+                    style={{ resize: 'vertical' }}
+                    placeholder="Tóm tắt ngắn gọn để hiển thị trên danh sách sản phẩm..."
+                  />
+                </label>
+              
               </div>
 
-              {/* Right Column: Image and Description */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '15px', alignItems: 'center' }}>
+              <div className="admin-product-image-panel">
+                <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Hình ảnh sản phẩm</span>
+                <div style={{ display: 'grid', gap: '8px' }}>
                   <button type="button" className="admin-image-preview-button" onClick={() => setPreviewImage(editProduct)}>
                     <img
                       src={editProduct.imageUrl || '/images/about-hero.png'}
                       alt="Xem trước"
                     />
                   </button>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <span style={{ fontSize: '0.85rem', opacity: 0.85 }}>Tải ảnh từ máy tính</span>
-                      <input 
-                        type="file"
-                        accept="image/*"
-                        onChange={e => handleUploadImage(e.target.files?.[0] ?? null)}
-                        style={{ fontSize: '0.85rem' }}
-                      />
-                    </label>
-                  </div>
+                  <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span style={{ fontSize: '0.82rem', opacity: 0.85 }}>Tải ảnh từ máy tính</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={e => handleUploadImage(e.target.files?.[0] ?? null)}
+                      style={{ fontSize: '0.82rem' }}
+                    />
+                  </label>
                 </div>
+              </div>
 
+              <div className="admin-product-copy-panel">
                 <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Hoặc Đường dẫn ảnh (URL)</span>
-                  <input 
-                    type="text"
-                    value={editProduct.imageUrl}
-                    onChange={e => setEditProduct({ ...editProduct, imageUrl: e.target.value })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
-                    placeholder="/images/products/my-product.jpg"
-                  />
-                </label>
-
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Mô tả ngắn *</span>
-                  <textarea 
-                    required
-                    rows={6}
-                    value={editProduct.description}
-                    onChange={e => setEditProduct({ ...editProduct, description: e.target.value })}
-                    className="admin-form-field"
-                    style={{ resize: 'vertical' }}
-                    placeholder="Nhập mô tả sản phẩm..."
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Thông tin sản phẩm</span>
+                  <textarea
+                    rows={5}
+                    value={editProduct.productInfo || ''}
+                    onChange={e => setEditProduct({ ...editProduct, productInfo: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff', resize: 'vertical' }}
+                    placeholder="Mỗi ý trên một dòng..."
                   />
                 </label>
               </div>
+
+              <div className="admin-product-detail-fields">
+              {[
+                ['Đặc điểm nổi bật', 'features', 'Mỗi ý trên một dòng...'],
+                ['Đối tượng sử dụng', 'targetUsers', 'Mỗi ý trên một dòng...'],
+                ['Hướng dẫn sử dụng', 'usageGuide', 'Mỗi bước trên một dòng...'],
+              ].map(([label, field, placeholder]) => (
+                <label key={field} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>{label}</span>
+                  <textarea
+                    rows={3}
+                    value={(editProduct[field as keyof Product] as string | undefined) ?? (field === 'usageGuide' ? editProduct.usage : '') ?? ''}
+                    onChange={e => setEditProduct({ ...editProduct, [field]: e.target.value, ...(field === 'usageGuide' ? { usage: e.target.value } : {}) })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff', resize: 'vertical' }}
+                    placeholder={placeholder}
+                  />
+                </label>
+              ))}
+              </div>
             </div>
 
-            <div style={{ marginTop: '15px' }}>
-              <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Hướng dẫn sử dụng</span>
-                <textarea 
-                  rows={2}
-                  value={editProduct.usage}
-                  onChange={e => setEditProduct({ ...editProduct, usage: e.target.value })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(0,0,0,0.2)', color: '#fff', resize: 'vertical' }}
-                  placeholder="Cách chế biến và ăn tổ yến..."
-                />
-              </label>
-            </div>
-
-            <div style={{ marginTop: '30px', display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
-              <button 
-                type="button"
-                onClick={() => setEditProduct(null)} 
-                className="btn-primary" 
-                style={{ padding: '12px 24px', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: '#fff', boxShadow: 'none' }}
-              >
-                Hủy
-              </button>
-              <button 
-                type="submit"
-                className="btn-primary" 
-                style={{ padding: '12px 24px' }}
-              >
-                Lưu Thay Đổi
-              </button>
-            </div>
           </form>
         </div>
       )}

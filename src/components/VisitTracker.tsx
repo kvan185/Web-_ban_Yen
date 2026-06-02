@@ -24,6 +24,8 @@ export default function VisitTracker({ disabled = false }: VisitTrackerProps) {
       path: pathname,
       referrer: document.referrer || '',
       width: window.innerWidth,
+      language: navigator.language || '',
+      platform: navigator.platform || '',
       sessionId,
     });
 

@@ -4,6 +4,7 @@ import path from 'path';
 import { cookies } from 'next/headers';
 import FloatingContactButtons from '@/components/FloatingContactButtons';
 import PublicChrome, { PublicFooter } from '@/components/PublicChrome';
+import { readCategories } from '@/lib/categories';
 import { DEFAULT_OG_IMAGE, JsonLd, organizationJsonLd, SITE_URL, websiteJsonLd } from '@/lib/seo';
 import './globals.css';
 
@@ -68,6 +69,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const cookieStore = await cookies();
   const isAdmin = cookieStore.has('admin_session');
   const isUser = cookieStore.has('user_session');
+  const categories = readCategories();
 
   return (
     <html lang="vi">
@@ -82,7 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           } as React.CSSProperties
         }
       >
-        <PublicChrome isAdmin={isAdmin} isUser={isUser} />
+        <PublicChrome isAdmin={isAdmin} isUser={isUser} categories={categories} />
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
 
         <main>{children}</main>

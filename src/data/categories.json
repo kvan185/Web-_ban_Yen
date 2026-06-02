@@ -1,12 +1,37 @@
 [
   {
     "id": "cat_1",
-    "name": "Yến Tinh Hoa",
+    "name": "Yến Tinh Chế",
     "description": "Tổ yến đã được làm sạch lông và tạp chất, tinh chế tỉ mỉ. Thích hợp để chưng ngay."
   },
   {
     "id": "cat_2",
     "name": "Yến Thô",
     "description": "Tổ yến nguyên thủy chưa qua quá trình làm sạch lông, còn nguyên mùi vị đặc trưng tự nhiên."
+  },
+  {
+    "id": "cat_1780406360378",
+    "name": "Yến Chưng",
+    "description": "Yến chưng là món ăn được chế biến từ tổ yến (yến sào) làm sạch, chưng cách thủy cùng đường phèn và các nguyên liệu tự nhiên như hạt sen, táo đỏ, kỷ tử, hoặc nhân sâm. Đây là thực phẩm bổ dưỡng, hỗ trợ tăng đề kháng, bổ phổi, làm đẹp da và phục hồi sức khỏe."
+  },
+  {
+    "id": "cat_1780406386759",
+    "name": "Combo quà tặng phổ thông",
+    "description": "Quà tặng bạn bè, người thân và khách hàng"
+  },
+  {
+    "id": "cat_1780406794422",
+    "name": "Combo quà tặng dưỡng sức khoẻ",
+    "description": "Quà tặng bạn bè, người thân và khách hàng"
+  },
+  {
+    "id": "cat_1780406828010",
+    "name": "Combo cho mẹ bầu / phụ nữ",
+    "description": "Quà tặng bạn bè, người thân và khách hàng"
+  },
+  {
+    "id": "cat_1780406841486",
+    "name": "Combo cao cấp",
+    "description": "Quà tặng bạn bè, người thân và khách hàng"
   }
 ]
