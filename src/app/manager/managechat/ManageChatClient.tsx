@@ -19,7 +19,9 @@ type ChatSession = {
 };
 
 function sessionTitle(session: ChatSession) {
-  return session.customerName?.trim() || `Khách hàng ở ${session.pagePath || '/'}`;
+  return session.customerName?.trim()
+    ? `Khách ${session.customerName} đang chat ở ${session.pagePath || '/'}`
+    : `Khách hàng đang chat ở ${session.pagePath || '/'}`;
 }
 
 function formatDate(value: string) {

@@ -33,6 +33,7 @@ export type OrderHistoryItem = {
   total?: number;
   items?: CartItem[];
   orderOwner?: string;
+  guestSession?: string;
   customerName?: string;
   email?: string;
   phone?: string;

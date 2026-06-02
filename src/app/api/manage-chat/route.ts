@@ -32,13 +32,15 @@ async function readSession(sessionId: string): Promise<ChatSession | null> {
   if (!metadata?.id) return null;
 
   const rawMessages = await kv.lrange<string>(`chat:session:${sessionId}:messages`, 0, -1);
-  const messages = (rawMessages || []).map((entry) => {
-    try {
-      return JSON.parse(entry) as ChatMessage;
-    } catch {
-      return null;
-    }
-  }).filter(Boolean) as ChatMessage[];
+  const messages = (rawMessages || [])
+    .map((entry) => {
+      try {
+        return JSON.parse(entry) as ChatMessage;
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean) as ChatMessage[];
 
   return {
     id: metadata.id,
@@ -61,7 +63,7 @@ export async function GET(request: Request) {
     const sessionId = searchParams.get('sessionId');
 
     if (sessionId) {
-      return NextResponse.json(await readSession(sessionId) || null);
+      return NextResponse.json((await readSession(sessionId)) || null);
     }
 
     const ids = await kv.smembers<string[]>('chat:sessions');
@@ -112,8 +114,8 @@ export async function POST(request: Request) {
 
     if (!existing?.id) {
       const systemText = customerName
-        ? `${customerName} bắt đầu chat.`
-        : `Khách hàng ở ${pagePath} bắt đầu chat.`;
+        ? `Khách ${customerName} đang chat ở ${pagePath}.`
+        : `Khách hàng đang chat ở ${pagePath}.`;
       await kv.rpush(messagesKey, JSON.stringify(createMessage('system', systemText)));
     }
 

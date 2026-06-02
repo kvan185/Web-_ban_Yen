@@ -13,6 +13,7 @@ async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
     id: String(order.id),
     date: String(order.date || ''),
     orderOwner: String(order.orderOwner || ''),
+    guestSession: String(order.guestSession || ''),
     customerName: String(order.customerName || ''),
     email: String(order.email || ''),
     phone: String(order.phone || ''),
@@ -42,6 +43,7 @@ export async function GET() {
     const cookieStore = await cookies();
     const isAdmin = cookieStore.has('admin_session');
     const userName = cookieStore.get('user_session')?.value || '';
+    const guestSession = cookieStore.get('guest_order_session')?.value || '';
     const orders = await readOrders();
 
     if (isAdmin) {
@@ -49,7 +51,11 @@ export async function GET() {
     }
 
     if (!userName) {
-      return NextResponse.json([]);
+      if (!guestSession) {
+        return NextResponse.json([]);
+      }
+
+      return NextResponse.json(orders.filter((order) => order.guestSession === guestSession));
     }
 
     return NextResponse.json(orders.filter((order) => order.orderOwner === userName));
@@ -66,6 +72,9 @@ export async function POST(request: Request) {
 
     const cookieStore = await cookies();
     const userName = cookieStore.get('user_session')?.value || 'guest';
+    const guestSession =
+      cookieStore.get('guest_order_session')?.value ||
+      `guest_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const payload = (await request.json()) as OrderHistoryItem;
     const isBankTransfer = payload.paymentMethod === 'bank';
     const now = new Date();
@@ -75,6 +84,7 @@ export async function POST(request: Request) {
       id: payload.id || createOrderId(userName),
       date: payload.date || now.toLocaleString('vi-VN'),
       orderOwner: userName,
+      guestSession: userName === 'guest' ? guestSession : '',
       email: payload.email || '',
       paymentMethod: isBankTransfer ? 'bank' : 'cod',
       paymentStatus: isBankTransfer
@@ -92,6 +102,7 @@ export async function POST(request: Request) {
       id: nextOrder.id,
       date: nextOrder.date || '',
       orderOwner: nextOrder.orderOwner || '',
+      guestSession: nextOrder.guestSession || '',
       customerName: nextOrder.customerName || '',
       email: nextOrder.email || '',
       phone: nextOrder.phone || '',
@@ -114,7 +125,19 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({ success: true, order: nextOrder });
+    const response = NextResponse.json({ success: true, order: nextOrder });
+
+    if (userName === 'guest') {
+      response.cookies.set('guest_order_session', guestSession, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/',
+      });
+    }
+
+    return response;
   } catch {
     return NextResponse.json({ error: 'Failed to save order' }, { status: 500 });
   }
@@ -151,6 +174,7 @@ export async function PATCH(request: Request) {
       id: nextOrder.id,
       date: nextOrder.date || '',
       orderOwner: nextOrder.orderOwner || '',
+      guestSession: nextOrder.guestSession || '',
       customerName: nextOrder.customerName || '',
       email: nextOrder.email || '',
       phone: nextOrder.phone || '',

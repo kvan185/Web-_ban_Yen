@@ -14,6 +14,7 @@ export default function CheckOutPage() {
   const router = useRouter();
   const [order, setOrder] = useState<OrderHistoryItem | null>(null);
   const [paid, setPaid] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -30,11 +31,20 @@ export default function CheckOutPage() {
 
   useEffect(() => {
     if (!paid) return;
-    const timeout = window.setTimeout(() => {
-      router.push('/order-history');
-    }, 5000);
+    setCountdown(5);
 
-    return () => window.clearTimeout(timeout);
+    const interval = window.setInterval(() => {
+      setCountdown((current) => {
+        if (current <= 1) {
+          window.clearInterval(interval);
+          router.push('/order-history');
+          return 0;
+        }
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(interval);
   }, [paid, router]);
 
   const qrUrl = useMemo(() => {
@@ -56,11 +66,15 @@ export default function CheckOutPage() {
       status: 'Chờ xác nhận chuyển khoản, Chờ xử lý',
     };
 
-    await fetch('/api/orders', {
+    const response = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bankOrder),
     });
+
+    if (!response.ok) {
+      return;
+    }
 
     localStorage.removeItem('pendingBankCheckout');
     localStorage.removeItem('cart');
@@ -74,7 +88,7 @@ export default function CheckOutPage() {
       <div className="container checkout-page">
         <div className="glass-card checkout-thank-you">
           <h1>Cảm ơn quý khách đã gửi yêu cầu thanh toán</h1>
-          <p>Đơn hàng đang chờ xác nhận chuyển khoản. Sẽ chuyển về lịch sử mua hàng sau 5 giây...</p>
+          <p>Đơn hàng đang chờ xác nhận chuyển khoản. Sẽ chuyển về lịch sử mua hàng sau {countdown} giây...</p>
         </div>
       </div>
     );

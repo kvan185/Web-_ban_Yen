@@ -34,7 +34,13 @@ function getSessionId() {
 
 function getContactProfile(): ContactProfile {
   try {
-    return JSON.parse(localStorage.getItem('yenth_contact_profile') || '{}');
+    const leadProfile = JSON.parse(localStorage.getItem('yenth_contact_profile') || '{}');
+    const checkoutProfile = JSON.parse(localStorage.getItem('customerProfile') || '{}');
+
+    return {
+      name: leadProfile.name || checkoutProfile.fullName || '',
+      phone: leadProfile.phone || checkoutProfile.phone || '',
+    };
   } catch {
     return {};
   }
