@@ -6,31 +6,36 @@ import { createOrderId, formatOrderStatus } from '@/lib/orders';
 import type { OrderHistoryItem } from '@/lib/storage';
 
 async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
-  const order = await kv!.hgetall<Record<string, unknown>>(`orders:item:${orderId}`);
-  if (!order?.id) return null;
+  try {
+    const order = await kv!.hgetall<Record<string, unknown>>(`orders:item:${orderId}`);
+    if (!order?.id) return null;
 
-  return {
-    id: String(order.id),
-    date: String(order.date || ''),
-    orderOwner: String(order.orderOwner || ''),
-    guestSession: String(order.guestSession || ''),
-    customerName: String(order.customerName || ''),
-    email: String(order.email || ''),
-    phone: String(order.phone || ''),
-    address: String(order.address || ''),
-    paymentMethod: (order.paymentMethod === 'bank' ? 'bank' : 'cod') as 'bank' | 'cod',
-    paymentStatus: String(order.paymentStatus || ''),
-    fulfillmentStatus: String(order.fulfillmentStatus || ''),
-    transferContent: String(order.transferContent || ''),
-    status: String(order.status || ''),
-    total: Number(order.total || 0),
-    items: order.items ? JSON.parse(String(order.items)) : [],
-  };
+    return {
+      id: String(order.id),
+      date: String(order.date || ''),
+      orderOwner: String(order.orderOwner || ''),
+      guestSession: String(order.guestSession || ''),
+      customerName: String(order.customerName || ''),
+      email: String(order.email || ''),
+      phone: String(order.phone || ''),
+      address: String(order.address || ''),
+      paymentMethod: (order.paymentMethod === 'bank' ? 'bank' : 'cod') as 'bank' | 'cod',
+      paymentStatus: String(order.paymentStatus || ''),
+      fulfillmentStatus: String(order.fulfillmentStatus || ''),
+      transferContent: String(order.transferContent || ''),
+      status: String(order.status || ''),
+      total: Number(order.total || 0),
+      items: order.items ? JSON.parse(String(order.items)) : [],
+    };
+  } catch {
+    return null;
+  }
 }
 
 async function readOrders() {
   const ids = await kv!.lrange<string>('orders:list', 0, -1);
-  const orders = await Promise.all((ids || []).map((id) => readOrder(id)));
+  const uniqueIds = [...new Set((ids || []).filter(Boolean))];
+  const orders = await Promise.all(uniqueIds.map((id) => readOrder(id)));
   return orders.filter(Boolean) as OrderHistoryItem[];
 }
 
