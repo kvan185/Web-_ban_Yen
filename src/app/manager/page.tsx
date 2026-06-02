@@ -17,7 +17,7 @@ function topEntries(source: Record<string, number> = {}, limit = 5) {
 }
 
 async function readNumberMap(key: string) {
-  const data = (await kv.hgetall<Record<string, number | string>>(key)) || {};
+  const data = (await kv!.hgetall<Record<string, number | string>>(key)) || {};
   return Object.fromEntries(
     Object.entries(data).map(([label, value]) => [label, Number(value) || 0])
   );
@@ -37,13 +37,13 @@ async function getAnalytics() {
   }
 
   const [summaryRaw, byDay, byMonth, pages, referrers, devicesRaw, recentRaw] = await Promise.all([
-    kv.hgetall<Record<string, number | string>>('analytics:summary'),
+    kv!.hgetall<Record<string, number | string>>('analytics:summary'),
     readNumberMap('analytics:byDay'),
     readNumberMap('analytics:byMonth'),
     readNumberMap('analytics:pages'),
     readNumberMap('analytics:referrers'),
-    kv.hgetall<Record<string, number | string>>('analytics:devices'),
-    kv.lrange<string>('analytics:recent', 0, 19),
+    kv!.hgetall<Record<string, number | string>>('analytics:devices'),
+    kv!.lrange<string>('analytics:recent', 0, 19),
   ]);
 
   return {

@@ -9,6 +9,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, skipped: 'kv-not-configured' });
     }
 
+    const redis = kv!;
+
     const body = await request.json().catch(() => ({}));
     const url = new URL(request.url);
     const pagePath = typeof body.path === 'string' && body.path.startsWith('/') ? body.path : '/';
@@ -35,22 +37,22 @@ export async function POST(request: Request) {
     const userAgent = request.headers.get('user-agent') || '';
     const deviceLabel = [device, platform, language].filter(Boolean).join(' · ') || device;
     const sessionKey = `analytics:sessions:${day}`;
-    const isNewSession = Boolean(sessionId) && !(await kv.sismember(sessionKey, sessionId));
+    const isNewSession = Boolean(sessionId) && !(await redis.sismember(sessionKey, sessionId));
 
-    await kv.hincrby('analytics:summary', 'pageViews', 1);
-    await kv.hincrby('analytics:summary', 'total', 1);
-    await kv.hincrby('analytics:byDay', day, 1);
-    await kv.hincrby('analytics:byMonth', month, 1);
-    await kv.hincrby('analytics:pages', pagePath, 1);
-    await kv.hincrby('analytics:referrers', normalizedReferrer, 1);
-    await kv.hincrby('analytics:devices', device, 1);
+    await redis.hincrby('analytics:summary', 'pageViews', 1);
+    await redis.hincrby('analytics:summary', 'total', 1);
+    await redis.hincrby('analytics:byDay', day, 1);
+    await redis.hincrby('analytics:byMonth', month, 1);
+    await redis.hincrby('analytics:pages', pagePath, 1);
+    await redis.hincrby('analytics:referrers', normalizedReferrer, 1);
+    await redis.hincrby('analytics:devices', device, 1);
 
     if (isNewSession && sessionId) {
-      await kv.sadd(sessionKey, sessionId);
-      await kv.hincrby('analytics:summary', 'uniqueSessions', 1);
+      await redis.sadd(sessionKey, sessionId);
+      await redis.hincrby('analytics:summary', 'uniqueSessions', 1);
     }
 
-    await kv.lpush(
+    await redis.lpush(
       'analytics:recent',
       JSON.stringify({
         at: now.toISOString(),
@@ -62,7 +64,7 @@ export async function POST(request: Request) {
         isNewSession,
       })
     );
-    await kv.ltrim('analytics:recent', 0, 49);
+    await redis.ltrim('analytics:recent', 0, 49);
 
     return NextResponse.json({ ok: true });
   } catch {

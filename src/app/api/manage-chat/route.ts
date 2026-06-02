@@ -28,10 +28,10 @@ function createMessage(sender: ChatMessage['sender'], text: string): ChatMessage
 }
 
 async function readSession(sessionId: string): Promise<ChatSession | null> {
-  const metadata = await kv.hgetall<Record<string, string>>(`chat:session:${sessionId}`);
+  const metadata = await kv!.hgetall<Record<string, string>>(`chat:session:${sessionId}`);
   if (!metadata?.id) return null;
 
-  const rawMessages = await kv.lrange<string>(`chat:session:${sessionId}:messages`, 0, -1);
+  const rawMessages = await kv!.lrange<string>(`chat:session:${sessionId}:messages`, 0, -1);
   const messages = (rawMessages || [])
     .map((entry) => {
       try {
@@ -59,6 +59,8 @@ export async function GET(request: Request) {
       return NextResponse.json([]);
     }
 
+    const redis = kv!;
+
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');
 
@@ -66,7 +68,7 @@ export async function GET(request: Request) {
       return NextResponse.json((await readSession(sessionId)) || null);
     }
 
-    const ids = await kv.smembers<string[]>('chat:sessions');
+    const ids = await redis.smembers<string[]>('chat:sessions');
     const sessions = await Promise.all((ids || []).map((id) => readSession(id)));
 
     return NextResponse.json(
@@ -85,6 +87,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'KV not configured' }, { status: 500 });
     }
 
+    const redis = kv!;
+
     const body = await request.json();
     const sessionId = String(body.sessionId || '').trim() || `chat_${Date.now()}`;
     const text = String(body.text || '').trim();
@@ -99,11 +103,11 @@ export async function POST(request: Request) {
 
     const sessionKey = `chat:session:${sessionId}`;
     const messagesKey = `${sessionKey}:messages`;
-    const existing = await kv.hgetall<Record<string, string>>(sessionKey);
+    const existing = await redis.hgetall<Record<string, string>>(sessionKey);
     const now = new Date().toISOString();
 
-    await kv.sadd('chat:sessions', sessionId);
-    await kv.hset(sessionKey, {
+    await redis.sadd('chat:sessions', sessionId);
+    await redis.hset(sessionKey, {
       id: sessionId,
       customerName: customerName || existing?.customerName || '',
       customerPhone: customerPhone || existing?.customerPhone || '',
@@ -116,10 +120,10 @@ export async function POST(request: Request) {
       const systemText = customerName
         ? `Khách ${customerName} đang chat ở ${pagePath}.`
         : `Khách hàng đang chat ở ${pagePath}.`;
-      await kv.rpush(messagesKey, JSON.stringify(createMessage('system', systemText)));
+      await redis.rpush(messagesKey, JSON.stringify(createMessage('system', systemText)));
     }
 
-    await kv.rpush(messagesKey, JSON.stringify(createMessage(sender, text)));
+    await redis.rpush(messagesKey, JSON.stringify(createMessage(sender, text)));
 
     return NextResponse.json({ success: true, sessionId });
   } catch {

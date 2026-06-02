@@ -6,7 +6,7 @@ import { createOrderId, formatOrderStatus } from '@/lib/orders';
 import type { OrderHistoryItem } from '@/lib/storage';
 
 async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
-  const order = await kv.hgetall<Record<string, unknown>>(`orders:item:${orderId}`);
+  const order = await kv!.hgetall<Record<string, unknown>>(`orders:item:${orderId}`);
   if (!order?.id) return null;
 
   return {
@@ -29,7 +29,7 @@ async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
 }
 
 async function readOrders() {
-  const ids = await kv.lrange<string>('orders:list', 0, -1);
+  const ids = await kv!.lrange<string>('orders:list', 0, -1);
   const orders = await Promise.all((ids || []).map((id) => readOrder(id)));
   return orders.filter(Boolean) as OrderHistoryItem[];
 }
@@ -70,6 +70,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'KV not configured' }, { status: 500 });
     }
 
+    const redis = kv!;
+
     const cookieStore = await cookies();
     const userName = cookieStore.get('user_session')?.value || 'guest';
     const guestSession =
@@ -96,9 +98,9 @@ export async function POST(request: Request) {
     nextOrder.status = formatOrderStatus(nextOrder);
 
     const orderKey = `orders:item:${nextOrder.id}`;
-    const existing = await kv.hget(orderKey, 'id');
+    const existing = await redis.hget(orderKey, 'id');
 
-    await kv.hset(orderKey, {
+    await redis.hset(orderKey, {
       id: nextOrder.id,
       date: nextOrder.date || '',
       orderOwner: nextOrder.orderOwner || '',
@@ -117,8 +119,8 @@ export async function POST(request: Request) {
     });
 
     if (!existing) {
-      await kv.lrem('orders:list', 0, nextOrder.id);
-      await kv.lpush('orders:list', nextOrder.id);
+      await redis.lrem('orders:list', 0, nextOrder.id);
+      await redis.lpush('orders:list', nextOrder.id);
       try {
         await sendNewOrderNotification(nextOrder);
       } catch {
@@ -149,6 +151,8 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: 'KV not configured' }, { status: 500 });
     }
 
+    const redis = kv!;
+
     const cookieStore = await cookies();
     if (!cookieStore.has('admin_session')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
@@ -170,7 +174,7 @@ export async function PATCH(request: Request) {
       }),
     };
 
-    await kv.hset(`orders:item:${nextOrder.id}`, {
+    await redis.hset(`orders:item:${nextOrder.id}`, {
       id: nextOrder.id,
       date: nextOrder.date || '',
       orderOwner: nextOrder.orderOwner || '',

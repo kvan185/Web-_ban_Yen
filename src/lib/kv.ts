@@ -1,11 +1,18 @@
 import 'server-only';
 
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 
-export { kv };
+export const redis = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+  ? new Redis({
+      url: process.env.KV_REST_API_URL,
+      token: process.env.KV_REST_API_TOKEN,
+    })
+  : null;
+
+export const kv = redis;
 
 export function isKvConfigured() {
-  return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+  return Boolean(redis);
 }
 
 export function getAnalyticsDayKey(date = new Date()) {
