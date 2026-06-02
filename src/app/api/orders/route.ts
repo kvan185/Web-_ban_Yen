@@ -3,11 +3,37 @@ import { NextResponse } from 'next/server';
 import { isKvConfigured, kv } from '@/lib/kv';
 import { sendNewOrderNotification } from '@/lib/order-notify';
 import { createOrderId, formatOrderStatus } from '@/lib/orders';
-import type { OrderHistoryItem } from '@/lib/storage';
+import type { CartItem, OrderHistoryItem } from '@/lib/storage';
+
+export const runtime = 'nodejs';
+
+const ORDER_LIST_KEY = 'orders:v2:list';
+const ORDER_ITEM_PREFIX = 'orders:v2:item:';
+
+function getOrderKey(orderId: string) {
+  return `${ORDER_ITEM_PREFIX}${orderId}`;
+}
+
+function parseOrderItems(value: unknown): CartItem[] {
+  if (Array.isArray(value)) {
+    return value as CartItem[];
+  }
+
+  if (typeof value !== 'string' || !value) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
 async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
   try {
-    const order = await kv!.hgetall<Record<string, unknown>>(`orders:item:${orderId}`);
+    const order = await kv!.hgetall<Record<string, unknown>>(getOrderKey(orderId));
     if (!order?.id) return null;
 
     return {
@@ -25,7 +51,7 @@ async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
       transferContent: String(order.transferContent || ''),
       status: String(order.status || ''),
       total: Number(order.total || 0),
-      items: order.items ? JSON.parse(String(order.items)) : [],
+      items: parseOrderItems(order.items),
     };
   } catch {
     return null;
@@ -33,7 +59,14 @@ async function readOrder(orderId: string): Promise<OrderHistoryItem | null> {
 }
 
 async function readOrders() {
-  const ids = await kv!.lrange<string>('orders:list', 0, -1);
+  let ids: string[] = [];
+
+  try {
+    ids = await kv!.lrange<string>(ORDER_LIST_KEY, 0, -1);
+  } catch {
+    return [];
+  }
+
   const uniqueIds = [...new Set((ids || []).filter(Boolean))];
   const orders = await Promise.all(uniqueIds.map((id) => readOrder(id)));
   return orders.filter(Boolean) as OrderHistoryItem[];
@@ -64,7 +97,8 @@ export async function GET() {
     }
 
     return NextResponse.json(orders.filter((order) => order.orderOwner === userName));
-  } catch {
+  } catch (error) {
+    console.error('Failed to read orders', error);
     return NextResponse.json({ error: 'Failed to read orders' }, { status: 500 });
   }
 }
@@ -102,7 +136,7 @@ export async function POST(request: Request) {
 
     nextOrder.status = formatOrderStatus(nextOrder);
 
-    const orderKey = `orders:item:${nextOrder.id}`;
+    const orderKey = getOrderKey(nextOrder.id);
     const existing = await redis.hget(orderKey, 'id');
 
     await redis.hset(orderKey, {
@@ -124,11 +158,12 @@ export async function POST(request: Request) {
     });
 
     if (!existing) {
-      await redis.lrem('orders:list', 0, nextOrder.id);
-      await redis.lpush('orders:list', nextOrder.id);
+      await redis.lrem(ORDER_LIST_KEY, 0, nextOrder.id);
+      await redis.lpush(ORDER_LIST_KEY, nextOrder.id);
       try {
         await sendNewOrderNotification(nextOrder);
-      } catch {
+      } catch (error) {
+        console.error('Failed to send order notification', error);
       }
     }
 
@@ -145,7 +180,8 @@ export async function POST(request: Request) {
     }
 
     return response;
-  } catch {
+  } catch (error) {
+    console.error('Failed to save order', error);
     return NextResponse.json({ error: 'Failed to save order' }, { status: 500 });
   }
 }
@@ -179,7 +215,7 @@ export async function PATCH(request: Request) {
       }),
     };
 
-    await redis.hset(`orders:item:${nextOrder.id}`, {
+    await redis.hset(getOrderKey(nextOrder.id), {
       id: nextOrder.id,
       date: nextOrder.date || '',
       orderOwner: nextOrder.orderOwner || '',
@@ -198,7 +234,8 @@ export async function PATCH(request: Request) {
     });
 
     return NextResponse.json({ success: true, order: nextOrder });
-  } catch {
+  } catch (error) {
+    console.error('Failed to update order', error);
     return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
   }
 }

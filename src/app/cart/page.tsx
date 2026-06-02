@@ -11,6 +11,8 @@ export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCheckoutProfile, setShowCheckoutProfile] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+  const [savingOrder, setSavingOrder] = useState(false);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -70,10 +72,17 @@ export default function CartPage() {
       body: JSON.stringify(order),
     });
 
-    return response.json();
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new Error(data?.error || 'Unable to save order');
+    }
+
+    return data;
   };
 
   const completeCheckout = async (profile: CustomerProfile, payment: CheckoutPayment) => {
+    setCheckoutError('');
     const order = createOrderDraft(profile, payment);
 
     if (payment.method === 'bank') {
@@ -82,11 +91,18 @@ export default function CartPage() {
       return;
     }
 
-    await saveOrder(order);
-    localStorage.removeItem('cart');
-    setCart([]);
-    window.dispatchEvent(new Event('cartUpdated'));
-    router.push('/order-history');
+    setSavingOrder(true);
+    try {
+      await saveOrder(order);
+      localStorage.removeItem('cart');
+      setCart([]);
+      window.dispatchEvent(new Event('cartUpdated'));
+      router.push('/order-history');
+    } catch {
+      setCheckoutError('Hệ thống chưa lưu được đơn hàng. Vui lòng thử lại hoặc liên hệ hotline 0375266538.');
+    } finally {
+      setSavingOrder(false);
+    }
   };
 
   if (loading) return <div className="container" style={{ padding: '100px' }}>Đang tải...</div>;
@@ -131,8 +147,11 @@ export default function CartPage() {
               <span style={{ color: 'var(--primary-color)' }}>{totalPrice.toLocaleString('vi-VN')} đ</span>
             </div>
             <button className="btn-primary" style={{ width: '100%', padding: '15px' }} onClick={() => setShowCheckoutProfile(true)}>
-              Tiến hành thanh toán
+              {savingOrder ? 'Đang lưu đơn...' : 'Tiến hành thanh toán'}
             </button>
+            {checkoutError && (
+              <p style={{ marginTop: '14px', color: '#ffd166', fontWeight: 700 }}>{checkoutError}</p>
+            )}
           </div>
         </div>
       )}

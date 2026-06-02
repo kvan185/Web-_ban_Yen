@@ -15,6 +15,8 @@ export default function CheckOutPage() {
   const [order, setOrder] = useState<OrderHistoryItem | null>(null);
   const [paid, setPaid] = useState(false);
   const [countdown, setCountdown] = useState(5);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -59,6 +61,9 @@ export default function CheckOutPage() {
   const markPaid = async () => {
     if (!order) return;
 
+    setSaving(true);
+    setSaveError('');
+
     const bankOrder: OrderHistoryItem = {
       ...order,
       paymentStatus: 'Chờ xác nhận chuyển khoản',
@@ -73,6 +78,8 @@ export default function CheckOutPage() {
     });
 
     if (!response.ok) {
+      setSaveError('Hệ thống chưa lưu được đơn hàng. Vui lòng thử lại hoặc liên hệ hotline 0375266538.');
+      setSaving(false);
       return;
     }
 
@@ -81,6 +88,7 @@ export default function CheckOutPage() {
     window.dispatchEvent(new Event('cartUpdated'));
     setOrder(bankOrder);
     setPaid(true);
+    setSaving(false);
   };
 
   if (paid) {
@@ -137,9 +145,10 @@ export default function CheckOutPage() {
               <strong>{order.transferContent}</strong>
             </div>
           </div>
-          <button type="button" className="btn-primary" onClick={markPaid}>
-            Tôi đã chuyển khoản
+          <button type="button" className="btn-primary" onClick={markPaid} disabled={saving}>
+            {saving ? 'Đang lưu đơn...' : 'Tôi đã chuyển khoản'}
           </button>
+          {saveError && <p style={{ marginTop: '14px', color: '#ffd166', fontWeight: 700 }}>{saveError}</p>}
         </div>
         <img src={qrUrl} alt="QR chuyển khoản MB Bank" />
       </div>
