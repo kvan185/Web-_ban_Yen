@@ -97,7 +97,7 @@ export default function SiteHeader({
   }, [showTopHeader, enableAutoHide]);
 
   const stickyTop = showTopHeader && hideTop ? -topHeight : 0;
-  const featuredCategories = categories.slice(0, 7);
+  const featuredCategories = categories;
   const handleNavClick = (event?: MouseEvent<HTMLElement>) => {
     event?.currentTarget.blur();
     setMenuOpen(false);
@@ -144,6 +144,7 @@ export default function SiteHeader({
 
   const primaryLinks = [
     { href: '/', label: 'Trang chủ' },
+    { href: '/real-nest-booking', label: 'Đặt tổ' },
     { href: '/products', label: 'Sản phẩm' },
     { href: '/categories', label: 'Danh mục' },
     { href: '/blog', label: 'Blog' },

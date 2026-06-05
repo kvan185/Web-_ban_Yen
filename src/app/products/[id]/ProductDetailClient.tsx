@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
+import { realNestImages } from '@/lib/realNestMedia';
 import { CartItem, FavoriteProduct, parseStorageArray } from '@/lib/storage';
 
 type ProductDetailClientProps = {
@@ -137,12 +139,7 @@ export default function ProductDetailClient({
                 alt={product.name}
                 className="product-detail-main-image"
               />
-              <div className="product-image-zoom-hint">Chạm để xem ảnh lớn</div>
             </button>
-            <div className="product-visual-caption">
-              <span>Hình ảnh sản phẩm</span>
-              <strong>Khung quà đẹp, dễ dùng hằng ngày hoặc biếu tặng</strong>
-            </div>
           </div>
 
           <section className="glass-card product-detail-summary">
@@ -169,22 +166,10 @@ export default function ProductDetailClient({
             <div className="product-detail-meta-row">
               <span>Xuất xứ: <strong>{product.origin || 'Việt Nam'}</strong></span>
               <span>Hạn sử dụng: <strong>{product.shelfLife || '24 tháng'}</strong></span>
-              {product.badge && <span className="product-detail-badge-chip">{product.badge}</span>}
             </div>
 
             <div className="product-detail-description">
               <p>{product.shortDescription || product.description}</p>
-            </div>
-
-            <div className="product-detail-highlight-grid">
-              <div>
-                <strong>Sợi yến</strong>
-                <span>Dễ nhìn chất thật, hợp người muốn chọn kỹ trước khi mua.</span>
-              </div>
-              <div>
-                <strong>Biếu tặng</strong>
-                <span>Khung hộp sang và gọn, phù hợp gia đình và đối tác.</span>
-              </div>
             </div>
 
             <div className="product-detail-action-row">
@@ -204,6 +189,22 @@ export default function ProductDetailClient({
             </div>
           </section>
         </div>
+
+        <section className="product-source-proof">
+          <div>
+            <span className="eyebrow">Nguồn tổ thực tế</span>
+            <h2>Ảnh ghi nhận trước khi tuyển chọn</h2>
+            <p>
+              Một phần hình ảnh thực tế từ khu vực nhà yến, giúp khách hàng nhìn rõ nguồn tổ
+              trước khi chọn sản phẩm hoặc đặt giữ tổ riêng.
+            </p>
+          </div>
+          <div className="product-source-proof-grid">
+            {realNestImages.slice(0, 4).map((image, index) => (
+              <SafeImage key={image.src} src={image.src} alt={`Nguồn tổ yến thực tế ${index + 1}`} />
+            ))}
+          </div>
+        </section>
 
         <div className="product-detail-box-grid">
           {[
@@ -240,26 +241,33 @@ export default function ProductDetailClient({
           <div className="section-title-wrapper product-detail-related-heading">
             <h2 className="section-title">Sản phẩm tương tự</h2>
           </div>
-          <div className="grid-4 product-related-grid">
+          <div className="product-grid product-related-grid">
             {relatedProducts.map((item) => (
-              <div key={item.id} className="glass-card product-related-card">
-                <Link href={`/products/${item.id}`}>
-                  <div className="product-related-media">
-                    <SafeImage
-                      src={item.imageUrl || '/images/about-hero.png'}
-                      alt={item.name}
-                      className="product-related-image"
-                    />
-                  </div>
-                  <h3 className="product-related-title">{item.name}</h3>
+              <article key={item.id} className="glass-card product-card product-related-card">
+                <Link href={`/products/${item.id}`} className="product-card-title-link">
+                  <h2>{item.name}</h2>
                 </Link>
-                <div className="product-price-stack product-related-price">
-                  {item.originalPrice && item.originalPrice > item.price && (
-                    <span>{item.originalPrice.toLocaleString('vi-VN')} đ</span>
-                  )}
-                  <strong>{item.price.toLocaleString('vi-VN')} đ</strong>
+                <Link href={`/products/${item.id}`} className="product-card-media">
+                  {item.badge && <span className="product-badge">{item.badge}</span>}
+                  <SafeImage
+                    src={item.imageUrl || '/images/about-hero.png'}
+                    alt={item.name}
+                    className="product-card-image"
+                  />
+                </Link>
+                <div className="product-card-info">
+                  <p className="product-card-desc">{item.shortDescription || item.description}</p>
+                  <div className="product-card-footer">
+                    <div className="product-price-stack">
+                      {item.originalPrice && item.originalPrice > item.price && (
+                        <span>{item.originalPrice.toLocaleString('vi-VN')} ?</span>
+                      )}
+                      <strong>{item.price.toLocaleString('vi-VN')} ?</strong>
+                    </div>
+                    <AddToCartButton product={{ ...item, imageUrl: item.imageUrl || '' }} style={{ width: 'auto' }} />
+                  </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
@@ -284,6 +292,9 @@ export default function ProductDetailClient({
           <div
             className="product-image-lightbox-content"
             onClick={(event) => event.stopPropagation()}
+            onPointerDown={(event) => {
+              if (event.pointerType === 'touch') event.stopPropagation();
+            }}
           >
             <SafeImage
               src={product.imageUrl || '/images/about-hero.png'}

@@ -40,7 +40,6 @@ export default function CategoryClient({ products, categories }: CategoryClientP
     <div className="container catalog-page">
       <div className="catalog-heading">
         <h1>Danh mục sản phẩm</h1>
-        <p>Lọc nhanh theo từng dòng yến để xem đúng nhóm sản phẩm bạn đang cần.</p>
       </div>
 
       <div className="category-filter" aria-label="Lọc danh mục">

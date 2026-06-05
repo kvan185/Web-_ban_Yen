@@ -1,144 +1,96 @@
 import Link from 'next/link';
+import SafeImage from '@/components/SafeImage';
+import { realNestImages, realNestVideo } from '@/lib/realNestMedia';
 
 export const metadata = {
-  title: 'Chứng Nhận Chất Lượng - Yến Tinh Hoa',
-  description: 'Yến Tinh Hoa cam kết tổ yến thô nguyên chất truy xuất được nguồn gốc, được kiểm định bởi phòng thí nghiệm độc lập và sơ Hoa thủ công chuẩn thượng hạng.',
+  title: 'Chất lượng & minh bạch - Yến Tinh Hoa',
+  description:
+    'Yến Tinh Hoa minh bạch nguồn tổ bằng ảnh/video thực tế, kiểm soát theo lô và tư vấn rõ trước khi khách chọn mua.',
 };
 
 export default function CertificationsPage() {
-  const certifications = [
-    {
-      title: "Chứng Nhận ISO 22000:2018",
-      desc: "Tiêu chuẩn quốc tế về hệ thống quản lý an toàn thực phẩm, đảm bảo quy trình sản xuất đạt chuẩn toàn cầu.",
-      iconUrl: "https://vipsen.vn/wp-content/uploads/2021/04/iso-22000-icon.png"
-    },
-    {
-      title: "Tiêu Chuẩn HACCP",
-      desc: "Hệ thống phân tích mối nguy và kiểm soát điểm tới hạn, cam kết loại bỏ mọi rủi ro về nhiễm khuẩn.",
-      iconUrl: "https://vipsen.vn/wp-content/uploads/2021/04/haccp-icon.png"
-    },
-    {
-      title: "Nguồn Gốc Minh Bạch",
-      desc: "Mỗi lô yến thô đều có truy xuất nguồn gốc từ nhà yến đến tay khách hàng, phù hợp với sản phẩm thô tự nhiên.",
-      iconUrl: "https://vipsen.vn/wp-content/uploads/2021/04/traceability-icon.png"
-    }
-  ];
-
   return (
-    <div className="certifications-page">
-      {/* Hero Section */}
-      <section className="section-padding" style={{ 
-        background: 'linear-gradient(rgba(6, 38, 33, 0.95), rgba(6, 38, 33, 0.95)), url(https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2000&auto=format&fit=crop) center/cover',
-        textAlign: 'center'
-      }}>
-        <div className="container">
-          <h1 style={{ fontSize: '3.5rem', color: 'var(--primary-color)', marginBottom: '20px' }}>Chất Lượng & Chứng Nhận</h1>
-          <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', opacity: 0.9 }}>
-            Yến Tinh Hoa cam kết mang đến những sản phẩm tổ yến thô và các dòng yến tốt nhất với quy trình kiểm soát chất lượng nghiêm ngặt từ khâu thu hoạch đến tay người tiêu dùng.
-          </p>
+    <main className="quality-proof-page">
+      <section className="quality-proof-hero">
+        <div className="container quality-proof-hero-inner">
+          <div>
+            <span className="eyebrow">Chất lượng nhìn được</span>
+            <h1>Minh bạch nguồn tổ trước khi nói về cam kết</h1>
+            <p>
+              Chúng tôi ưu tiên bằng chứng thực tế: ảnh nhà yến, video nguồn tổ, kiểm soát theo lô
+              và xác nhận nhu cầu trước khi sơ chế hoặc đóng hộp.
+            </p>
+          </div>
+          <div className="quality-proof-video">
+            <video src={realNestVideo} controls playsInline preload="metadata" poster={realNestImages[1].src} />
+          </div>
         </div>
       </section>
 
-      {/* Main Certs */}
       <section className="section-padding">
         <div className="container">
-          <div className="grid-3">
-            {certifications.map((cert, index) => (
-              <div key={index} className="glass-card" style={{ textAlign: 'center', padding: '40px' }}>
-                <div style={{ marginBottom: '25px', display: 'flex', justifyContent: 'center' }}>
-                  <img src={cert.iconUrl} alt={cert.title} style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
+          <div className="quality-proof-grid">
+            {[
+              ['Nguồn tổ thực tế', 'Ảnh/video được ghi nhận từ khu vực nhà yến để khách nhìn được chất liệu tổ trước khi chọn.'],
+              ['Kiểm soát theo lô', 'Mỗi nhu cầu đặt tổ được tư vấn theo lô ảnh, loại tổ và trọng lượng phù hợp thay vì hứa chung chung.'],
+              ['Sơ chế theo yêu cầu', 'Khách có thể chọn giữ nguyên tổ, sơ chế sạch hoặc đóng hộp biếu tặng sau khi xác nhận.'],
+            ].map(([title, desc], index) => (
+              <article className="glass-card quality-proof-card" key={title}>
+                <SafeImage src={realNestImages[index + 2].src} alt={title} />
+                <div>
+                  <h2>{title}</h2>
+                  <p>{desc}</p>
                 </div>
-                <h3 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', marginBottom: '15px' }}>{cert.title}</h3>
-                <p style={{ color: 'var(--text-muted)', lineHeight: '1.8' }}>{cert.desc}</p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Lab Results */}
-      <section className="section-padding" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+      <section className="section-padding quality-proof-lots">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+          <div className="section-heading-row">
             <div>
-              <h2 className="section-title" style={{ textAlign: 'left' }}>Kiểm Định Định Kỳ</h2>
-              <p style={{ marginBottom: '25px', fontSize: '1.1rem' }}>
-                Tất cả các lô hàng của Yến Tinh Hoa đều được gửi mẫu kiểm nghiệm tại các trung tâm uy tín như <strong>Eurofins</strong> hoặc <strong>Quatest 3</strong> để đảm bảo chất lượng yến tốt nhất.
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                {[
-                  "Kiểm tra hàm lượng Protein (>50%)",
-                  "Kiểm tra các acid amin thiết yếu",
-                  "Kiểm tra kim loại nặng (Chì, Thủy ngân)",
-                  "Kiểm tra vi sinh vật gây hại"
-                ].map((item, i) => (
-                  <li key={i} style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ color: 'var(--primary-color)' }}>✔</span> {item}
-                  </li>
-                ))}
-              </ul>
+              <span className="eyebrow">Bằng chứng theo lô</span>
+              <h2 className="section-title">Ảnh nguồn tổ đang lưu</h2>
             </div>
-            <div className="glass-card" style={{ padding: '40px', textAlign: 'center' }}>
-              <div style={{ 
-                border: '2px dashed var(--primary-color)', 
-                padding: '40px', 
-                borderRadius: '10px',
-                backgroundColor: 'rgba(212, 175, 55, 0.05)'
-              }}>
-                <span style={{ fontSize: '3rem', display: 'block', marginBottom: '20px' }}>📊</span>
-                <h3 style={{ marginBottom: '10px' }}>Kết Quả Kiểm Nghiệm</h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Mẫu thử đạt chuẩn 100% về độ nguyên chất và an toàn.</p>
-                <button className="btn-primary" style={{ marginTop: '20px' }}>Xem Bản Scan</button>
-              </div>
-            </div>
+            <Link href="/real-nest-booking" className="section-link">
+              Đặt theo lô ảnh
+            </Link>
+          </div>
+          <div className="quality-proof-gallery">
+            {realNestImages.slice(0, 10).map((image, index) => (
+              <figure key={image.src}>
+                <SafeImage src={image.src} alt={`Ảnh minh bạch lô tổ ${index + 1}`} />
+                <figcaption>Lô ảnh {index + 1}</figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Process Section */}
-      <section className="section-padding">
+      <section className="section-padding quality-proof-process">
         <div className="container">
           <div className="section-title-wrapper">
-            <h2 className="section-title">Quy Trình 5 Bước</h2>
-            <p className="section-subtitle">Mỗi tổ yến đều trải qua hành trình khắt khe để đảm bảo sự tinh khiết</p>
+            <span className="eyebrow">Quy trình xác nhận</span>
+            <h2 className="section-title">4 bước trước khi chốt đơn</h2>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
+          <div className="quality-proof-timeline">
             {[
-              { step: "01", title: "Khai Thác", desc: "Thu hoạch từ các đảo yến và nhà yến lâu năm." },
-              { step: "02", title: "Phân Loại", desc: "Tuyển chọn những tổ yến to, già và sạch nhất." },
-              { step: "03", title: "Sơ Hoa", desc: "Nhặt lông thủ công hoàn toàn bằng nước sạch." },
-              { step: "04", title: "Sấy Khô", desc: "Sấy lạnh hiện đại giúp giữ trọn dưỡng chất." },
-              { step: "05", title: "Đóng Gói", desc: "Kiểm tra cuối cùng và niêm phong chống giả." }
-            ].map((s, i) => (
-              <div key={i} style={{ flex: '1', minWidth: '180px', textAlign: 'center' }}>
-                <div style={{ 
-                  width: '60px', 
-                  height: '60px', 
-                  borderRadius: '50%', 
-                  backgroundColor: 'var(--primary-color)', 
-                  color: 'var(--bg-color)',
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  fontSize: '1.2rem',
-                  fontWeight: 'bold',
-                  margin: '0 auto 20px'
-                }}>{s.step}</div>
-                <h4 style={{ marginBottom: '10px' }}>{s.title}</h4>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{s.desc}</p>
+              ['01', 'Tiếp nhận nhu cầu', 'Loại tổ, trọng lượng, mục đích dùng hoặc biếu tặng.'],
+              ['02', 'Gửi lô ảnh phù hợp', 'Shop gửi ảnh/video nguồn tổ để khách duyệt trước.'],
+              ['03', 'Xác nhận phương án', 'Giữ nguyên tổ, sơ chế sạch hoặc đóng hộp theo yêu cầu.'],
+              ['04', 'Giao hàng', 'Đóng gói và giao nhanh tại TP.HCM sau khi xác nhận.'],
+            ].map(([number, title, desc]) => (
+              <div className="quality-proof-step" key={title}>
+                <span>{number}</span>
+                <h3>{title}</h3>
+                <p>{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Final CTA */}
-      <section className="section-padding" style={{ backgroundColor: 'var(--bg-secondary)', textAlign: 'center' }}>
-        <div className="container">
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '30px' }}>Yên Tâm Mua Sắm Tại Yến Tinh Hoa</h2>
-          <Link href="/products" className="btn-primary" style={{ padding: '15px 50px' }}>Xem Sản Phẩm</Link>
-        </div>
-      </section>
-    </div>
+    </main>
   );
 }

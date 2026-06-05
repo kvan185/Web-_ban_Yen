@@ -1,160 +1,94 @@
+import Link from 'next/link';
+import SafeImage from '@/components/SafeImage';
+import { realNestImages, realNestVideo } from '@/lib/realNestMedia';
+
 export const metadata = {
-  title: 'Về Yến Tinh Hoa - Câu Chuyện Thương Hiệu Tổ Yến Thô Tốt Nhất',
-  description: 'Tìm hiểu hành trình xây dựng thương hiệu Yến Tinh Hoa và sứ mệnh mang những sản phẩm tổ yến thô nguyên chất, yến tốt thượng hạng đến sức khỏe gia đình bạn.',
+  title: 'Về Yến Tinh Hoa - Nguồn tổ yến thực tế',
+  description:
+    'Tìm hiểu Yến Tinh Hoa qua hình ảnh và video thực tế từ nhà yến, quy trình tuyển tổ, sơ chế và đóng gói minh bạch.',
 };
 
 export default function AboutPage() {
   return (
-    <div className="about-page">
-      {/* Hero Section */}
-      <section className="section-padding hero-section" style={{ 
-        background: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(/images/about-hero.png) center/cover no-repeat',
-        height: '60vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        color: '#fff',
-        position: 'relative'
-      }}>
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <h1 style={{ 
-            fontSize: '4.5rem', 
-            color: 'var(--primary-color)', 
-            marginBottom: '20px',
-            textShadow: '2px 2px 10px rgba(0,0,0,0.5)',
-            fontWeight: '700'
-          }}>Câu Chuyện Yến Tinh Hoa</h1>
-          <p style={{ 
-            fontSize: '1.6rem', 
-            opacity: 0.95,
-            maxWidth: '800px',
-            margin: '0 auto',
-            lineHeight: '1.6',
-            fontWeight: '300'
-          }}>Hành trình mang tinh hoa tổ yến thô nguyên chất và các dòng yến tốt nhất đến sức khỏe người Việt</p>
+    <main className="about-proof-page">
+      <section className="about-proof-hero">
+        <div className="container about-proof-hero-inner">
+          <div className="about-proof-copy">
+            <span className="eyebrow">Không dùng ảnh minh họa cho niềm tin</span>
+            <h1>Câu chuyện bắt đầu từ nguồn tổ thật</h1>
+            <p>
+              Yến Tinh Hoa muốn khách hàng nhìn thấy điều quan trọng nhất trước khi mua:
+              tổ yến đến từ đâu, bám như thế nào, được tuyển chọn và xử lý ra sao.
+            </p>
+            <div className="hero-actions">
+              <Link href="/real-nest-booking" className="btn-primary">Đặt tổ theo lô ảnh thật</Link>
+              <Link href="/products" className="btn-secondary">Xem sản phẩm</Link>
+            </div>
+          </div>
+          <div className="about-proof-hero-media">
+            <video src={realNestVideo} controls playsInline preload="metadata" poster={realNestImages[0].src} />
+          </div>
         </div>
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '100px',
-          background: 'linear-gradient(transparent, var(--bg-color))'
-        }}></div>
       </section>
 
-      {/* Story Section */}
       <section className="section-padding">
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '80px', alignItems: 'center' }}>
+        <div className="container about-proof-gallery">
+          <div className="section-heading-row">
             <div>
-              <h2 className="section-title" style={{ textAlign: 'left', fontSize: '2.5rem' }}>Khởi Nguồn Đam Mê</h2>
-              <p style={{ marginBottom: '25px', fontSize: '1.15rem', lineHeight: '1.9', color: 'var(--text-secondary)' }}>
-                Yến Tinh Hoa bắt đầu từ những chuyến đi thực tế đến các vùng đảo yến xa xôi tại Khánh Hòa. Chúng tôi nhận thấy thị trường tổ yến đang bị bão hòa bởi những sản phẩm pha trộn, kém chất lượng, làm mất đi niềm tin của người tiêu dùng.
-              </p>
-              <p style={{ marginBottom: '25px', fontSize: '1.15rem', lineHeight: '1.9', color: 'var(--text-secondary)' }}>
-                Với mong muốn khôi phục giá trị thực của sản phẩm yến tự nhiên, Yến Tinh Hoa đã được thành lập với tôn chỉ: <strong style={{ color: 'var(--primary-color)' }}>Chỉ bán tổ yến thô nguyên chất 100%</strong>. Chúng tôi tin rằng dòng yến tốt nhất phải là yến thật, sạch và giữ nguyên bản các chất dinh dưỡng tự nhiên.
-              </p>
-              <div style={{ display: 'flex', gap: '30px', marginTop: '40px' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <h4 style={{ fontSize: '2.5rem', color: 'var(--primary-color)', marginBottom: '5px' }}>10+</h4>
-                  <p style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Năm Kinh Nghiệm</p>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <h4 style={{ fontSize: '2.5rem', color: 'var(--primary-color)', marginBottom: '5px' }}>5000+</h4>
-                  <p style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Khách Hàng Tin Dùng</p>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <h4 style={{ fontSize: '2.5rem', color: 'var(--primary-color)', marginBottom: '5px' }}>100%</h4>
-                  <p style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Nguyên Chất</p>
-                </div>
-              </div>
+              <span className="eyebrow">Ảnh thực tế</span>
+              <h2 className="section-title">Bên trong nhà yến</h2>
             </div>
-            <div className="glass-card" style={{ padding: 0, overflow: 'hidden', borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}>
-              <img src="/images/about-source.png" alt="Nguồn gốc yến sào" style={{ width: '100%', height: '500px', objectFit: 'cover', display: 'block' }} />
-            </div>
+          </div>
+          <div className="about-proof-mosaic">
+            {realNestImages.slice(0, 9).map((image, index) => (
+              <figure key={image.src} className={index === 0 ? 'is-large' : ''}>
+                <SafeImage src={image.src} alt={`Ảnh thực tế nhà yến ${index + 1}`} />
+                <figcaption>Ảnh thực tế {index + 1}</figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="section-padding" style={{ backgroundColor: 'var(--bg-secondary)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(var(--primary-color), transparent)', opacity: 0.05 }}></div>
+      <section className="section-padding about-proof-process">
         <div className="container">
-          <div className="grid-3">
-            <div className="glass-card" style={{ textAlign: 'center', transition: 'transform 0.3s ease' }}>
-              <div style={{ fontSize: '3.5rem', marginBottom: '25px' }}>🎯</div>
-              <h3 style={{ color: 'var(--primary-color)', marginBottom: '20px', fontSize: '1.5rem' }}>Sứ Mệnh</h3>
-              <p style={{ lineHeight: '1.7' }}>Mang đến nguồn dinh dưỡng quý giá và tinh khiết nhất từ thiên nhiên để chăm sóc sức khỏe cho mọi gia đình Việt.</p>
-            </div>
-            <div className="glass-card" style={{ textAlign: 'center', transition: 'transform 0.3s ease' }}>
-              <div style={{ fontSize: '3.5rem', marginBottom: '25px' }}>👁️</div>
-              <h3 style={{ color: 'var(--primary-color)', marginBottom: '20px', fontSize: '1.5rem' }}>Tầm Nhìn</h3>
-              <p style={{ lineHeight: '1.7' }}>Trở thành biểu tượng niềm tin hàng đầu trong ngành yến sào tại Việt Nam và vươn tầm thế giới với chất lượng vượt trội.</p>
-            </div>
-            <div className="glass-card" style={{ textAlign: 'center', transition: 'transform 0.3s ease' }}>
-              <div style={{ fontSize: '3.5rem', marginBottom: '25px' }}>💎</div>
-              <h3 style={{ color: 'var(--primary-color)', marginBottom: '20px', fontSize: '1.5rem' }}>Giá Trị Cốt Lõi</h3>
-              <p style={{ lineHeight: '1.7' }}>Trung thực trong kinh doanh - Tận tâm trong phục vụ - Khắt khe trong từng công đoạn Hoa biến.</p>
-            </div>
+          <div className="section-title-wrapper">
+            <span className="eyebrow">Cách chúng tôi tạo niềm tin</span>
+            <h2 className="section-title">Minh bạch theo lô, không hứa mơ hồ</h2>
+          </div>
+          <div className="about-proof-cards">
+            {[
+              ['Chụp theo lô/vị trí', 'Ảnh được ghi nhận theo khu vực hoặc lô tổ, phù hợp vận hành thực tế thay vì chụp từng tổ riêng lẻ.'],
+              ['Tư vấn trước khi thu', 'Khách gửi nhu cầu, shop xác nhận loại tổ và lô phù hợp trước khi sơ chế hoặc đóng hộp.'],
+              ['Giữ chất thật', 'Ưu tiên tổ có cấu trúc rõ, sợi tự nhiên, phù hợp nhu cầu dùng gia đình hoặc biếu tặng.'],
+            ].map(([title, desc]) => (
+              <article className="glass-card about-proof-card" key={title}>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Process Section */}
-      <section className="section-padding">
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: '80px', alignItems: 'center' }}>
-            <div className="glass-card" style={{ padding: 0, overflow: 'hidden', borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}>
-              <img src="/images/about-process.png" alt="Quy trình làm sạch yến" style={{ width: '100%', height: '450px', objectFit: 'cover', display: 'block' }} />
-            </div>
-            <div>
-              <h2 className="section-title" style={{ textAlign: 'left', fontSize: '2.5rem' }}>Cam Kết Chất Lượng</h2>
-              <div style={{ marginTop: '30px' }}>
-                {[
-                  { title: 'Nguyên chất 100%', desc: 'Tổ yến thô nguyên chất, nói không với pha trộn đường, mủ trôm hay hóa chất tẩy rửa.' },
-                  { title: 'Nguồn gốc rõ ràng', desc: 'Khai thác từ các hệ thống nhà yến tự nhiên uy tín và đảo yến lâu năm.' },
-                  { title: 'Làm sạch thủ công', desc: 'Quy trình nhặt lông bằng tay tỉ mỉ, giữ trọn vẹn các thành phần của dòng yến tốt nhất.' },
-                  { title: 'Kiểm định khắt khe', desc: 'Mọi lô hàng đều được kiểm tra vệ sinh an toàn thực phẩm trước khi xuất xưởng.' }
-                ].map((item, index) => (
-                  <div key={index} style={{ marginBottom: '20px', display: 'flex', gap: '20px' }}>
-                    <div style={{ 
-                      width: '40px', 
-                      height: '40px', 
-                      borderRadius: '50%', 
-                      backgroundColor: 'var(--primary-color)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      color: '#fff',
-                      flexShrink: 0,
-                      fontWeight: 'bold'
-                    }}>{index + 1}</div>
-                    <div>
-                      <h4 style={{ color: 'var(--primary-color)', marginBottom: '5px', fontSize: '1.2rem' }}>{item.title}</h4>
-                      <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <section className="section-padding about-proof-source">
+        <div className="container about-proof-source-grid">
+          <div>
+            <span className="eyebrow">Từ nguồn tổ đến hộp quà</span>
+            <h2>Không chỉ đẹp bao bì, phải đáng tin từ gốc.</h2>
+            <p>
+              Sản phẩm yến có giá trị cao nên khách hàng cần bằng chứng cụ thể. Vì vậy ảnh/video
+              thực tế được đặt ở các điểm quan trọng trên web: trang chủ, trang sản phẩm, trang
+              chứng nhận và chức năng đặt tổ theo lô.
+            </p>
+          </div>
+          <div className="about-proof-source-images">
+            {realNestImages.slice(9, 13).map((image, index) => (
+              <SafeImage key={image.src} src={image.src} alt={`Nguồn tổ thực tế ${index + 10}`} />
+            ))}
           </div>
         </div>
       </section>
-
-      {/* Call to Action */}
-      <section className="section-padding" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <div className="glass-card" style={{ padding: '60px', background: 'linear-gradient(135deg, var(--primary-color), #d4af37)', color: '#fff' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Trải Nghiệm Tổ Yến Thô Tốt Nhất</h2>
-            <p style={{ fontSize: '1.2rem', marginBottom: '35px', opacity: 0.9 }}>Để Yến Tinh Hoa đồng hành cùng sức khỏe của bạn và những người thân yêu bằng những sản phẩm yến tốt nhất.</p>
-            <a href="/products" className="btn btn-primary" style={{ backgroundColor: '#fff', color: 'var(--primary-color)', padding: '15px 40px', fontSize: '1.1rem' }}>
-              Khám Phá Sản Phẩm
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+    </main>
   );
 }

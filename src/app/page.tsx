@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { cookies } from 'next/headers';
 import AddToCartButton from '@/components/AddToCartButton';
 import SafeImage from '@/components/SafeImage';
+import { realNestImages } from '@/lib/realNestMedia';
 
 type Product = {
   id: string;
@@ -144,6 +145,34 @@ export default async function Home() {
               <p>{desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="section-padding real-proof-section">
+        <div className="container">
+          <div className="section-heading-row">
+            <div>
+              <span className="eyebrow">Ảnh thật từ nguồn tổ</span>
+              <h2 className="section-title">Tổ yến thực tế bên trong nhà yến</h2>
+            </div>
+            <Link href="/real-nest-booking" className="section-link">
+              Đặt tổ thực tế
+            </Link>
+          </div>
+          <div className="real-proof-layout">
+            <div className="real-proof-main">
+              <SafeImage src={realNestImages[0].src} alt="Tổ yến thực tế bên trong nhà yến" />
+              <div>
+                <strong>Ảnh chụp thực tế</strong>
+                <span>Ghi nhận từ nguồn tổ trước khi tuyển chọn và sơ chế.</span>
+              </div>
+            </div>
+            <div className="real-proof-grid">
+              {realNestImages.slice(1, 7).map((image, index) => (
+                <SafeImage key={image.src} src={image.src} alt={`Ảnh thực tế tổ yến ${index + 2}`} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
