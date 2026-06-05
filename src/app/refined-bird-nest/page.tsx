@@ -259,17 +259,21 @@ export default function RefinedBirdNestPage() {
                   <SafeImage src={product.imageUrl} alt={product.name} className="product-card-image" />
                 </Link>
                 <div className="product-card-body">
-                  <Link href={`/products/${product.id}`}>
+                  <Link href={`/products/${product.id}`} className="product-card-title-link">
                     <h2>{product.name}</h2>
                   </Link>
-                  <p className="product-card-desc">{product.shortDescription || product.description}</p>
-                  <div className="product-price-stack">
+                  <div className="product-card-info">
+                    <p className="product-card-desc">{product.shortDescription || product.description}</p>
+                    <div className="product-card-footer">
+                    <div className="product-price-stack">
                     {product.originalPrice && product.originalPrice > product.price && (
                       <span>{product.originalPrice.toLocaleString('vi-VN')} đ</span>
                     )}
                     <strong>{product.price.toLocaleString('vi-VN')} đ</strong>
+                    </div>
+                      <AddToCartButton product={{ ...product, imageUrl: product.imageUrl || '' }} style={{ width: 'auto' }} />
+                    </div>
                   </div>
-                  <AddToCartButton product={{ ...product, imageUrl: product.imageUrl || '' }} />
                 </div>
               </article>
             ))}

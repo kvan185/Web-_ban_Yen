@@ -3,9 +3,9 @@
     "id": "chat_1780339004785_l3qeze",
     "customerName": "",
     "customerPhone": "",
-    "pagePath": "/",
+    "pagePath": "/products/p2",
     "createdAt": "2026-06-01T18:36:48.008Z",
-    "updatedAt": "2026-06-01T18:36:48.008Z",
+    "updatedAt": "2026-06-05T10:02:24.473Z",
     "messages": [
       {
         "id": "msg_1780339008008_852pdz",
@@ -18,6 +18,18 @@
         "sender": "customer",
         "text": "Hi",
         "createdAt": "2026-06-01T18:36:48.008Z"
+      },
+      {
+        "id": "msg_1780653696605_v39yph",
+        "sender": "customer",
+        "text": "hi",
+        "createdAt": "2026-06-05T10:01:36.605Z"
+      },
+      {
+        "id": "msg_1780653744474_jrc10a",
+        "sender": "manager",
+        "text": "Hi",
+        "createdAt": "2026-06-05T10:02:24.474Z"
       }
     ]
   },

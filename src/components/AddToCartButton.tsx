@@ -10,7 +10,13 @@ type Product = {
   imageUrl: string;
 };
 
-export default function AddToCartButton({ product, style }: { product: Product; style?: React.CSSProperties }) {
+export default function AddToCartButton({
+  product,
+  style,
+}: {
+  product: Product;
+  style?: React.CSSProperties;
+}) {
   const handleAdd = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -31,11 +37,12 @@ export default function AddToCartButton({ product, style }: { product: Product; 
 
   return (
     <button
-      className="btn-primary"
+      className="btn-primary add-to-cart-btn"
       style={{ width: '100%', ...style }}
       onClick={handleAdd}
     >
-      Thêm vào giỏ
+      <span className="add-to-cart-btn-line">Thêm</span>
+      <span className="add-to-cart-btn-line">Vào giỏ</span>
     </button>
   );
 }

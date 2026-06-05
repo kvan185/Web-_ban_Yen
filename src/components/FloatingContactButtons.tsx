@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 type ChatMessage = {
   id?: string;
@@ -47,6 +48,7 @@ function getContactProfile(): ContactProfile {
 }
 
 export default function FloatingContactButtons() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [sessionId, setSessionId] = useState('');
@@ -60,6 +62,10 @@ export default function FloatingContactButtons() {
   useEffect(() => {
     setSessionId(getSessionId());
   }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open || !sessionId) return;
@@ -80,6 +86,30 @@ export default function FloatingContactButtons() {
     return () => window.clearInterval(timer);
   }, [open, sessionId]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const closeChat = () => setOpen(false);
+
+    const handleScrollClose = () => closeChat();
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      if (!target.closest('.floating-chatbox') && !target.closest('.floating-btn')) {
+        closeChat();
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollClose, { passive: true });
+    document.addEventListener('pointerdown', handlePointerDown);
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollClose);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [open]);
+
   const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const text = input.trim();
@@ -96,18 +126,27 @@ export default function FloatingContactButtons() {
 
     const profile = getContactProfile();
 
-    await fetch('/api/manage-chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId,
-        sender: 'customer',
-        text,
-        pagePath: window.location.pathname,
-        customerName: profile.name || '',
-        customerPhone: profile.phone || '',
-      }),
-    });
+    try {
+      const response = await fetch('/api/manage-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          sender: 'customer',
+          text,
+          pagePath: window.location.pathname,
+          customerName: profile.name || '',
+          customerPhone: profile.phone || '',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send chat message');
+      }
+    } catch {
+      setMessages((current) => current.filter((message) => message !== optimisticMessage));
+      alert('Không gửi được tin nhắn. Vui lòng thử lại.');
+    }
   };
 
   return (
