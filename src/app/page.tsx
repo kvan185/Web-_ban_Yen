@@ -3,6 +3,7 @@ import path from 'path';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 import AddToCartButton from '@/components/AddToCartButton';
+import RealProofGallery from '@/components/RealProofGallery';
 import SafeImage from '@/components/SafeImage';
 import { realNestImages } from '@/lib/realNestMedia';
 
@@ -159,20 +160,7 @@ export default async function Home() {
               Đặt tổ thực tế
             </Link>
           </div>
-          <div className="real-proof-layout">
-            <div className="real-proof-main">
-              <SafeImage src={realNestImages[0].src} alt="Tổ yến thực tế bên trong nhà yến" />
-              <div>
-                <strong>Ảnh chụp thực tế</strong>
-                <span>Ghi nhận từ nguồn tổ trước khi tuyển chọn và sơ chế.</span>
-              </div>
-            </div>
-            <div className="real-proof-grid">
-              {realNestImages.slice(1, 7).map((image, index) => (
-                <SafeImage key={image.src} src={image.src} alt={`Ảnh thực tế tổ yến ${index + 2}`} />
-              ))}
-            </div>
-          </div>
+          <RealProofGallery images={realNestImages} />
         </div>
       </section>
 
@@ -227,28 +215,27 @@ export default async function Home() {
             </div>
           </div>
           <div className="story-copy">
-            <span className="eyebrow">Khác biệt nằm ở độ thật</span>
-            <h2>Đẹp mắt, nhưng vẫn phải đáng tin trước tiên.</h2>
+            <span className="eyebrow">Minh bạch từ nguồn tổ</span>
+            <h2>Thấy rõ tổ thật, quy trình thật trước khi chọn mua.</h2>
             <p>
-              Mỗi sản phẩm được chọn từ nguồn yến rõ ràng, sơ chế bằng tay và kiểm tra lại
-              trước khi đóng hộp. Giao diện mới nhấn mạnh điều khách hàng cần thấy ngay:
-              chất lượng, minh bạch và sự tiện lợi khi đặt mua.
+              Mỗi lô yến được tuyển từ nguồn rõ ràng, ghi nhận bằng ảnh thực tế và sơ chế thủ công trước
+              khi đóng hộp. Khách hàng cần thấy chất lượng trước, rồi mới đến bao bì và trải nghiệm đặt mua.
             </p>
             <div className="process-list">
               <div>
                 <span>01</span>
-                <strong>Tuyển tổ</strong>
-                <p>Chọn tổ dày, thơm tự nhiên, hạn chế tạp chất.</p>
+                <strong>Nguồn tổ rõ</strong>
+                <p>Có ảnh thực tế từ nhà yến, tư vấn loại tổ phù hợp nhu cầu.</p>
               </div>
               <div>
                 <span>02</span>
-                <strong>Sơ chế sạch</strong>
-                <p>Nhặt lông thủ công, giữ sợi yến dai và ít hao.</p>
+                <strong>Làm sạch kỹ</strong>
+                <p>Nhặt lông thủ công, giữ sợi yến tự nhiên và hạn chế hao hụt.</p>
               </div>
               <div>
                 <span>03</span>
-                <strong>Đóng gói đẹp</strong>
-                <p>Phù hợp dùng hằng ngày hoặc làm quà biếu.</p>
+                <strong>Giao đúng loại</strong>
+                <p>Đóng hộp chỉn chu, ghi nhận rõ dòng yến và quy cách khách chọn.</p>
               </div>
             </div>
           </div>
@@ -257,52 +244,71 @@ export default async function Home() {
 
       <section className="section-padding delivery-section">
         <div className="container">
-          <div className="section-title-wrapper">
-            <span className="eyebrow">Giao hàng nội thành</span>
-            <h2 className="section-title">Nhận yến nhanh tại TP.HCM</h2>
-            <p className="section-subtitle">
-              Chọn khu vực của bạn để xem thông tin giao nhanh và đặt sản phẩm phù hợp trong ngày.
-            </p>
-          </div>
-          <div className="delivery-grid">
-            {[
-              ['Quận 1', '/hcm/quan-1', 'Giao nhanh khu trung tâm, văn phòng và khách sạn.'],
-              ['Quận 3', '/hcm/quan-3', 'Phục vụ nhanh các tuyến Võ Văn Tần, Nam Kỳ Khởi Nghĩa.'],
-              ['Quận 7', '/hcm/quan-7', 'Ưu tiên Phú Mỹ Hưng và khu đô thị cao cấp.'],
-              ['Phú Nhuận', '/hcm/phu-nhuan', 'Thuận tiện cho khu sân bay và trung tâm thành phố.'],
-            ].map(([title, href, desc]) => (
-              <Link href={href} className="delivery-card" key={href}>
-                <h3>{title}</h3>
-                <p>{desc}</p>
-                <span>Xem khu vực</span>
-              </Link>
-            ))}
+          <div className="delivery-panel">
+            <div className="delivery-copy">
+              <span className="eyebrow">Giao hàng nội thành</span>
+              <h2>Nhận yến nhanh tại TP.HCM</h2>
+              <p>
+                Chọn khu vực gần bạn để xem thông tin giao nhanh, tư vấn sản phẩm phù hợp và nhận yến trong ngày.
+              </p>
+              <div className="delivery-highlights" aria-label="Thông tin giao hàng nhanh">
+                <span>2-4 giờ</span>
+                <span>Nội thành TP.HCM</span>
+                <span>Tư vấn trước khi giao</span>
+              </div>
+            </div>
+            <div className="delivery-grid">
+              {[
+                ['01', 'Quận 1', '/hcm/quan-1', 'Giao nhanh khu trung tâm, văn phòng và khách sạn.'],
+                ['02', 'Quận 3', '/hcm/quan-3', 'Phục vụ nhanh các tuyến Võ Văn Tần, Nam Kỳ Khởi Nghĩa.'],
+                ['03', 'Quận 7', '/hcm/quan-7', 'Ưu tiên Phú Mỹ Hưng và khu đô thị cao cấp.'],
+                ['04', 'Phú Nhuận', '/hcm/phu-nhuan', 'Thuận tiện cho khu sân bay và trung tâm thành phố.'],
+              ].map(([number, title, href, desc]) => (
+                <Link href={href} className="delivery-card" key={href}>
+                  <span>{number}</span>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
+                  </div>
+                  <strong>Xem khu vực</strong>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       <section className="section-padding testimonial-section">
         <div className="container">
-          <div className="section-heading-row">
-            <div>
+          <div className="testimonial-panel">
+            <div className="testimonial-heading">
               <span className="eyebrow">Khách hàng tin dùng</span>
-              <h2 className="section-title">Cảm nhận sau khi dùng yến</h2>
+              <h2>Cảm nhận sau khi dùng yến</h2>
+              <p>Những phản hồi ngắn từ khách đã mua cho gia đình, làm quà biếu và dùng định kỳ.</p>
             </div>
-          </div>
-          <div className="testimonial-grid">
-            {[
-              ['Chị Lan Anh', 'Nội trợ, Quận 7', 'Yến sạch, sợi nở đẹp và rất tiện vì đã được làm kỹ. Mình thường mua cho cả nhà chưng với táo đỏ.'],
-              ['Anh Minh Đức', 'Doanh nhân, Quận 1', 'Hộp quà nhìn sang, giao nhanh trong ngày. Tôi dùng để biếu đối tác và phản hồi rất tốt.'],
-              ['Cô Thu Hà', 'Giáo viên nghỉ hưu', 'Tổ yến thơm nhẹ, không bị mùi lạ. Tư vấn liều lượng dễ hiểu nên cô dùng rất yên tâm.'],
-            ].map(([name, role, text]) => (
-              <article className="testimonial-card" key={name}>
-                <p>{text}</p>
+            <div className="testimonial-grid">
+              <article className="testimonial-card testimonial-card-featured">
+                <p>Yến sạch, sợi nở đẹp và rất tiện vì đã được làm kỹ. Mình thường mua cho cả nhà chưng với táo đỏ.</p>
                 <div>
-                  <strong>{name}</strong>
-                  <span>{role}</span>
+                  <strong>Chị Lan Anh</strong>
+                  <span>Nội trợ, Quận 7</span>
                 </div>
               </article>
-            ))}
+              <div className="testimonial-side-list">
+                {[
+                  ['Anh Minh Đức', 'Doanh nhân, Quận 1', 'Hộp quà nhìn sang, giao nhanh trong ngày. Tôi dùng để biếu đối tác và phản hồi rất tốt.'],
+                  ['Cô Thu Hà', 'Giáo viên nghỉ hưu', 'Tổ yến thơm nhẹ, không bị mùi lạ. Tư vấn liều lượng dễ hiểu nên cô dùng rất yên tâm.'],
+                ].map(([name, role, text]) => (
+                  <article className="testimonial-card" key={name}>
+                    <p>{text}</p>
+                    <div>
+                      <strong>{name}</strong>
+                      <span>{role}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -319,23 +325,42 @@ export default async function Home() {
             </Link>
           </div>
           <div className="blog-preview-grid">
-            {featuredBlogs.map((blog) => (
-              <article key={blog.id} className="blog-preview-card">
-                <Link href={`/blog/${blog.slug}`} className="blog-preview-media">
-                  <SafeImage src={blog.imageUrl} alt={blog.title} />
+            {featuredBlogs[0] && (
+              <article className="blog-preview-card blog-preview-featured">
+                <Link href={`/blog/${featuredBlogs[0].slug}`} className="blog-preview-media">
+                  <SafeImage src={featuredBlogs[0].imageUrl} alt={featuredBlogs[0].title} />
                 </Link>
                 <div>
-                  <time>{blog.date}</time>
+                  <time>{featuredBlogs[0].date}</time>
                   <h3>
-                    <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
+                    <Link href={`/blog/${featuredBlogs[0].slug}`}>{featuredBlogs[0].title}</Link>
                   </h3>
-                  <p>{blog.description}</p>
-                  <Link href={`/blog/${blog.slug}`} className="text-link">
+                  <p>{featuredBlogs[0].description}</p>
+                  <Link href={`/blog/${featuredBlogs[0].slug}`} className="text-link">
                     Đọc tiếp
                   </Link>
                 </div>
               </article>
-            ))}
+            )}
+            <div className="blog-preview-list">
+              {featuredBlogs.slice(1, 3).map((blog) => (
+                <article key={blog.id} className="blog-preview-card blog-preview-compact">
+                  <Link href={`/blog/${blog.slug}`} className="blog-preview-media">
+                    <SafeImage src={blog.imageUrl} alt={blog.title} />
+                  </Link>
+                  <div>
+                    <time>{blog.date}</time>
+                    <h3>
+                      <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
+                    </h3>
+                    <p>{blog.description}</p>
+                    <Link href={`/blog/${blog.slug}`} className="text-link">
+                      Đọc tiếp
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -22,6 +22,30 @@ const initialForm: BookingForm = {
   note: '',
 };
 
+const nestTypeOptions = ['Tổ thô nguyên tổ', 'Tổ tinh chế theo yêu cầu', 'Chân yến', 'Vụn yến'];
+const weightOptions = ['100g', '200g', '1kg', '2kg'];
+const purposeOptions = [
+  'Dùng cho gia đình',
+  'Biếu tặng',
+  'Bồi bổ người lớn tuổi',
+  'Chăm sóc mẹ bầu/phụ nữ',
+  'Dùng cho người mới ốm dậy',
+  'Làm quà doanh nghiệp',
+  'Đặt định kỳ',
+  'Mua số lượng lớn',
+];
+const lotOptions = [
+  'Tư vấn lô phù hợp',
+  'Lô ảnh 1-4',
+  'Lô ảnh 5-8',
+  'Lô ảnh 9-12',
+  'Lô đẹp để biếu tặng',
+  'Lô sợi dày, ít tạp',
+  'Lô ưu tiên giá tốt',
+  'Lô số lượng lớn',
+  'Muốn xem thêm qua Zalo',
+];
+
 export default function RealNestBookingForm() {
   const [form, setForm] = useState(initialForm);
   const [saving, setSaving] = useState(false);
@@ -79,73 +103,80 @@ export default function RealNestBookingForm() {
 
   return (
     <form className="real-booking-form" onSubmit={handleSubmit}>
-      <label>
-        <span>Họ tên</span>
-        <input
-          value={form.name}
-          onChange={(event) => updateField('name', event.target.value)}
-          required
-          placeholder="Nguyễn Văn A"
-        />
-      </label>
-      <label>
-        <span>Số điện thoại</span>
-        <input
-          value={form.phone}
-          onChange={(event) => updateField('phone', event.target.value)}
-          required
-          inputMode="tel"
-          placeholder="0375266538"
-        />
-      </label>
-      <label>
-        <span>Loại tổ</span>
-        <select value={form.nestType} onChange={(event) => updateField('nestType', event.target.value)}>
-          <option>Tổ thô nguyên tổ</option>
-          <option>Tổ tinh chế theo yêu cầu</option>
-          <option>Chân yến</option>
-          <option>Vụn yến</option>
-        </select>
-      </label>
-      <label>
-        <span>Trọng lượng</span>
-        <select value={form.weight} onChange={(event) => updateField('weight', event.target.value)}>
-          <option>50g</option>
-          <option>100g</option>
-          <option>200g</option>
-          <option>500g</option>
-        </select>
-      </label>
-      <label>
-        <span>Mục đích</span>
-        <select value={form.purpose} onChange={(event) => updateField('purpose', event.target.value)}>
-          <option>Dùng cho gia đình</option>
-          <option>Biếu tặng</option>
-          <option>Đặt định kỳ</option>
-          <option>Mua số lượng lớn</option>
-        </select>
-      </label>
-      <label>
-        <span>Lô ảnh quan tâm</span>
-        <select value={form.lotCode} onChange={(event) => updateField('lotCode', event.target.value)}>
-          <option>Tư vấn lô phù hợp</option>
-          <option>Lô ảnh 1-4</option>
-          <option>Lô ảnh 5-8</option>
-          <option>Lô ảnh 9-12</option>
-          <option>Muốn xem thêm qua Zalo</option>
-        </select>
-      </label>
+      <div className="real-booking-form-section">
+        <strong>1. Thông tin liên hệ</strong>
+        <div className="real-booking-field-grid">
+          <label>
+            <span>Họ tên</span>
+            <input
+              value={form.name}
+              onChange={(event) => updateField('name', event.target.value)}
+              required
+              placeholder="Nguyễn Văn A"
+            />
+          </label>
+          <label>
+            <span>Số điện thoại/Zalo</span>
+            <input
+              value={form.phone}
+              onChange={(event) => updateField('phone', event.target.value)}
+              required
+              inputMode="tel"
+              placeholder="0375266538"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="real-booking-form-section">
+        <strong>2. Nhu cầu chọn lô</strong>
+        <div className="real-booking-field-grid">
+          <label>
+            <span>Loại tổ</span>
+            <select value={form.nestType} onChange={(event) => updateField('nestType', event.target.value)}>
+              {nestTypeOptions.map((option) => (
+                <option key={option}>{option}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Trọng lượng dự kiến</span>
+            <select value={form.weight} onChange={(event) => updateField('weight', event.target.value)}>
+              {weightOptions.map((option) => (
+                <option key={option}>{option}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Mục đích</span>
+            <select value={form.purpose} onChange={(event) => updateField('purpose', event.target.value)}>
+              {purposeOptions.map((option) => (
+                <option key={option}>{option}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Lô ảnh muốn xem</span>
+            <select value={form.lotCode} onChange={(event) => updateField('lotCode', event.target.value)}>
+              {lotOptions.map((option) => (
+                <option key={option}>{option}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </div>
+
       <label className="real-booking-note">
-        <span>Ghi chú</span>
+        <span>Ghi chú thêm</span>
         <textarea
           value={form.note}
           onChange={(event) => updateField('note', event.target.value)}
-          placeholder="Ví dụ: muốn giữ tổ đẹp, sợi dày, đóng hộp biếu..."
-          rows={4}
+          placeholder="Ví dụ: muốn tổ đẹp để biếu, ưu tiên sợi dày, cần đóng hộp..."
+          rows={3}
         />
       </label>
       <button type="submit" className="btn-primary" disabled={saving}>
-        {saving ? 'Đang gửi' : 'Giữ tổ và tư vấn'}
+        {saving ? 'Đang gửi yêu cầu' : 'Gửi yêu cầu tư vấn'}
       </button>
       {message && <p className="real-booking-message">{message}</p>}
     </form>

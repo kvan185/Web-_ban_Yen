@@ -98,10 +98,23 @@ export default function SiteHeader({
 
   const stickyTop = showTopHeader && hideTop ? -topHeight : 0;
   const featuredCategories = categories;
-  const handleNavClick = (event?: MouseEvent<HTMLElement>) => {
+  const normalizePath = (value: string) => {
+    const path = value.split('#')[0]?.split('?')[0] || '/';
+    return path !== '/' ? path.replace(/\/+$/, '') : '/';
+  };
+
+  const handleNavClick = (event?: MouseEvent<HTMLElement>, href?: string) => {
     event?.currentTarget.blur();
     setMenuOpen(false);
     setMobileCategoryOpen(false);
+
+    if (!href || normalizePath(href) !== normalizePath(pathname)) return;
+
+    event?.preventDefault();
+    setHideTop(false);
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   };
 
   useEffect(() => {
@@ -167,7 +180,7 @@ export default function SiteHeader({
         <div className="header-top" ref={headerTopRef}>
           <div className="container header-top-inner">
             <div className="logo">
-              <Link href="/" aria-label="Yến Tinh Hoa">
+              <Link href="/" aria-label="Yến Tinh Hoa" onClick={(event) => handleNavClick(event, '/')}>
                 <Image
                   src="/logo.jpeg"
                   alt="Logo Yến Tinh Hoa"
@@ -222,7 +235,7 @@ export default function SiteHeader({
                 if (!isCategoryMenu) {
                   return (
                     <li key={item.href}>
-                      <Link href={item.href} onClick={(event) => handleNavClick(event)}>
+                      <Link href={item.href} onClick={(event) => handleNavClick(event, item.href)}>
                         {item.label}
                       </Link>
                     </li>
@@ -235,7 +248,7 @@ export default function SiteHeader({
                     className={`nav-item-with-submenu ${mobileCategoryOpen ? 'is-expanded' : ''}`}
                   >
                     <div className="nav-parent-link-row">
-                      <Link href={item.href} onClick={(event) => handleNavClick(event)}>
+                      <Link href={item.href} onClick={(event) => handleNavClick(event, item.href)}>
                         {item.label}
                       </Link>
                       <button
@@ -254,7 +267,7 @@ export default function SiteHeader({
                         <li key={category.id}>
                           <Link
                             href={getCategoryHref(category.name)}
-                            onClick={(event) => handleNavClick(event)}
+                            onClick={(event) => handleNavClick(event, getCategoryHref(category.name))}
                           >
                             {category.name}
                           </Link>

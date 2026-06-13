@@ -91,39 +91,47 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         <PublicFooter>
             <footer className="site-footer">
-              <div className="container footer-grid">
-                <div className="footer-info">
-                  <h3>Yến Tinh Hoa</h3>
-                  <p>
-                    Tổ yến nguyên chất từ thiên nhiên, tuyển chọn kỹ và giao nhanh tại TP.HCM.
-                    Cam kết nguồn gốc minh bạch, tư vấn tận tâm cho từng nhu cầu sức khỏe.
-                  </p>
-                  <div className="footer-map" style={{ marginTop: '20px' }}>
-                    <iframe
-                      src="https://maps.google.com/maps?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                      width="100%"
-                      height="200"
-                      style={{ border: 0, borderRadius: '8px' }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Bản đồ Yến Tinh Hoa"
-                    />
+              <div className="container">
+                <div className="footer-grid">
+                  <div className="footer-info">
+                    <span className="footer-kicker">Tổ yến nguyên chất tại TP.HCM</span>
+                    <h3>Yến Tinh Hoa</h3>
+                    <p>
+                      Tuyển chọn kỹ, sơ chế thủ công và tư vấn đúng nhu cầu trước khi giao. Mỗi hộp yến ưu tiên sự
+                      minh bạch, chỉn chu và dễ dùng cho gia đình hoặc quà biếu.
+                    </p>
+                    <div className="footer-promises" aria-label="Cam kết Yến Tinh Hoa">
+                      <span>Nguồn tổ rõ</span>
+                      <span>Sơ chế thủ công</span>
+                      <span>Giao nhanh 2-4 giờ</span>
+                    </div>
                   </div>
-                </div>
-                <div className="footer-contact">
-                  <h4>Liên hệ</h4>
-                  <ul>
-                    <li><strong>Zalo:</strong> <a href="https://zalo.me/0375266538">0375266538</a></li>
-                    <li><strong>Facebook:</strong> <a href="https://www.facebook.com/nkhanhvan185" target="_blank" rel="noopener noreferrer">Khánh Văn</a></li>
-                    <li><strong>Email:</strong> <a href="mailto:khanhvan18052004@gmail.com">khanhvan18052004@gmail.com</a></li>
-                    <li>
-                      <strong>Địa chỉ:</strong> 105 Ung Văn Khiêm, TP.HCM{' '}
-                      <a href="https://maps.google.com/?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh" target="_blank" rel="noopener noreferrer">
-                        Xem bản đồ
-                      </a>
-                    </li>
-                  </ul>
+                  <div className="footer-contact">
+                    <h4>Liên hệ nhanh</h4>
+                    <ul>
+                      <li><strong>Zalo / Hotline</strong><a href="https://zalo.me/0375266538">0375266538</a></li>
+                      <li><strong>Facebook</strong><a href="https://www.facebook.com/nkhanhvan185" target="_blank" rel="noopener noreferrer">Khánh Văn</a></li>
+                      <li><strong>Email</strong><a href="mailto:khanhvan18052004@gmail.com">khanhvan18052004@gmail.com</a></li>
+                      <li>
+                        <strong>Địa chỉ</strong>
+                        <a href="https://maps.google.com/?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh" target="_blank" rel="noopener noreferrer">
+                          105 Ung Văn Khiêm, TP.HCM
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="footer-map">
+                      <iframe
+                        src="https://maps.google.com/maps?q=105%20Ung%20V%C4%83n%20Khi%C3%AAm%2C%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="Bản đồ Yến Tinh Hoa"
+                      />
+                  </div>
                 </div>
               </div>
             </footer>

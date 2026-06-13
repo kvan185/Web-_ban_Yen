@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import SafeImage from '@/components/SafeImage';
+import RealNestLotGallery from '@/components/RealNestLotGallery';
 import { JsonLd, pageMetadata } from '@/lib/seo';
 import { realNestImages, realNestVideo } from '@/lib/realNestMedia';
 import RealNestBookingForm from './RealNestBookingForm';
@@ -34,8 +34,11 @@ export default function RealNestBookingPage() {
         <section className="real-booking-hero">
           <div className="container real-booking-hero-inner">
             <div className="real-booking-copy">
-              <span className="eyebrow">Chọn theo lô ảnh thật</span>
-              <h1>Đặt tổ yến theo lô thực tế</h1>
+              <span className="eyebrow">Xem lô thật trước khi đặt</span>
+              <h1>
+                <span>Đặt tổ yến</span>
+                <span>theo lô thực tế</span>
+              </h1>
               <p>
                 Không bắt khách chọn từng tổ riêng lẻ. Bạn chọn nhu cầu và lô ảnh quan tâm,
                 Yến Tinh Hoa xác nhận vị trí/lô phù hợp rồi mới thu, sơ chế hoặc đóng hộp.
@@ -51,32 +54,30 @@ export default function RealNestBookingPage() {
           </div>
         </section>
 
-        <section className="section-padding">
+        <section className="section-padding real-booking-selection" id="real-booking-selection">
           <div className="container real-booking-layout">
-            <div>
-              <div className="section-heading-row">
+            <div className="real-booking-gallery-panel">
+              <div className="section-heading-row real-booking-gallery-heading">
                 <div>
                   <span className="eyebrow">Lô ảnh thực tế</span>
                   <h2 className="section-title">Chọn theo khu/lô, không theo từng tổ</h2>
                 </div>
               </div>
-              <div className="real-booking-gallery">
-                {realNestImages.slice(0, 12).map((image, index) => (
-                  <figure key={image.src}>
-                    <SafeImage src={image.src} alt={`Lô tổ yến thực tế ${index + 1}`} />
-                    <figcaption>Lô ảnh {index + 1}</figcaption>
-                  </figure>
-                ))}
-              </div>
+              <RealNestLotGallery images={realNestImages.slice(0, 12)} />
             </div>
 
-            <aside id="booking-form" className="glass-card real-booking-panel">
-              <span className="eyebrow">Yêu cầu tư vấn lô tổ</span>
-              <h2>Để lại thông tin</h2>
+            <aside id="booking-form" className="real-booking-panel">
+              <span className="eyebrow">Tư vấn lô phù hợp</span>
+              <h2>Gửi nhu cầu, shop chọn lô giúp bạn</h2>
               <p>
-                Shop sẽ liên hệ xác nhận lô/khu tổ phù hợp, giá thực tế và phương án sơ chế
-                trước khi chốt đơn.
+                Điền nhanh thông tin chính. Yến Tinh Hoa sẽ gọi/Zalo lại để gửi lô ảnh phù hợp,
+                báo giá thực tế và xác nhận cách sơ chế trước khi chốt đơn.
               </p>
+              <div className="real-booking-panel-points" aria-label="Quy trình tư vấn">
+                <span>Không cần chọn từng tổ</span>
+                <span>Xem lô trước khi đặt</span>
+                <span>Chốt sau khi được tư vấn</span>
+              </div>
               <RealNestBookingForm />
             </aside>
           </div>
