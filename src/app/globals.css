@@ -166,8 +166,9 @@ button {
 .home-hero h1 {
   margin: 16px 0 20px;
   color: #fff7df;
-  font-size: clamp(3.4rem, 8vw, 7.8rem);
-  line-height: 0.92;
+  font-size: clamp(3.6rem, 5.7vw, 6.35rem);
+  line-height: 0.96;
+  white-space: nowrap;
   text-shadow: 0 22px 70px rgba(0, 0, 0, 0.48);
 }
 
@@ -3835,6 +3836,7 @@ body.admin-no-footer {
     font-size: clamp(2.5rem, 13vw, 3.5rem);
     line-height: 0.96;
     margin: 12px 0 16px;
+    white-space: normal;
   }
 
   .home-hero p {
